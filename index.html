@@ -5,37 +5,39 @@
   <meta charset="UTF-8">
   <title>SpotSpot</title>
   <link rel="stylesheet" href="node_modules/minireset.css/minireset.css">
+  <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-  <div id="trackArtist" class="trackDetails"></div>
+  <div id="wrapper">
 
-  <div id="art">
+    <div id="trackArtist" class="trackDetails"></div>
 
-    <div id="controls">
+    <div id="art">
 
-      <div id="previous" class="control">p</div>
+      <div id="controls">
 
-      <div id="playPause" class="control">
+        <div id="previous" class="control">
+          <i class="fa fa-step-backward"></i>
+        </div>
 
-        <div class="container">
-          <div class="btn play">
-            <span class="bar bar-1"></span>
-            <span class="bar bar-2"></span>
-          </div>
+        <div id="playPause" class="control">
+          <i id="playPauseIcon" class="fa"></i>
+        </div>
+
+        <div id="next" class="control">
+          <i class="fa fa-step-forward"></i>
         </div>
 
       </div>
 
-      <div id="next" class="control">n</div>
-
     </div>
 
-  </div>
+    <div id="trackName" class="trackDetails"></div>
 
-  <div id="trackName" class="trackDetails"></div>
+  </div>
 
 </body>
 

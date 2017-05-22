@@ -16,11 +16,17 @@ let mainWindow
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    x: 0,
+    y: 0,
+    alwaysOnTop: true,
     width: 110,
     minWidth: 110,
     height: 158,
     minHeight: 158,
-    frame: false
+    frame: false,
+    title: 'SpotSpot',
+    acceptFirstMouse: true,
+    transparent: true
   })
 
   registerNotificationListeners()

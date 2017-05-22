@@ -5,25 +5,63 @@
 const electron = require('electron')
 const spotify = require('spotify-node-applescript')
 
-const setAlbumDetails = () =>
+// Controls
+const previous = document.getElementById('previous')
+const playPause = document.getElementById('playPause')
+const playPauseIcon = document.getElementById('playPauseIcon')
+const next = document.getElementById('next')
+
+// Components
+const art = document.getElementById('art')
+const trackArtist = document.getElementById('trackArtist')
+const trackName = document.getElementById('trackName')
+
+/**
+ * Update UI with album art, artist, and track info
+ */
+const setTrackDetails = () =>
   spotify.getTrack((err, track) => {
-    const art = document.getElementById('art')
+    // Album art
     art.style.backgroundImage = `url(${track.artwork_url})`
-
-    const trackArtist = document.getElementById('trackArtist')
+    // Artist
     trackArtist.innerText = track.artist
-
-    const trackName = document.getElementById('trackName')
+    // Title
     trackName.innerText = track.name
   })
 
-// Set details on load
-setAlbumDetails()
+/**
+ * Update UI play / pause icon based on current player state
+ */
+const setState = () =>
+  spotify.getState((err, state) => {
+    switch (state.state) {
+      case 'playing':
+        playPauseIcon.classList.remove('fa-play')
+        playPauseIcon.classList.add('fa-pause')
+        break
+      case 'paused':
+        playPauseIcon.classList.remove('fa-pause')
+        playPauseIcon.classList.add('fa-play')
+        break
+      default:
+        break
+    }
+  })
+
+// On load...
+setTrackDetails()
+setState()
 
 // Listen for track/status changes and update
 electron.ipcRenderer.on('notification', function(event, message) {
-  setAlbumDetails()
+  setTrackDetails()
+  setState()
 })
+
+// Bind actions to controls
+previous.addEventListener('click', () => spotify.previous())
+playPause.addEventListener('click', () => spotify.playPause())
+next.addEventListener('click', () => spotify.next())
 
 // Click to play/pause, this filters-out window drags
 // let screenX = null
