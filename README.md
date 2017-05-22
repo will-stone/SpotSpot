@@ -2,7 +2,7 @@
 
 ## Development
 
-`git clone git@github.com:will-stone/spotspot.git`
+`git clone git@github.com:will-stone/SpotSpot.git`
 
 `cd spotspot`
 
