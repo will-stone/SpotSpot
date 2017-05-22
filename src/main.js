@@ -26,7 +26,8 @@ function createWindow() {
     frame: false,
     title: 'SpotSpot',
     acceptFirstMouse: true,
-    transparent: true
+    transparent: true,
+    icon: path.join(__dirname, 'images/icon/icon.png')
   })
 
   registerNotificationListeners()
@@ -58,6 +59,8 @@ function registerNotificationListeners() {
     () => mainWindow.webContents.send('notification', 'PlaybackStateChanged')
   )
 }
+
+app.dock.setIcon(path.join(__dirname, 'images/icon/icon.png'))
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
