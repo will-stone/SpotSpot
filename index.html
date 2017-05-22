@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>SpotSpot</title>
+  <link rel="stylesheet" href="node_modules/minireset.css/minireset.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div id="trackArtist" class="trackDetails"></div>
+
+  <div id="art">
+
+    <div id="controls">
+
+      <div id="previous" class="control">p</div>
+
+      <div id="playPause" class="control">
+
+        <div class="container">
+          <div class="btn play">
+            <span class="bar bar-1"></span>
+            <span class="bar bar-2"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="next" class="control">n</div>
+
+    </div>
+
+  </div>
+
+  <div id="trackName" class="trackDetails"></div>
+
+</body>
+
+<script>
+  // You can also require other files to run in this process
+  require('./renderer.js')
+
+</script>
+
+</html>
