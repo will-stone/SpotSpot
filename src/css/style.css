@@ -13,23 +13,61 @@ body {
 
 #wrapper {
   display: flex;
-  flex-direction: column;
+}
+
+#details {
+  width: 100px;
+  height: 100px;
 }
 
 .trackDetails {
-  padding: 4px;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  padding: 2px;
   cursor: default;
   text-align: center;
-  color: white;
+  color: #f9f9f9;
   background-color: #232323;
+}
+
+#trackArtist {
+  background-color: #131313;
 }
 
 #art {
   position: relative;
-  flex-grow: 1;
+  width: 100px;
+  height: 100px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+}
+
+#pauseIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 100ms linear;
+  pointer-events: none;
+  opacity: 0;
+  color: white;
+  font-size: 30px;
+}
+
+#wrapper.showPause #pauseIcon {
+  opacity: 1;
+}
+
+#wrapper.showPause:hover #pauseIcon {
+  opacity: 0;
 }
 
 #wrapper:hover #controls {
@@ -52,11 +90,22 @@ body {
   font-size: 30px;
 }
 
+#wrapper.showPause #controls {
+  opacity: 1;
+  background-color: rgba(0,0,0,0.5);
+}
+
 .control {
   padding: 4px;
   cursor: default;
   text-align: center;
+  opacity: 0;
   color: rgba(255,255,255,0.6);
+}
+
+#wrapper:hover .control {
+  transition: opacity 100ms linear;
+  opacity: 1;
 }
 
 .control:hover {
@@ -71,4 +120,5 @@ body {
 
 #playPause {
   flex-grow: 1;
+  font-size: 35px;
 }

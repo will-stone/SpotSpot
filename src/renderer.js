@@ -4,6 +4,9 @@
 
 const electron = require('electron')
 const spotify = require('spotify-node-applescript')
+const textFit = require('textFit')
+
+const wrapper = document.getElementById('wrapper')
 
 // Controls
 const previous = document.getElementById('previous')
@@ -27,6 +30,13 @@ const setTrackDetails = () =>
     trackArtist.innerText = track.artist
     // Title
     trackName.innerText = track.name
+
+    // Fit text to boxes
+    textFit(document.getElementsByClassName('trackDetails'), {
+      multiLine: true,
+      minFontSize: 8,
+      maxFontSize: 14
+    })
   })
 
 /**
@@ -38,10 +48,12 @@ const setState = () =>
       case 'playing':
         playPauseIcon.classList.remove('fa-play')
         playPauseIcon.classList.add('fa-pause')
+        wrapper.classList.remove('showPause')
         break
       case 'paused':
         playPauseIcon.classList.remove('fa-pause')
         playPauseIcon.classList.add('fa-play')
+        wrapper.classList.add('showPause')
         break
       default:
         break
