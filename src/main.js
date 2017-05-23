@@ -19,14 +19,12 @@ function createWindow() {
     x: 0,
     y: 0,
     alwaysOnTop: true,
-    width: 110,
-    minWidth: 110,
-    height: 158,
-    minHeight: 158,
+    width: 200,
+    height: 100,
+    resizable: false,
     frame: false,
     title: 'SpotSpot',
     acceptFirstMouse: true,
-    transparent: true,
     icon: path.join(__dirname, 'images/icon/icon.png')
   })
 

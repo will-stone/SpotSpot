@@ -1776,7 +1776,7 @@ electron-rebuild@^1.5.7:
     spawn-rx "^2.0.10"
     yargs "^7.0.2"
 
-"electron-sudo@github:malept/electron-sudo#fix-linux-sudo-detection":
+electron-sudo@malept/electron-sudo#fix-linux-sudo-detection:
   version "4.0.12"
   resolved "https://codeload.github.com/malept/electron-sudo/tar.gz/73d135de6f0da7abb7e2b3cee9aa3a1d3fd4e4db"
   dependencies:
@@ -4088,13 +4088,9 @@ sax@0.5.x:
   version "0.5.8"
   resolved "https://registry.yarnpkg.com/sax/-/sax-0.5.8.tgz#d472db228eb331c2506b0e8c15524adb939d12c1"
 
-sax@1.2.1:
+sax@1.2.1, sax@>=0.6.0, sax@^1.1.4, sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
-
-sax@>=0.6.0, sax@^1.1.4, sax@~1.2.1:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.2.tgz#fd8631a23bc7826bef5d871bdb87378c95647828"
 
 "semver@2 || 3 || 4 || 5", semver@^5.3.0, semver@~5.3.0:
   version "5.3.0"
@@ -4441,6 +4437,10 @@ tempfile@^1.1.1:
   dependencies:
     os-tmpdir "^1.0.0"
     uuid "^2.0.1"
+
+textfit@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/textfit/-/textfit-2.3.1.tgz#5896db48ea70a767b97a73f28556406875ca208f"
 
 thenify-all@^1.0.0, thenify-all@^1.6.0:
   version "1.6.0"
