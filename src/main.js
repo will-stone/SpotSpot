@@ -17,8 +17,8 @@ function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     alwaysOnTop: true,
-    width: 200,
-    height: 100,
+    width: 250,
+    height: 70,
     resizable: false,
     frame: false,
     title: 'SpotSpot',

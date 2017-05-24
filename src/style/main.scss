@@ -20,17 +20,21 @@ body {
 }
 
 #details {
-  width: 100px;
-  height: 100px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 70px;
 }
 
 .trackDetails {
   display: flex;
   overflow: hidden;
+  flex-basis: 50%;
+  flex-grow: 1;
   align-items: center;
   justify-content: center;
   height: 50px;
-  padding: 2px;
+  padding: 3px;
   cursor: default;
   transition: color 200ms linear;
   text-align: center;
@@ -38,7 +42,7 @@ body {
   background-color: $black;
 
   .is-paused & {
-    color: #a9a9a9;
+    color: #595959;
   }
 }
 
@@ -49,10 +53,12 @@ body {
 #art {
   position: relative;
   display: flex;
+  flex-basis: 70px;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
   text-align: center;
   color: rgba(255,255,255,0.6);
   background-repeat: no-repeat;
@@ -92,7 +98,7 @@ body {
   color: rgba(255,255,255,0.6);
   font-size: 30px;
 
-  .is-paused & {
+  .is-paused:not(:hover) & {
     opacity: 1;
   }
 }
@@ -102,6 +108,7 @@ body {
   top: 0;
   left: 0;
   display: flex;
+  flex-grow: 1;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -109,22 +116,19 @@ body {
   transition: opacity 200ms linear;
   text-align: center;
   opacity: 0;
-  color: $green;
-  background-color: $black;
+  color: white;
 
   #wrapper:hover & {
-    opacity: 1;
+    opacity: 0.5;
   }
 
   .control {
     flex-basis: calc(100% / 3);
     flex-grow: 1;
     flex-shrink: 0;
-    padding: 10px;
+    padding: 4;
 
     &:hover {
-      background-color: lighten($black, 5%);
-
       .fa {
         transform: scale(1.2);
       }
@@ -138,8 +142,8 @@ body {
   }
 
   .fa {
-    height: 35px;
-    font-size: 35px;
-    line-height: 35px;
+    height: 30px;
+    font-size: 30px;
+    line-height: 30px;
   }
 }
