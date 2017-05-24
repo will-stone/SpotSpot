@@ -116,22 +116,30 @@ body {
     opacity: 1;
   }
 
-  .controlWrap {
+  .control {
+    flex-basis: calc(100% / 3);
     flex-grow: 1;
-  }
-
-  .fa {
-    height: 40px;
-    transition: opacity 200ms linear;
-    font-size: 40px;
-    line-height: 40px;
+    flex-shrink: 0;
+    padding: 10px;
 
     &:hover {
-      transform: scale(1.2);
+      background-color: lighten($black, 5%);
+
+      .fa {
+        transform: scale(1.2);
+      }
     }
 
     &:active {
-      transform: scale(1);
+      .fa {
+        transform: scale(1);
+      }
     }
+  }
+
+  .fa {
+    height: 35px;
+    font-size: 35px;
+    line-height: 35px;
   }
 }
