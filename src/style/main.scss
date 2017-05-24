@@ -41,7 +41,8 @@ body {
   color: #f9f9f9;
   background-color: $black;
 
-  .is-paused & {
+  .is-paused &,
+  #wrapper:hover & {
     color: #595959;
   }
 }
@@ -77,7 +78,8 @@ body {
     opacity: 0;
     background-color: rgba(0,0,0,0.7);
 
-    .is-paused & {
+    .is-paused &,
+    #wrapper:hover & {
       opacity: 1;
     }
   }
@@ -95,11 +97,11 @@ body {
   transition: opacity 200ms linear;
   pointer-events: none;
   opacity: 0;
-  color: rgba(255,255,255,0.6);
-  font-size: 30px;
+  color: white;
+  font-size: 25px;
 
   .is-paused:not(:hover) & {
-    opacity: 1;
+    opacity: 0.5;
   }
 }
 
@@ -113,22 +115,24 @@ body {
   justify-content: center;
   width: 100%;
   height: 100%;
-  transition: opacity 200ms linear;
   text-align: center;
-  opacity: 0;
   color: white;
-
-  #wrapper:hover & {
-    opacity: 0.5;
-  }
 
   .control {
     flex-basis: calc(100% / 3);
     flex-grow: 1;
     flex-shrink: 0;
     padding: 4;
+    transition: opacity 200ms linear;
+    opacity: 0;
+
+    #wrapper:hover & {
+      opacity: 0.5;
+    }
 
     &:hover {
+      opacity: 1 !important;
+
       .fa {
         transform: scale(1.2);
       }
@@ -142,8 +146,8 @@ body {
   }
 
   .fa {
-    height: 30px;
-    font-size: 30px;
-    line-height: 30px;
+    height: 25px;
+    font-size: 25px;
+    line-height: 25px;
   }
 }
