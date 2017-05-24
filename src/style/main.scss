@@ -1,0 +1,137 @@
+// Colours
+$black: #191917;
+$green: #2fd566;
+
+html,
+body,
+#wrapper {
+  height: 100%;
+}
+
+body {
+  user-select: none;
+  -webkit-app-region: drag;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+#wrapper {
+  display: flex;
+}
+
+#details {
+  width: 100px;
+  height: 100px;
+}
+
+.trackDetails {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  padding: 2px;
+  cursor: default;
+  transition: color 200ms linear;
+  text-align: center;
+  color: #f9f9f9;
+  background-color: $black;
+
+  .is-paused & {
+    color: #a9a9a9;
+  }
+}
+
+#trackName {
+  background-color: lighten($black, 5%);
+}
+
+#art {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  color: rgba(255,255,255,0.6);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  font-size: 30px;
+
+  &:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    transition: opacity 200ms linear;
+    opacity: 0;
+    background-color: rgba(0,0,0,0.7);
+
+    .is-paused & {
+      opacity: 1;
+    }
+  }
+}
+
+#pauseIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 200ms linear;
+  pointer-events: none;
+  opacity: 0;
+  color: rgba(255,255,255,0.6);
+  font-size: 30px;
+
+  .is-paused & {
+    opacity: 1;
+  }
+}
+
+#controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 200ms linear;
+  text-align: center;
+  opacity: 0;
+  color: $green;
+  background-color: $black;
+
+  #wrapper:hover & {
+    opacity: 1;
+  }
+
+  .controlWrap {
+    flex-grow: 1;
+  }
+
+  .fa {
+    height: 40px;
+    transition: opacity 200ms linear;
+    font-size: 40px;
+    line-height: 40px;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    &:active {
+      transform: scale(1);
+    }
+  }
+}

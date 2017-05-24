@@ -6,7 +6,7 @@
   <title>SpotSpot</title>
   <link rel="stylesheet" href="../node_modules/minireset.css/minireset.css">
   <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.css">
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./style/main.scss">
 </head>
 
 <body>
@@ -19,30 +19,23 @@
     </div>
 
     <div id="art">
+      <i id="pauseIcon" class="fa fa-pause"></i>
+    </div>
 
-      <div id="controls">
-
-        <div id="previous" class="control">
-          <i class="fa fa-step-backward"></i>
-        </div>
-
-        <div id="playPause" class="control">
-          <i id="playPauseIcon" class="fa"></i>
-        </div>
-
-        <div id="next" class="control">
-          <i class="fa fa-step-forward"></i>
-        </div>
-
+    <div id="controls">
+      <div class="controlWrap">
+        <i id="previous" class="fa fa-chevron-circle-left"></i>
       </div>
-
-      <div id="pauseIcon">
-        <i class="fa fa-pause"></i>
+      <div class="controlWrap">
+        <i id="playPause" class="fa"></i>
       </div>
-
+      <div class="controlWrap">
+        <i id="next" class="fa fa-chevron-circle-right"></i>
+      </div>
     </div>
 
   </div>
+  <!-- /wrapper -->
 
 </body>
 

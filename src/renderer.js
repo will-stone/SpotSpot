@@ -11,7 +11,6 @@ const wrapper = document.getElementById('wrapper')
 // Controls
 const previous = document.getElementById('previous')
 const playPause = document.getElementById('playPause')
-const playPauseIcon = document.getElementById('playPauseIcon')
 const next = document.getElementById('next')
 
 // Components
@@ -46,14 +45,14 @@ const setState = () =>
   spotify.getState((err, state) => {
     switch (state.state) {
       case 'playing':
-        playPauseIcon.classList.remove('fa-play')
-        playPauseIcon.classList.add('fa-pause')
-        wrapper.classList.remove('showPause')
+        playPause.classList.remove('fa-play-circle')
+        playPause.classList.add('fa-pause-circle')
+        wrapper.classList.remove('is-paused')
         break
       case 'paused':
-        playPauseIcon.classList.remove('fa-pause')
-        playPauseIcon.classList.add('fa-play')
-        wrapper.classList.add('showPause')
+        playPause.classList.remove('fa-pause-circle')
+        playPause.classList.add('fa-play-circle')
+        wrapper.classList.add('is-paused')
         break
       default:
         break
