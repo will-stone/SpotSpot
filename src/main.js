@@ -1,10 +1,10 @@
-const electron = require('electron')
-// Module to control application life.
-const app = electron.app
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
-
-const { systemPreferences } = electron
+const {
+  app,
+  BrowserWindow,
+  Tray,
+  Menu,
+  systemPreferences
+} = require('electron')
 
 const path = require('path')
 const url = require('url')
@@ -13,7 +13,27 @@ const url = require('url')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+let tray = null
+
 function createWindow() {
+  // Hide dock icon
+  app.dock.hide()
+
+  tray = new Tray(path.join(__dirname, 'images/icon/tray_iconTemplate.png'))
+  tray.setPressedImage(
+    path.join(__dirname, 'images/icon/tray_iconHighlight.png')
+  )
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Quit',
+      click: function() {
+        app.quit()
+      }
+    }
+  ])
+  tray.setToolTip('SpotSpot')
+  tray.setContextMenu(contextMenu)
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 250,
@@ -58,7 +78,8 @@ function registerNotificationListeners() {
   )
 }
 
-app.dock.setIcon(path.join(__dirname, 'images/icon/icon.png'))
+// Set dock icon
+// app.dock.setIcon(path.join(__dirname, 'images/icon/icon.png'))
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
