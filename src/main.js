@@ -16,24 +16,6 @@ let mainWindow
 let tray = null
 
 function createWindow() {
-  // Hide dock icon
-  app.dock.hide()
-
-  tray = new Tray(path.join(__dirname, 'images/icon/tray_iconTemplate.png'))
-  tray.setPressedImage(
-    path.join(__dirname, 'images/icon/tray_iconHighlight.png')
-  )
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: 'Quit',
-      click: function() {
-        app.quit()
-      }
-    }
-  ])
-  tray.setToolTip('SpotSpot')
-  tray.setContextMenu(contextMenu)
-
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 250,
@@ -58,6 +40,24 @@ function createWindow() {
       slashes: true
     })
   )
+
+  // Hide dock icon
+  app.dock.hide()
+
+  tray = new Tray(path.join(__dirname, 'images/icon/tray_iconTemplate.png'))
+  tray.setPressedImage(
+    path.join(__dirname, 'images/icon/tray_iconHighlight.png')
+  )
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Quit',
+      click: function() {
+        app.quit()
+      }
+    }
+  ])
+  tray.setToolTip('SpotSpot')
+  tray.setContextMenu(contextMenu)
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
