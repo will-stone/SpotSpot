@@ -16,14 +16,16 @@ let mainWindow
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    alwaysOnTop: true,
     width: 250,
     height: 70,
-    resizable: false,
-    frame: false,
-    title: 'SpotSpot',
     acceptFirstMouse: true,
-    icon: path.join(__dirname, 'images/icon/icon.png')
+    alwaysOnTop: true,
+    backgroundColor: '#191917',
+    icon: path.join(__dirname, 'images/icon/icon.png'),
+    frame: false,
+    resizable: false,
+    title: 'SpotSpot',
+    transparent: true
   })
 
   registerNotificationListeners()
