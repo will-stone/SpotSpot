@@ -11,25 +11,12 @@ body,
 body {
   user-select: none;
   -webkit-app-region: drag;
-  background-color: $black;
   font-family: sans-serif;
   font-size: 14px;
 }
 
 #wrapper {
   display: flex;
-  flex-direction: column;
-}
-
-#main {
-  display: flex;
-  flex-grow: 1;
-}
-
-#position {
-  height: 1px;
-  transform-origin: 0;
-  background-color: $green;
 }
 
 #details {
@@ -67,12 +54,12 @@ body {
 #art {
   position: relative;
   display: flex;
-  flex-basis: 69px;
+  flex-basis: 70px;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 69px;
-  height: 69px;
+  width: 70px;
+  height: 70px;
   text-align: center;
   color: rgba(255,255,255,0.6);
   background-repeat: no-repeat;

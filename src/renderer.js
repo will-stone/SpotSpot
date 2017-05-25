@@ -15,13 +15,9 @@ const playPauseIcon = document.getElementById('playPauseIcon')
 const next = document.getElementById('next')
 
 // Components
-const position = document.getElementById('position')
 const art = document.getElementById('art')
 const trackArtist = document.getElementById('trackArtist')
 const trackName = document.getElementById('trackName')
-
-// position timeout placeholder
-let positionPollerTimeout = null
 
 /**
  * Update UI with album art, artist, and track info
@@ -41,51 +37,37 @@ const setTrackDetails = () =>
       minFontSize: 8,
       maxFontSize: 14
     })
-
-    setState(track)
   })
 
 /**
  * Update UI play / pause icon based on current player state
  */
-const setState = track =>
+const setState = () =>
   spotify.getState((err, state) => {
     switch (state.state) {
       case 'playing':
         playPauseIcon.classList.remove('fa-play')
         playPauseIcon.classList.add('fa-pause')
         wrapper.classList.remove('is-paused')
-        pollPosition(track)
         break
       case 'paused':
         playPauseIcon.classList.remove('fa-pause')
         playPauseIcon.classList.add('fa-play')
         wrapper.classList.add('is-paused')
-        clearTimeout(positionPollerTimeout)
         break
       default:
         break
     }
   })
 
-const pollPosition = track => {
-  clearTimeout(positionPollerTimeout)
-  positionPollerTimeout = setTimeout(() => {
-    spotify.getState((err, state) => {
-      console.log(track)
-      const duration = track.duration
-      position.style.transform = `scale(${state.position / track.duration * 1000}, 1)`
-      pollPosition(track)
-    })
-  }, 1000)
-}
-
 // On load...
 setTrackDetails()
+setState()
 
 // Listen for track/status changes and update
 electron.ipcRenderer.on('notification', function(event, message) {
   setTrackDetails()
+  setState()
 })
 
 // Bind actions to controls
