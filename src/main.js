@@ -24,6 +24,7 @@ function createWindow() {
     alwaysOnTop: true,
     backgroundColor: '#191917',
     icon: path.join(__dirname, 'images/icon/icon.png'),
+    focusable: false,
     frame: false,
     resizable: false,
     title: 'SpotSpot',
