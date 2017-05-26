@@ -46,13 +46,15 @@ const setState = () =>
   spotify.getState((err, state) => {
     switch (state.state) {
       case 'playing':
-        playPauseIcon.classList.remove('fa-play')
-        playPauseIcon.classList.add('fa-pause')
+        // playPauseIcon.classList.remove('fa-play')
+        // playPauseIcon.classList.add('fa-pause')
+        playPauseIcon.innerText = 'pause_circle_outline'
         wrapper.classList.remove('is-paused')
         break
       case 'paused':
-        playPauseIcon.classList.remove('fa-pause')
-        playPauseIcon.classList.add('fa-play')
+        // playPauseIcon.classList.remove('fa-pause')
+        // playPauseIcon.classList.add('fa-play')
+        playPauseIcon.innerText = 'play_circle_outline'
         wrapper.classList.add('is-paused')
         break
       default:
