@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "electron-compile": "^6.4.1",
-    "material-design-icons": "^3.0.1",
     "minireset.css": "^0.0.3",
     "spotify-node-applescript": "^1.1.0",
     "textfit": "^2.3.1"

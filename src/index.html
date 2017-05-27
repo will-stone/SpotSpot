@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <title>SpotSpot</title>
   <link rel="stylesheet" href="../node_modules/minireset.css/minireset.css">
-  <link rel="stylesheet" href="../node_modules/material-design-icons/iconfont/material-icons.css">
   <link rel="stylesheet" href="./style/main.scss">
 </head>
 
@@ -13,9 +12,11 @@
 
   <div id="wrapper">
 
-    <div id="pauseIcon"><i class="material-icons">pause</i></div>
+    <div class="dimmer"></div>
 
-    <div id="art"></div>
+    <div id="art">
+      <i class="icon icon-pause"></i>
+    </div>
 
     <div id="details">
       <div id="trackArtist" class="trackDetails"></div>
@@ -24,13 +25,13 @@
 
     <div class="controls">
       <div id="previous" class="control">
-        <i class="material-icons">skip_previous</i>
+        <button class="button"><i class="icon icon-previous"></i></button>
       </div>
       <div id="playPause" class="control">
-        <i id="playPauseIcon" class="material-icons"></i>
+        <button class="button button-circle"><i id="playPauseIcon" class="icon"></i></button>
       </div>
       <div id="next" class="control">
-        <i class="material-icons">skip_next</i>
+        <button class="button"><i class="icon icon-next"></i></button>
       </div>
     </div>
 
