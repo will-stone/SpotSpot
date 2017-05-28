@@ -59,7 +59,9 @@ function createWindow() {
   tray.setContextMenu(contextMenu)
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  if (process.env.SPOTSPOT_ENV === 'DEV') {
+    mainWindow.webContents.openDevTools()
+  }
 
   // Hide dock icon
   app.dock.hide()
