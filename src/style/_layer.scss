@@ -1,0 +1,133 @@
+.layer-openSpotify {
+  transition: opacity $transitionDuration linear;
+  pointer-events: none;
+  opacity: 0;
+  background-color: $black;
+
+  @extend .does-cover;
+  @extend .flex-center;
+
+  .spotify-not-open & {
+    pointer-events: auto;
+    opacity: 1;
+  }
+}
+
+.layer-dimmer {
+  transition: opacity $transitionDuration linear;
+  opacity: 0;
+  background: $black;
+
+  @extend .flex-center;
+  @extend .does-cover;
+
+  .is-paused &,
+  body:hover & {
+    opacity: 0.7;
+  }
+}
+
+.layer-track {
+  display: flex;
+
+  @extend .does-cover;
+
+  .art {
+    flex-basis: 70px;
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    color: rgba(255,255,255,0.6);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    @extend .flex-center;
+
+    .spotify-not-open & {
+      opacity: 0;
+    }
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 70px;
+
+    .spotify-not-open & {
+      pointer-events: none;
+      opacity: 0;
+    }
+  }
+
+  .detail {
+    overflow: hidden;
+    flex-basis: 50%;
+    flex-grow: 1;
+    height: 35px;
+    padding: 3px;
+    cursor: default;
+    transition: color $transitionDuration linear;
+    text-align: center;
+    color: #f9f9f9;
+    background-color: $black;
+
+    @extend .flex-center;
+
+    &:last-child {
+      background-color: lighten($black, 5%);
+    }
+  }
+}
+
+.layer-pauseIcon {
+  pointer-events: none;
+
+  @extend .does-cover;
+  @extend .flex-center;
+
+  > .icon-pause {
+    transition: opacity $transitionDuration linear;
+    transition-delay: 300ms;
+    transform: scale(1.5);
+    opacity: 0.5;
+
+    .spotify-not-open &,
+    body:hover &,
+    body:not(.is-paused) & {
+      transition-delay: 0ms;
+      opacity: 0;
+    }
+  }
+}
+
+.layer-controls {
+  flex-grow: 1;
+  transition: opacity $transitionDuration linear;
+  text-align: center;
+  opacity: 0;
+  color: white;
+
+  @extend .flex-center;
+  @extend .does-cover;
+
+  body:hover & {
+    opacity: 1;
+  }
+
+  .spotify-not-open & {
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .control {
+    flex-basis: calc(100% / 3);
+    flex-grow: 1;
+    flex-shrink: 0;
+    transform-origin: center center;
+
+    @extend .flex-center;
+  }
+}

@@ -1,0 +1,10 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  user-select: none;
+  -webkit-app-region: drag;
+  font-family: sans-serif;
+}

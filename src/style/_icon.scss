@@ -1,0 +1,76 @@
+.icon {
+  position: absolute;
+  display: block;
+  width: 12px;
+  height: 12px;
+  cursor: default;
+
+  &:before,
+  &:after {
+    position: absolute;
+    display: block;
+    content: '';
+    cursor: default;
+  }
+}
+
+.icon-previous {
+  &:before {
+    left: 2px;
+    width: 0;
+    height: 0;
+    border-top: solid 6px transparent;
+    border-right: solid 6px white;
+    border-bottom: solid 6px transparent;
+  }
+
+  &:after {
+    left: 0;
+    width: 2px;
+    height: 12px;
+    background-color: white;
+  }
+}
+
+.icon-next {
+  &:before {
+    right: 0;
+    width: 2px;
+    height: 12px;
+    background-color: white;
+  }
+
+  &:after {
+    right: 2px;
+    width: 0;
+    height: 0;
+    border-top: solid 6px transparent;
+    border-bottom: solid 6px transparent;
+    border-left: solid 6px white;
+  }
+}
+
+.icon-play {
+  left: 14px;
+  width: 0;
+  height: 0;
+  border-top: solid 6px transparent;
+  border-bottom: solid 6px transparent;
+  border-left: solid 11px white;
+}
+
+.icon-pause {
+  &:before {
+    left: 1px;
+    width: 3px;
+    height: 12px;
+    background-color: white;
+  }
+
+  &:after {
+    left: 8px;
+    width: 3px;
+    height: 12px;
+    background-color: white;
+  }
+}

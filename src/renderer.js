@@ -6,19 +6,17 @@ const electron = require('electron')
 const spotify = require('spotify-node-applescript')
 const textFit = require('textFit')
 
-const wrapper = document.getElementById('wrapper')
-
 // Controls
-const previous = document.getElementById('previous')
-const playPause = document.getElementById('playPause')
-const playPauseIcon = document.getElementById('playPauseIcon')
-const next = document.getElementById('next')
+const previous = document.getElementById('js-previous')
+const playPause = document.getElementById('js-playPause')
+const playPauseIcon = document.getElementById('js-playPauseIcon')
+const next = document.getElementById('js-next')
 const openSpotify = document.getElementById('js-open-spotify')
 
 // Components
-const art = document.getElementById('art')
-const trackArtist = document.getElementById('trackArtist')
-const trackName = document.getElementById('trackName')
+const art = document.getElementById('js-art')
+const trackArtist = document.getElementById('js-trackArtist')
+const trackName = document.getElementById('js-trackName')
 
 /**
  * Update UI with album art, artist, and track info
@@ -34,7 +32,7 @@ const setTrackDetails = () =>
       trackName.innerText = track.name
 
       // Fit text to boxes
-      textFit(document.getElementsByClassName('trackDetails'), {
+      textFit(document.getElementsByClassName('detail'), {
         multiLine: true,
         minFontSize: 8,
         maxFontSize: 14
@@ -54,12 +52,12 @@ const setState = () =>
         case 'playing':
           playPauseIcon.classList.remove('icon-play')
           playPauseIcon.classList.add('icon-pause')
-          wrapper.classList.remove('is-paused')
+          document.body.classList.remove('is-paused')
           break
         case 'paused':
           playPauseIcon.classList.remove('icon-pause')
           playPauseIcon.classList.add('icon-play')
-          wrapper.classList.add('is-paused')
+          document.body.classList.add('is-paused')
           break
         default:
           break
@@ -73,11 +71,11 @@ const setState = () =>
 const populateDetails = () => {
   spotify.isRunning((err, isRunning) => {
     if (isRunning) {
-      wrapper.classList.remove('spotify-not-open')
+      document.body.classList.remove('spotify-not-open')
       setTrackDetails()
       setState()
     } else {
-      wrapper.classList.add('spotify-not-open')
+      document.body.classList.add('spotify-not-open')
     }
   })
 }
@@ -96,29 +94,3 @@ playPause.addEventListener('click', () => spotify.playPause())
 next.addEventListener('click', () => spotify.next())
 
 openSpotify.addEventListener('click', () => spotify.playPause())
-
-// Click to play/pause, this filters-out window drags
-// let screenX = null
-// let screenY = null
-// document.body.addEventListener(
-//   'mousedown',
-//   e => {
-//     console.log('mousedown')
-//     screenX = e.screenX
-//     screenY = e.screenY
-//   },
-//   false
-// )
-// document.body.addEventListener(
-//   'mouseup',
-//   e => {
-//     console.log('mouseup')
-//     if (screenX === e.screenX && screenY === e.screenY) {
-//       console.log('click')
-//       spotify.playPause()
-//     } else {
-//       console.log('drag')
-//     }
-//   },
-//   false
-// )
