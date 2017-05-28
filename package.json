@@ -1,6 +1,6 @@
 {
   "name": "spotspot",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A Spotify mini-player for macOS Edit",
   "main": "src/main.js",
   "scripts": {
