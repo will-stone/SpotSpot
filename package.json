@@ -1,7 +1,8 @@
 {
   "name": "spotspot",
   "version": "0.6.0",
-  "description": "A Spotify mini-player for macOS Edit",
+  "description": "Spotify mini-player for macOS",
+  "homepage": "http://wstone.io/SpotSpot/",
   "main": "src/main.js",
   "scripts": {
     "start": "SPOTSPOT_ENV=DEV electron-forge start",
@@ -9,11 +10,15 @@
     "make": "electron-forge make",
     "docs": "lite-server"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/will-stone/SpotSpot",
+  "bugs": {
+    "url": "https://github.com/will-stone/SpotSpot/issues"
+  },
   "keywords": [
     "Electron",
     "Spotify",
-    "mini-player"
+    "mini-player",
+    "macOS"
   ],
   "author": "Will Stone",
   "license": "MIT",

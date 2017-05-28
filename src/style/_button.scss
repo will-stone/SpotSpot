@@ -1,0 +1,36 @@
+.button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  cursor: default;
+  transition: all 100ms linear;
+  opacity: 0.5;
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  @extend .flex-center;
+
+  &:hover {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+
+  &:active {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  &-circle {
+    border: 1px solid white;
+    border-radius: 50%;
+  }
+
+  &-text {
+    width: 150px;
+    color: white;
+    border: 1px solid $green;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+}
