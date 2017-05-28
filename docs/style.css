@@ -1,5 +1,5 @@
 body {
-  padding: 3rem;
+  padding: 2rem;
   text-align: center;
   color: #f1f1f1;
   background-color: #222220;
@@ -10,6 +10,14 @@ body {
 
 img {
   max-width: 100%;
+}
+
+p {
+  margin-bottom: 2rem;
+}
+
+a {
+  color: #2fd566;
 }
 
 .wrapper {
@@ -27,12 +35,14 @@ img {
 
 h1 {
   margin-bottom: 1rem;
+  text-shadow: 0 7px 10px #000000;
   font-family: 'Passion One', Helvetica, sans-serif;
   font-size: 3rem;
 }
 
 h2 {
   margin-bottom: 2rem;
+  text-shadow: 0 7px 10px #000000;
   font-size: 1.5rem;
 }
 
@@ -43,7 +53,6 @@ h2 {
 .screenshot {
   display: block;
   width: 300px;
-  height: 83px;
   margin: 0 auto 1rem auto;
   border-radius: 5px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
@@ -74,5 +83,6 @@ h2 {
 }
 
 .disclaimer {
-  opacity: 0.7;
+  opacity: 0.5;
+  font-size: 14px;
 }
