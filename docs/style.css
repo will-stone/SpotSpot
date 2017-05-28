@@ -2,8 +2,10 @@ body {
   padding: 3rem;
   text-align: center;
   color: #f1f1f1;
-  background-color: #292927;
+  background-color: #222220;
   font-family: Helvetica, sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
 }
 
 img {
@@ -18,20 +20,24 @@ img {
 .logo {
   display: block;
   width: 100px;
-  margin: 0 auto 2rem auto;
+  margin: 0 auto 1rem auto;
   border-radius: 50%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
 h1 {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   font-family: 'Passion One', Helvetica, sans-serif;
   font-size: 3rem;
 }
 
 h2 {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   font-size: 1.5rem;
+}
+
+.screenshots {
+  margin-bottom: 3rem;
 }
 
 .screenshot {
@@ -41,4 +47,32 @@ h2 {
   margin: 0 auto 1rem auto;
   border-radius: 5px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.links {
+  margin-bottom: 2rem;
+}
+
+.button {
+  display: inline-block;
+  min-width: 120px;
+  margin-right: 1rem;
+  margin-left: 1rem;
+  padding: 7px 12px;
+  text-decoration: none;
+  color: #2fd566;
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  background: transparent;
+  font-weight: normal;
+}
+
+.button:hover,
+.button:active {
+  color: #2fd566;
+  border-color: #2fd566;
+}
+
+.disclaimer {
+  opacity: 0.7;
 }
