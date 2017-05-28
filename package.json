@@ -4,7 +4,7 @@
   "description": "A Spotify mini-player for macOS Edit",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "SPOTSPOT_ENV=DEV electron-forge start",
     "package": "electron-forge package --platform=darwin --arch=x64",
     "make": "electron-forge make"
   },
