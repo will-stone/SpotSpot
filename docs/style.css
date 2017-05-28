@@ -1,0 +1,44 @@
+body {
+  padding: 3rem;
+  text-align: center;
+  color: #f1f1f1;
+  background-color: #292927;
+  font-family: Helvetica, sans-serif;
+}
+
+img {
+  max-width: 100%;
+}
+
+.wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.logo {
+  display: block;
+  width: 100px;
+  margin: 0 auto 2rem auto;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+h1 {
+  margin-bottom: 2rem;
+  font-family: 'Passion One', Helvetica, sans-serif;
+  font-size: 3rem;
+}
+
+h2 {
+  margin-bottom: 3rem;
+  font-size: 1.5rem;
+}
+
+.screenshot {
+  display: block;
+  width: 300px;
+  height: 83px;
+  margin: 0 auto 1rem auto;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
