@@ -52,7 +52,10 @@
         ]
       },
       "electronPackagerConfig": {
-        "icon": "src/images/icon/icon.png.icns"
+        "icon": "src/images/icon/icon.png.icns",
+        "ignore": [
+          "docs"
+        ]
       },
       "electronWinstallerConfig": {
         "name": ""
