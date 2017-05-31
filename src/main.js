@@ -60,7 +60,7 @@ function createWindow() {
 
   // Open the DevTools.
   if (process.env.SPOTSPOT_ENV === 'DEV') {
-    mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools({ mode: 'detach' })
   }
 
   // Hide dock icon
