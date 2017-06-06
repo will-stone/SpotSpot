@@ -55,22 +55,22 @@ const setTrackDetails = () =>
  */
 const setState = () =>
   spotify.getState((err, state) => {
-    // if (state) {
-    //   switch (state.state) {
-    //     case 'playing':
-    //       playPauseIcon.classList.remove('icon-play')
-    //       playPauseIcon.classList.add('icon-pause')
-    //       document.body.classList.remove('is-paused')
-    //       break
-    //     case 'paused':
-    //       playPauseIcon.classList.remove('icon-pause')
-    //       playPauseIcon.classList.add('icon-play')
-    //       document.body.classList.add('is-paused')
-    //       break
-    //     default:
-    //       break
-    //   }
-    // }
+    if (state) {
+      switch (state.state) {
+        case 'playing':
+          playPauseIcon.classList.remove('fa-play')
+          playPauseIcon.classList.add('fa-pause')
+          document.body.classList.remove('is-paused')
+          break
+        case 'paused':
+          playPauseIcon.classList.remove('fa-pause')
+          playPauseIcon.classList.add('fa-play')
+          document.body.classList.add('is-paused')
+          break
+        default:
+          break
+      }
+    }
   })
 
 /**
@@ -97,8 +97,8 @@ electron.ipcRenderer.on('notification', function(event, message) {
 })
 
 // Bind actions to controls
-// previous.addEventListener('click', () => spotify.previous())
-// playPause.addEventListener('click', () => spotify.playPause())
-// next.addEventListener('click', () => spotify.next())
+previous.addEventListener('click', () => spotify.previous())
+playPause.addEventListener('click', () => spotify.playPause())
+next.addEventListener('click', () => spotify.next())
 
 // openSpotify.addEventListener('click', () => spotify.playPause())
