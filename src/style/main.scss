@@ -57,7 +57,7 @@ body {
   text-align: center;
   color: white;
   font-family: sans-serif;
-  font-size: calc(12px + (18 + 12) * (100vw - 100px) / (400 - 100));
+  font-size: calc(12px + (5 + 12) * (100vw - 100px) / (400 - 100));
   font-weight: 300;
 }
 
@@ -75,7 +75,7 @@ body {
   @extend .does-cover;
 
   html:hover & {
-    transition: opacity 100ms linear 0ms;
+    transition: opacity 150ms linear 0ms;
     opacity: 1;
   }
 
@@ -142,11 +142,11 @@ button {
   height: 100%;
   transition: opacity 500ms linear 5000ms;
   pointer-events: none;
-  opacity: 0.9;
+  opacity: 1;
   background-size: cover;
 
   html:hover & {
-    transition: opacity 100ms linear 0ms;
+    transition: opacity 150ms linear 0ms;
     opacity: 0;
   }
 }
