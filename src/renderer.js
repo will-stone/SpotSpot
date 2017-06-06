@@ -2,6 +2,11 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
+// Versions
+// console.log('electron', process.versions.electron)
+// console.log('chrome', process.versions.chrome)
+// console.log('node', process.versions.node)
+
 const electron = require('electron')
 const spotify = require('spotify-node-applescript')
 const textFit = require('textFit')
@@ -18,6 +23,9 @@ const art = document.getElementById('js-art')
 const trackArtist = document.getElementById('js-trackArtist')
 const trackName = document.getElementById('js-trackName')
 
+const truncateDetail = detail =>
+  detail.length > 20 ? detail.substring(0, 20) + '...' : detail
+
 /**
  * Update UI with album art, artist, and track info
  */
@@ -25,17 +33,20 @@ const setTrackDetails = () =>
   spotify.getTrack((err, track) => {
     if (track) {
       // Album art
-      art.style.backgroundImage = `url(${track.artwork_url})`
+      // art.style.backgroundImage = `url(${track.artwork_url})`
       // Artist
       trackArtist.innerText = track.artist
+      // trackArtist.innerText = truncateDetail(track.artist)
       // Title
       trackName.innerText = track.name
+      // trackName.innerText = truncateDetail(track.name)
 
       // Fit text to boxes
       textFit(document.getElementsByClassName('detail'), {
         multiLine: true,
         minFontSize: 8,
-        maxFontSize: 14
+        maxFontSize: 14,
+        detectMultiLine: true
       })
     } else {
       populateDetails() // this catches a bug in the notification listener when closing Spotify
@@ -47,22 +58,22 @@ const setTrackDetails = () =>
  */
 const setState = () =>
   spotify.getState((err, state) => {
-    if (state) {
-      switch (state.state) {
-        case 'playing':
-          playPauseIcon.classList.remove('icon-play')
-          playPauseIcon.classList.add('icon-pause')
-          document.body.classList.remove('is-paused')
-          break
-        case 'paused':
-          playPauseIcon.classList.remove('icon-pause')
-          playPauseIcon.classList.add('icon-play')
-          document.body.classList.add('is-paused')
-          break
-        default:
-          break
-      }
-    }
+    // if (state) {
+    //   switch (state.state) {
+    //     case 'playing':
+    //       playPauseIcon.classList.remove('icon-play')
+    //       playPauseIcon.classList.add('icon-pause')
+    //       document.body.classList.remove('is-paused')
+    //       break
+    //     case 'paused':
+    //       playPauseIcon.classList.remove('icon-pause')
+    //       playPauseIcon.classList.add('icon-play')
+    //       document.body.classList.add('is-paused')
+    //       break
+    //     default:
+    //       break
+    //   }
+    // }
   })
 
 /**
@@ -89,8 +100,8 @@ electron.ipcRenderer.on('notification', function(event, message) {
 })
 
 // Bind actions to controls
-previous.addEventListener('click', () => spotify.previous())
-playPause.addEventListener('click', () => spotify.playPause())
-next.addEventListener('click', () => spotify.next())
+// previous.addEventListener('click', () => spotify.previous())
+// playPause.addEventListener('click', () => spotify.playPause())
+// next.addEventListener('click', () => spotify.next())
 
-openSpotify.addEventListener('click', () => spotify.playPause())
+// openSpotify.addEventListener('click', () => spotify.playPause())
