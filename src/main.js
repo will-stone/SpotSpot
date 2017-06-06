@@ -18,17 +18,21 @@ let tray = null
 function createMainWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 120,
-    height: 120,
+    width: 100,
+    minWidth: 100,
+    maxWidth: 400,
+    height: 100,
+    minHeight: 100,
+    maxHeight: 400,
     acceptFirstMouse: true,
     alwaysOnTop: true,
     icon: path.join(__dirname, 'images/icon/icon.png'),
     focusable: false,
     frame: false,
-    resizable: false,
+    resizable: true,
     show: false, // prevents flash of white
     title: 'SpotSpot',
-    vibrancy: 'dark'
+    vibrancy: 'ultra-dark'
   })
 
   registerNotificationListeners()
@@ -65,6 +69,9 @@ function createMainWindow() {
 
   // Hide dock icon
   app.dock.hide()
+
+  // Maintain square window ratio
+  mainWindow.setAspectRatio(1.0)
 
   // Only show window when it's ready; prevents flash of white
   mainWindow.on('ready-to-show', () => {
