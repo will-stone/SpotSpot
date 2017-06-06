@@ -34,6 +34,7 @@
   "dependencies": {
     "electron": "^1.6.10",
     "electron-compile": "^6.4.1",
+    "font-awesome": "^4.7.0",
     "minireset.css": "^0.0.3",
     "spotify-node-applescript": "^1.1.0",
     "textfit": "^2.3.1"

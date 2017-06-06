@@ -9,7 +9,7 @@
 
 const electron = require('electron')
 const spotify = require('spotify-node-applescript')
-const textFit = require('textFit')
+// const textFit = require('textFit')
 
 // Controls
 const previous = document.getElementById('js-previous')
@@ -23,9 +23,6 @@ const art = document.getElementById('js-art')
 const trackArtist = document.getElementById('js-trackArtist')
 const trackName = document.getElementById('js-trackName')
 
-const truncateDetail = detail =>
-  detail.length > 20 ? detail.substring(0, 20) + '...' : detail
-
 /**
  * Update UI with album art, artist, and track info
  */
@@ -33,7 +30,7 @@ const setTrackDetails = () =>
   spotify.getTrack((err, track) => {
     if (track) {
       // Album art
-      // art.style.backgroundImage = `url(${track.artwork_url})`
+      art.style.backgroundImage = `url(${track.artwork_url})`
       // Artist
       trackArtist.innerText = track.artist
       // trackArtist.innerText = truncateDetail(track.artist)
@@ -42,12 +39,12 @@ const setTrackDetails = () =>
       // trackName.innerText = truncateDetail(track.name)
 
       // Fit text to boxes
-      textFit(document.getElementsByClassName('detail'), {
-        multiLine: true,
-        minFontSize: 8,
-        maxFontSize: 14,
-        detectMultiLine: true
-      })
+      // textFit(document.getElementsByClassName('detail'), {
+      //   multiLine: true,
+      //   minFontSize: 8,
+      //   maxFontSize: 14,
+      //   detectMultiLine: true
+      // })
     } else {
       populateDetails() // this catches a bug in the notification listener when closing Spotify
     }

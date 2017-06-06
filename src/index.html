@@ -5,23 +5,29 @@
   <meta charset="UTF-8">
   <title>SpotSpot</title>
   <link rel="stylesheet" href="../node_modules/minireset.css/minireset.css">
+  <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="./style/main.scss">
 </head>
 
 <body>
 
-  <div class="layer-track-and-controls">
-
+  <div class="layer-track">
     <div class="details">
-      <div id="js-trackArtist" class="detail"></div>
-      <div id="js-trackName" class="detail"></div>
+      <div class="detail">
+        <div class="clamp" id="js-trackName"></div>
+      </div>
+      <div class="detail artist">
+        <div class="clamp" id="js-trackArtist"></div>
+      </div>
     </div>
-
     <div class="controls">
-      controls
+      <button id="js-previous"><i class="fa fa-step-backward"></i></button>
+      <button id="js-playPause"><i class="fa fa-play"></i></button>
+      <button id="js-next"><i class="fa fa-step-forward"></i></button>
     </div>
-
   </div>
+
+  <div id="js-art" class="layer-art"></div>
 
 
   <!--<div class="layer-track">
