@@ -33,18 +33,8 @@ const setTrackDetails = () =>
       art.style.backgroundImage = `url(${track.artwork_url})`
       // Artist
       trackArtist.innerText = track.artist
-      // trackArtist.innerText = truncateDetail(track.artist)
       // Title
       trackName.innerText = track.name
-      // trackName.innerText = truncateDetail(track.name)
-
-      // Fit text to boxes
-      // textFit(document.getElementsByClassName('detail'), {
-      //   multiLine: true,
-      //   minFontSize: 8,
-      //   maxFontSize: 14,
-      //   detectMultiLine: true
-      // })
     } else {
       populateDetails() // this catches a bug in the notification listener when closing Spotify
     }
