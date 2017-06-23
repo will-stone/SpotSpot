@@ -1,6 +1,5 @@
 import { app, BrowserWindow, Tray, Menu, systemPreferences } from 'electron'
-
-// const openAboutWindow = require('about-window').default
+import openAboutWindow from 'about-window'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -37,14 +36,14 @@ function createMainWindow() {
   tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
   tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
   const contextMenu = Menu.buildFromTemplate([
-    // {
-    //   label: 'About',
-    //   click: function() {
-    //     openAboutWindow({
-    //       icon_path: path.join(__dirname, 'images/icon/icon.png')
-    //     })
-    //   }
-    // },
+    {
+      label: 'About',
+      click: function() {
+        openAboutWindow({
+          icon_path: `${__dirname}/images/icon/icon.png`
+        })
+      }
+    },
     {
       label: 'Quit',
       click: function() {
