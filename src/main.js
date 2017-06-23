@@ -1,13 +1,6 @@
-const {
-  app,
-  BrowserWindow,
-  Tray,
-  Menu,
-  systemPreferences
-} = require('electron')
+import { app, BrowserWindow, Tray, Menu, systemPreferences } from 'electron'
 
-const path = require('path')
-const url = require('url')
+// const openAboutWindow = require('about-window').default
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -26,7 +19,7 @@ function createMainWindow() {
     maxHeight: 400,
     acceptFirstMouse: true,
     alwaysOnTop: true,
-    icon: path.join(__dirname, 'images/icon/icon.png'),
+    icon: `file://${__dirname}/images/icon/icon.png`,
     focusable: false,
     frame: false,
     resizable: true,
@@ -38,20 +31,20 @@ function createMainWindow() {
   registerNotificationListeners()
 
   // and load the index.html of the app.
-  mainWindow.loadURL(
-    url.format({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file:',
-      slashes: true
-    })
-  )
+  mainWindow.loadURL(`file://${__dirname}/index.html`)
 
   // Menubar icon
-  tray = new Tray(path.join(__dirname, 'images/icon/tray_iconTemplate.png'))
-  tray.setPressedImage(
-    path.join(__dirname, 'images/icon/tray_iconHighlight.png')
-  )
+  tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
+  tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
   const contextMenu = Menu.buildFromTemplate([
+    // {
+    //   label: 'About',
+    //   click: function() {
+    //     openAboutWindow({
+    //       icon_path: path.join(__dirname, 'images/icon/icon.png')
+    //     })
+    //   }
+    // },
     {
       label: 'Quit',
       click: function() {

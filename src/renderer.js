@@ -7,8 +7,8 @@
 // console.log('chrome', process.versions.chrome)
 // console.log('node', process.versions.node)
 
-const electron = require('electron')
-const spotify = require('spotify-node-applescript')
+import electron from 'electron'
+import spotify from 'spotify-node-applescript'
 // const textFit = require('textFit')
 
 // Controls
