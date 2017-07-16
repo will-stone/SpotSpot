@@ -1,7 +1,7 @@
 {
   "name": "spotspot",
   "productName": "SpotSpot",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Spotify mini-player for macOS",
   "homepage": "http://wstone.io/SpotSpot/",
   "main": "src/main.js",
@@ -16,12 +16,7 @@
   "bugs": {
     "url": "https://github.com/will-stone/SpotSpot/issues"
   },
-  "keywords": [
-    "Electron",
-    "Spotify",
-    "mini-player",
-    "macOS"
-  ],
+  "keywords": ["Electron", "Spotify", "mini-player", "macOS"],
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
@@ -48,22 +43,13 @@
   "config": {
     "forge": {
       "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
+        "win32": ["squirrel"],
+        "darwin": ["zip"],
+        "linux": ["deb", "rpm"]
       },
       "electronPackagerConfig": {
         "icon": "src/images/icon/icon.png.icns",
-        "ignore": [
-          "docs"
-        ]
+        "ignore": ["docs"]
       },
       "electronWinstallerConfig": {
         "name": ""
