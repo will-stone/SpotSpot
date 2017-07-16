@@ -16,12 +16,7 @@
   "bugs": {
     "url": "https://github.com/will-stone/SpotSpot/issues"
   },
-  "keywords": [
-    "Electron",
-    "Spotify",
-    "mini-player",
-    "macOS"
-  ],
+  "keywords": ["Electron", "Spotify", "mini-player", "macOS"],
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
@@ -36,7 +31,7 @@
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.1.0",
     "lite-server": "^2.3.0",
-    "prettier": "^1.4.2"
+    "prettier": "^1.5.3"
   },
   "dependencies": {
     "about-window": "^1.6.3",
@@ -48,22 +43,13 @@
   "config": {
     "forge": {
       "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
+        "win32": ["squirrel"],
+        "darwin": ["zip"],
+        "linux": ["deb", "rpm"]
       },
       "electronPackagerConfig": {
         "icon": "src/images/icon/icon.png.icns",
-        "ignore": [
-          "docs"
-        ]
+        "ignore": ["docs"]
       },
       "electronWinstallerConfig": {
         "name": ""
