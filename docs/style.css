@@ -47,26 +47,17 @@ h2 {
 }
 
 .screenshots {
+  display: flex;
+  justify-content: center;
   margin-bottom: 3rem;
 }
 
 .screenshot {
   display: block;
-  margin: 0 auto 1rem auto;
+  width: 100px;
+  margin: 0 0.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
-
-.screenshot-lg {
-  width: 245px;
-}
-
-.screenshot-md {
-  width: 170px;
-}
-
-.screenshot-sm {
-  width: 99px;
 }
 
 .links {
