@@ -24,7 +24,7 @@ function createMainWindow() {
     resizable: true,
     show: false, // prevents flash of white
     title: 'SpotSpot',
-    vibrancy: 'ultra-dark'
+    backgroundColor: '#000000'
   })
 
   registerNotificationListeners()
