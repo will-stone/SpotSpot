@@ -16,7 +16,7 @@ const previous = document.getElementById('js-previous')
 const playPause = document.getElementById('js-playPause')
 const playPauseIcon = document.getElementById('js-playPauseIcon')
 const next = document.getElementById('js-next')
-const openSpotify = document.getElementById('js-open-spotify')
+// const openSpotify = document.getElementById('js-open-spotify')
 
 // Components
 const art = document.getElementById('js-art')
@@ -82,7 +82,7 @@ const populateDetails = () => {
 populateDetails()
 
 // Listen for track/status changes and update
-electron.ipcRenderer.on('notification', function(event, message) {
+electron.ipcRenderer.on('notification', function() {
   populateDetails()
 })
 
