@@ -42,12 +42,6 @@ $green: #2fd566;
   -webkit-line-clamp: 2;
 }
 
-// .flex-center {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// }
-
 /**
 * Base
 */
@@ -78,26 +72,26 @@ body {
   z-index: 2;
   display: flex;
   flex-direction: column;
-  transition: opacity 1000ms linear 5000ms;
-  opacity: 0;
 
   @extend .does-cover;
-
-  html:hover & {
-    transition: opacity 150ms linear 0ms;
-    opacity: 1;
-  }
 
   .details {
     display: flex;
     flex-basis: 70%;
     flex-direction: column;
     justify-content: center;
-    padding: 10% 5%;
+    padding: 5%;
+    transition: opacity 1000ms linear 5000ms;
+    opacity: 0.9;
+
+    html:hover & {
+      transition: opacity 150ms linear 0ms;
+      opacity: 1;
+    }
   }
 
   .detail {
-    padding: 1%;
+    padding: 2%;
   }
 
   .artist {
@@ -111,6 +105,13 @@ body {
     align-items: flex-start;
     justify-content: space-around;
     padding: 0 10%;
+    transition: opacity 1000ms linear 5000ms;
+    opacity: 0;
+
+    html:hover & {
+      transition: opacity 150ms linear 0ms;
+      opacity: 1;
+    }
   }
 }
 
@@ -123,12 +124,12 @@ body {
   height: 100%;
   transition: opacity 1000ms linear 5000ms;
   pointer-events: none;
-  opacity: 1;
+  opacity: 0.3;
   background-size: cover;
 
   html:hover & {
     transition: opacity 150ms linear 0ms;
-    opacity: 0;
+    opacity: 0.1;
   }
 }
 
