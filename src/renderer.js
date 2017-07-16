@@ -2,16 +2,21 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
-const electron = require('electron')
-const spotify = require('spotify-node-applescript')
-const textFit = require('textFit')
+// Versions
+// console.log('electron', process.versions.electron)
+// console.log('chrome', process.versions.chrome)
+// console.log('node', process.versions.node)
+
+import electron from 'electron'
+import spotify from 'spotify-node-applescript'
+// const textFit = require('textFit')
 
 // Controls
 const previous = document.getElementById('js-previous')
 const playPause = document.getElementById('js-playPause')
 const playPauseIcon = document.getElementById('js-playPauseIcon')
 const next = document.getElementById('js-next')
-const openSpotify = document.getElementById('js-open-spotify')
+// const openSpotify = document.getElementById('js-open-spotify')
 
 // Components
 const art = document.getElementById('js-art')
@@ -30,13 +35,6 @@ const setTrackDetails = () =>
       trackArtist.innerText = track.artist
       // Title
       trackName.innerText = track.name
-
-      // Fit text to boxes
-      textFit(document.getElementsByClassName('detail'), {
-        multiLine: true,
-        minFontSize: 8,
-        maxFontSize: 14
-      })
     } else {
       populateDetails() // this catches a bug in the notification listener when closing Spotify
     }
@@ -50,13 +48,13 @@ const setState = () =>
     if (state) {
       switch (state.state) {
         case 'playing':
-          playPauseIcon.classList.remove('icon-play')
-          playPauseIcon.classList.add('icon-pause')
+          playPauseIcon.classList.remove('fa-play')
+          playPauseIcon.classList.add('fa-pause')
           document.body.classList.remove('is-paused')
           break
         case 'paused':
-          playPauseIcon.classList.remove('icon-pause')
-          playPauseIcon.classList.add('icon-play')
+          playPauseIcon.classList.remove('fa-pause')
+          playPauseIcon.classList.add('fa-play')
           document.body.classList.add('is-paused')
           break
         default:
@@ -84,7 +82,7 @@ const populateDetails = () => {
 populateDetails()
 
 // Listen for track/status changes and update
-electron.ipcRenderer.on('notification', function(event, message) {
+electron.ipcRenderer.on('notification', function() {
   populateDetails()
 })
 
@@ -93,4 +91,4 @@ previous.addEventListener('click', () => spotify.previous())
 playPause.addEventListener('click', () => spotify.playPause())
 next.addEventListener('click', () => spotify.next())
 
-openSpotify.addEventListener('click', () => spotify.playPause())
+// openSpotify.addEventListener('click', () => spotify.playPause())

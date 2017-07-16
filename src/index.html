@@ -5,46 +5,31 @@
   <meta charset="UTF-8">
   <title>SpotSpot</title>
   <link rel="stylesheet" href="../node_modules/minireset.css/minireset.css">
+  <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="./style/main.scss">
 </head>
 
 <body>
 
   <div class="layer-track">
-    <div id="js-art" class="art"></div>
     <div class="details">
-      <div id="js-trackArtist" class="detail"></div>
-      <div id="js-trackName" class="detail"></div>
+      <div class="detail">
+        <div class="clamp" id="js-trackName"></div>
+      </div>
+      <div class="detail artist">
+        <div class="clamp" id="js-trackArtist"></div>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="js-previous"><i class="fa fa-step-backward"></i></button>
+      <button id="js-playPause">
+        <i class="fa fa-play" id="js-playPauseIcon"></i>
+      </button>
+      <button id="js-next"><i class="fa fa-step-forward"></i></button>
     </div>
   </div>
 
-  <div class="layer-dimmer"></div>
-
-  <div class="layer-pauseIcon"><i class="icon icon-pause"></i></div>
-
-  <div class="layer-controls">
-    <div class="control">
-      <button id="js-previous" class="button">
-        <i class="icon icon-previous"></i>
-      </button>
-    </div>
-    <div class="control">
-      <button id="js-playPause" class="button button-circle">
-        <i id="js-playPauseIcon" class="icon"></i>
-      </button>
-    </div>
-    <div class="control">
-      <button id="js-next" class="button">
-        <i class="icon icon-next"></i>
-      </button>
-    </div>
-  </div>
-
-  <div class="layer-openSpotify">
-    <button id="js-open-spotify" class="button button-text">
-      Open Spotify
-    </button>
-  </div>
+  <div id="js-art" class="layer-art"></div>
 
 </body>
 
