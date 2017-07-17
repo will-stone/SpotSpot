@@ -55,6 +55,7 @@ h2 {
 .screenshot {
   display: block;
   width: 100px;
+  height: 100px;
   margin: 0 0.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
