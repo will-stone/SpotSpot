@@ -11,5 +11,3 @@
 `npm start`
 
 To package use `npm run package` DO NOT USE YARN! ...it breaks it :(
-
-To develop the website use `npm run docs`
