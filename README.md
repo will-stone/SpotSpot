@@ -6,8 +6,8 @@
 
 `cd spotspot`
 
-`npm install`
+`yarn`
 
-`npm start`
+`yarn start`
 
-To package use `npm run package` DO NOT USE YARN! ...it breaks it :(
+To package use `yarn run package`

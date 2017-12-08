@@ -6,6 +6,7 @@
   "homepage": "http://wstone.io/SpotSpot/",
   "main": "src/main.js",
   "scripts": {
+    "prettier": "prettier --config .prettierrc --write src/**/*.js",
     "start": "SPOTSPOT_ENV=DEV electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -15,26 +16,21 @@
   "bugs": {
     "url": "https://github.com/will-stone/SpotSpot/issues"
   },
-  "keywords": [
-    "Electron",
-    "Spotify",
-    "mini-player",
-    "macOS"
-  ],
+  "keywords": ["Electron", "Spotify", "mini-player", "macOS"],
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.5.2",
     "babel-preset-react": "^6.24.1",
-    "electron-forge": "^3.0.5",
+    "electron-forge": "^4.1.6",
     "electron-prebuilt-compile": "1.6.11",
     "eslint": "^4.0.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.6.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.1.0",
-    "prettier": "^1.5.3"
+    "prettier": "^1.9.1"
   },
   "dependencies": {
     "about-window": "^1.6.3",
@@ -46,16 +42,9 @@
   "config": {
     "forge": {
       "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
+        "win32": ["squirrel"],
+        "darwin": ["zip"],
+        "linux": ["deb", "rpm"]
       },
       "electronPackagerConfig": {
         "icon": "src/images/icon/icon.png.icns"
