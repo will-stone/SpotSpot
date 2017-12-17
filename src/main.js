@@ -10,10 +10,10 @@ let tray = null
 function createMainWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 100,
+    width: 50,
     minWidth: 100,
     maxWidth: 400,
-    height: 100,
+    height: 50,
     minHeight: 100,
     maxHeight: 400,
     acceptFirstMouse: true,
