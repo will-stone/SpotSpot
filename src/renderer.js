@@ -51,11 +51,13 @@ const setState = () =>
           playPauseIcon.classList.remove('fa-play')
           playPauseIcon.classList.add('fa-pause')
           document.body.classList.remove('is-paused')
+          document.body.classList.add('is-playing')
           break
         case 'paused':
           playPauseIcon.classList.remove('fa-pause')
           playPauseIcon.classList.add('fa-play')
           document.body.classList.add('is-paused')
+          document.body.classList.remove('is-playing')
           break
         default:
           break
