@@ -9,14 +9,12 @@
 
 import electron from 'electron'
 import spotify from 'spotify-node-applescript'
-// const textFit = require('textFit')
 
 // Controls
 const previous = document.getElementById('js-previous')
 const playPause = document.getElementById('js-playPause')
 const playPauseIcon = document.getElementById('js-playPauseIcon')
 const next = document.getElementById('js-next')
-// const openSpotify = document.getElementById('js-open-spotify')
 
 // Components
 const art = document.getElementById('js-art')
@@ -92,5 +90,3 @@ electron.ipcRenderer.on('notification', function() {
 previous.addEventListener('click', () => spotify.previous())
 playPause.addEventListener('click', () => spotify.playPause())
 next.addEventListener('click', () => spotify.next())
-
-// openSpotify.addEventListener('click', () => spotify.playPause())
