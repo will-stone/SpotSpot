@@ -1,67 +1,35 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
+import { injectGlobal } from 'emotion'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
 
-// Versions
-// console.log('electron', process.versions.electron)
-// console.log('chrome', process.versions.chrome)
-// console.log('node', process.versions.node)
-
-import electron from 'electron'
-import spotify from 'spotify-node-applescript'
-
-// Controls
-const previous = document.getElementById('js-previous')
-const playPause = document.getElementById('js-playPause')
-const playPauseIcon = document.getElementById('js-playPauseIcon')
-const next = document.getElementById('js-next')
-
-// Components
-const art = document.getElementById('js-art')
-const trackArtist = document.getElementById('js-trackArtist')
-const trackName = document.getElementById('js-trackName')
-
-const setTrackDetails = ({ artwork_url, artist = '', name = '' } = {}) => {
-  art.style.backgroundImage = artwork_url ? `url(${artwork_url})` : ''
-  trackArtist.innerText = artist
-  trackName.innerText = name
+injectGlobal`
+html,
+body {
+  height: 100%;
+  background-color: transparent; /* prevents white flash */
 }
 
-const setState = ({ state } = {}) => {
-  switch (state) {
-    case 'playing':
-      playPauseIcon.classList.remove('fa-play')
-      playPauseIcon.classList.add('fa-pause')
-      document.body.classList.remove('is-paused')
-      document.body.classList.add('is-playing')
-      break
-    case 'paused':
-      playPauseIcon.classList.remove('fa-pause')
-      playPauseIcon.classList.add('fa-play')
-      document.body.classList.add('is-paused')
-      document.body.classList.remove('is-playing')
-      break
-    default:
-      break
-  }
+body {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-app-region: drag;
+  text-align: center;
+  color: white;
+  background-color: black;
+  font-family: sans-serif;
+  font-size: calc(12px + (5 + 12) * (100vw - 100px) / (400 - 100));
+  font-weight: 300;
 }
 
-const updateWidget = isRunning => {
-  if (isRunning) {
-    spotify.getTrack((err, track) => setTrackDetails(track))
-    spotify.getState((err, state) => setState(state))
-  }
+#root {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
+`
 
-// Load...
-spotify.isRunning((err, isRunning) => updateWidget(isRunning))
-
-// Listen for track/status changes and update
-electron.ipcRenderer.on('notification', function() {
-  spotify.isRunning((err, isRunning) => updateWidget(isRunning))
-})
-
-// Bind actions to controls
-previous.addEventListener('click', () => spotify.previous())
-playPause.addEventListener('click', () => spotify.playPause())
-next.addEventListener('click', () => spotify.next())
+ReactDOM.render(<App />, document.getElementById('root'))
