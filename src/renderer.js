@@ -4,23 +4,28 @@ import ReactDOM from 'react-dom'
 import App from './App'
 
 injectGlobal`
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
-  height: 100%;
   background-color: transparent; /* prevents white flash */
+  height: 100%;
 }
 
 body {
-  position: relative;
-  overflow: hidden;
-  user-select: none;
   -webkit-app-region: drag;
-  text-align: center;
-  color: white;
   background-color: black;
+  color: white;
   font-family: sans-serif;
   font-size: calc(12px + (5 + 12) * (100vw - 100px) / (400 - 100));
   font-weight: 300;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  user-select: none;
 }
 
 #root {

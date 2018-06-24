@@ -83,7 +83,9 @@ function createMainWindow() {
 systemPreferences.subscribeNotification(
   'com.spotify.client.PlaybackStateChanged',
   (_, { 'Player State': playerState }) => {
-    eventEmitter.emit('PlaybackStateChanged', playerState.toLowerCase())
+    eventEmitter.emit('PlaybackStateChanged', {
+      playerState: playerState.toLowerCase()
+    })
   }
 )
 
