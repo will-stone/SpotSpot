@@ -1,8 +1,8 @@
 import electron from 'electron'
 import React, { Component } from 'react'
-import spotify from 'spotify-node-applescript'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { css } from 'emotion'
+import { getTrack, getPlayerState, getIsRunning } from '../utils/spotify'
 
 const fadeStyles = {
   enter: css`
@@ -18,7 +18,7 @@ const fadeStyles = {
   exitActive: css`
     opacity: 0.01;
     transition: opacity 500ms ease-in;
-  `
+  `,
 }
 
 const wrapperStyle = css`
@@ -32,10 +32,13 @@ const wrapperStyle = css`
 
 class App extends Component {
   state = {
-    playerState: 'stopped', // stopped || paused || playing
-    name: '',
-    artist: '',
-    artwork_url: ''
+    details: {
+      playerState: 'stopped', // stopped || paused || playing
+      id: '',
+      name: '',
+      artist: '',
+      artwork_url: '',
+    },
   }
 
   componentDidMount() {
@@ -43,50 +46,50 @@ class App extends Component {
     this.registerEventListeners()
   }
 
-  setupInitialState = () => {
-    spotify.isRunning((err, isRunning) => {
-      if (isRunning) {
-        spotify.getTrack((err, { artist, name, artwork_url }) => {
-          this.setState({ artist, name, artwork_url })
-        })
-        spotify.getState((err, { state: playerState } = {}) =>
-          this.setState({ playerState })
-        )
-      }
-    })
+  setupInitialState = async () => {
+    const isRunning = await getIsRunning()
+    if (isRunning) {
+      this.setDetails()
+    }
   }
 
   registerEventListeners = () => {
-    electron.ipcRenderer.on(
-      'PlaybackStateChanged',
-      (event, { playerState } = {}) => {
-        spotify.getTrack((err, { artist, name, artwork_url } = {}) => {
-          this.setState({ playerState, artist, name, artwork_url })
-        })
-      }
-    )
+    electron.ipcRenderer.on('PlaybackStateChanged', () => {
+      this.setDetails()
+    })
+  }
+
+  setDetails = async () => {
+    const [playerState, track] = await Promise.all([
+      getPlayerState(),
+      getTrack(),
+    ])
+    this.setState({
+      details: { playerState, ...track },
+    })
   }
 
   render() {
-    const { playerState, name, artist, artwork_url } = this.state
+    const { details } = this.state
+    const { id, playerState, name, artist, artwork_url } = details
     const { enter, enterActive, exit, exitActive } = fadeStyles
 
     return (
       <TransitionGroup component={null}>
         <CSSTransition
-          key={artwork_url}
+          key={id}
           timeout={500}
           classNames={{
             enter,
             enterActive,
             exit,
-            exitActive
+            exitActive,
           }}
         >
           <div
             className={wrapperStyle}
             style={{
-              backgroundImage: `url(${artwork_url})`
+              backgroundImage: `url(${artwork_url})`,
             }}
           >
             <div>{playerState}</div>

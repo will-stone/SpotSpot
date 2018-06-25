@@ -1,6 +1,6 @@
 import { app, BrowserWindow, Tray, Menu, systemPreferences } from 'electron'
 import openAboutWindow from 'about-window'
-import eventEmitter from './main/eventEmitter'
+import eventEmitter from './utils/eventEmitter'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -25,7 +25,7 @@ function createMainWindow() {
     resizable: true,
     show: false, // prevents flash of white
     title: 'SpotSpot',
-    backgroundColor: '#000000'
+    backgroundColor: '#000000',
   })
 
   // and load the index.html of the app.
@@ -39,16 +39,16 @@ function createMainWindow() {
       label: 'About',
       click: function() {
         openAboutWindow({
-          icon_path: `${__dirname}/images/icon/icon.png`
+          icon_path: `${__dirname}/images/icon/icon.png`,
         })
-      }
+      },
     },
     {
       label: 'Quit',
       click: function() {
         app.quit()
-      }
-    }
+      },
+    },
   ])
   tray.setToolTip('SpotSpot')
   tray.setContextMenu(contextMenu)
@@ -82,11 +82,7 @@ function createMainWindow() {
 // System events
 systemPreferences.subscribeNotification(
   'com.spotify.client.PlaybackStateChanged',
-  (_, { 'Player State': playerState }) => {
-    eventEmitter.emit('PlaybackStateChanged', {
-      playerState: playerState.toLowerCase()
-    })
-  }
+  () => eventEmitter.emit('PlaybackStateChanged')
 )
 
 // This method will be called when Electron has finished
