@@ -61,6 +61,9 @@ function createMainWindow() {
   // Hide dock icon
   app.dock.hide()
 
+  // Move window across desktops when switching
+  mainWindow.setVisibleOnAllWorkspaces(true);
+
   // Maintain square window ratio
   mainWindow.setAspectRatio(1.0)
 
