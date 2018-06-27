@@ -2,7 +2,9 @@
   "name": "spotspot",
   "productName": "SpotSpot",
   "version": "3.0.0",
-  "engines": { "node": ">=10.4.1" },
+  "engines": {
+    "node": ">=10.4.1"
+  },
   "description": "Spotify mini-player for macOS",
   "homepage": "https://will-stone.github.io/SpotSpot/",
   "main": "src/main.js",
@@ -51,6 +53,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-emotion": "^9.2.4",
     "react-transition-group": "^2.3.1",
     "spotify-node-applescript": "^1.1.0"
   },

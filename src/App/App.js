@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { css } from 'emotion'
 import { getTrack, getPlayerState, getIsRunning } from '../utils/spotify'
+import Logo from './components/Logo'
 
 const fadeStyles = {
   enter: css`
@@ -32,18 +33,23 @@ const wrapperStyle = css`
 
 class App extends Component {
   state = {
-    details: {
-      playerState: 'stopped', // stopped || paused || playing
+    playerState: 'stopped', // stopped || paused || playing
+    track: {
       id: '',
       name: '',
       artist: '',
       artwork_url: '',
     },
+    loaded: false,
   }
 
   componentDidMount() {
     this.setupInitialState()
     this.registerEventListeners()
+
+    setTimeout(() => {
+      this.setState({ loaded: true })
+    }, 3500)
   }
 
   setupInitialState = async () => {
@@ -65,19 +71,20 @@ class App extends Component {
       getTrack(),
     ])
     this.setState({
-      details: { playerState, ...track },
+      playerState,
+      track,
     })
   }
 
   render() {
-    const { details } = this.state
-    const { id, playerState, name, artist, artwork_url } = details
+    const { track, playerState, loaded } = this.state
+    const { id, name, artist, artwork_url } = track
     const { enter, enterActive, exit, exitActive } = fadeStyles
 
     return (
       <TransitionGroup component={null}>
         <CSSTransition
-          key={id}
+          key={loaded ? id : 'logo'}
           timeout={500}
           classNames={{
             enter,
@@ -86,16 +93,20 @@ class App extends Component {
             exitActive,
           }}
         >
-          <div
-            className={wrapperStyle}
-            style={{
-              backgroundImage: `url(${artwork_url})`,
-            }}
-          >
-            <div>{playerState}</div>
-            <div>{artist}</div>
-            <div>{name}</div>
-          </div>
+          {loaded ? (
+            <div
+              className={wrapperStyle}
+              style={{
+                backgroundImage: `url(${artwork_url})`,
+              }}
+            >
+              <div>{playerState}</div>
+              <div>{artist}</div>
+              <div>{name}</div>
+            </div>
+          ) : (
+            <Logo />
+          )}
         </CSSTransition>
       </TransitionGroup>
     )
