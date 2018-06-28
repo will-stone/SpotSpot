@@ -36,3 +36,7 @@ export const getIsRunning = () =>
       resolve(isRunning)
     })
   )
+
+export const previous = () => spotify.previous()
+export const playPause = () => spotify.playPause()
+export const next = () => spotify.next()

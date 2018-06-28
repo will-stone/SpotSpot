@@ -1,10 +1,18 @@
-import electron from 'electron'
 import { spawn } from 'child_process'
+import electron from 'electron'
+import { css, cx } from 'emotion'
 import React, { Component } from 'react'
-import { css } from 'emotion'
-import { getTrack, getPlayerState, getIsRunning } from '../utils/spotify'
-import Logo from './components/Logo'
 import { Spring, Transition } from 'react-spring'
+import { GREEN } from '../config'
+import {
+  getIsRunning,
+  getPlayerState,
+  getTrack,
+  previous,
+  playPause,
+  next,
+} from '../utils/spotify'
+import Logo from './components/Logo'
 
 const wrapperStyle = css`
   height: 100%;
@@ -44,10 +52,49 @@ const controlsStyle = css`
   bottom: 0;
   left: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 5%;
+  flex-basis: 30%;
+  flex-shrink: 0;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding: 0 10%;
+
+  button {
+    transition: opacity 100ms linear;
+    opacity: 0.5;
+    color: white;
+    border: 0;
+    outline: none;
+    background-color: transparent;
+    font-size: calc(18px + (24 + 18) * (100vw - 100px) / (400 - 100));
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:active {
+      opacity: 0.5;
+    }
+  }
+`
+
+const clampStyle = css`
+  display: -webkit-box;
+  overflow: hidden;
+  cursor: default;
+  text-overflow: ellipsis;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+`
+
+const trackNameStyle = css`
+  padding: 2%;
+`
+
+const artistStyle = css`
+  color: ${GREEN};
+  padding: 2%;
 `
 
 const INITIAL_STATE = {
@@ -59,7 +106,7 @@ const INITIAL_STATE = {
     artwork_url: '',
   },
   loaded: false,
-  showTrackDetails: false,
+  mouseEnter: false,
 }
 
 class App extends Component {
@@ -103,29 +150,25 @@ class App extends Component {
     })
   }
 
-  handleLogoClick = async () => {
-    const isRunning = await getIsRunning()
-    if (!isRunning) {
-      spawn('open', ['-a', 'spotify'])
-    }
-  }
+  handleSpotifyClick = () => spawn('open', ['-a', 'spotify'])
 
   handleMouseEnter = () => {
     this.setState({
-      showTrackDetails: true,
+      mouseEnter: true,
     })
   }
 
   handleMouseLeave = () => {
     this.setState({
-      showTrackDetails: false,
+      mouseEnter: false,
     })
   }
 
+  handleButtonDoubleClick = e => e.stopPropagation()
+
   render() {
-    const { track, playerState, loaded, showTrackDetails } = this.state
+    const { track, playerState, loaded, mouseEnter } = this.state
     const { id, name, artist, artwork_url } = track
-    // const { enter, enterActive, exit, exitActive } = fadeStyles
 
     const showLogo = !loaded || playerState === 'stopped'
 
@@ -134,6 +177,7 @@ class App extends Component {
         className={wrapperStyle}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
+        onDoubleClick={this.handleSpotifyClick}
       >
         <Transition
           keys={showLogo ? 'logo' : id}
@@ -154,28 +198,49 @@ class App extends Component {
                 >
                   <Spring
                     to={{
-                      transform: `translateY(${
-                        showTrackDetails ? '0%' : '-100%'
-                      })`,
+                      transform: `translateY(${mouseEnter ? '0%' : '-100%'})`,
                     }}
                   >
                     {styles => (
                       <div style={styles} className={trackDetailsStyle}>
-                        <div>{artist}</div>
-                        <div>{name}</div>
+                        <div className={cx(clampStyle, trackNameStyle)}>
+                          {name}
+                        </div>
+                        <div className={cx(clampStyle, artistStyle)}>
+                          {artist}
+                        </div>
                       </div>
                     )}
                   </Spring>
                   <Spring
                     to={{
-                      transform: `translateY(${
-                        showTrackDetails ? '0%' : '100%'
-                      })`,
+                      transform: `translateY(${mouseEnter ? '0%' : '100%'})`,
                     }}
                   >
                     {styles => (
                       <div style={styles} className={controlsStyle}>
-                        <div>{playerState}</div>
+                        <button
+                          onClick={previous}
+                          onDoubleClick={this.handleButtonDoubleClick}
+                        >
+                          <i className="fa fa-step-backward" />
+                        </button>
+                        <button
+                          onClick={playPause}
+                          onDoubleClick={this.handleButtonDoubleClick}
+                        >
+                          {playerState === 'playing' ? (
+                            <i className="fa fa-pause" />
+                          ) : (
+                            <i className="fa fa-play" />
+                          )}
+                        </button>
+                        <button
+                          onClick={next}
+                          onDoubleClick={this.handleButtonDoubleClick}
+                        >
+                          <i className="fa fa-step-forward" />
+                        </button>
                       </div>
                     )}
                   </Spring>
