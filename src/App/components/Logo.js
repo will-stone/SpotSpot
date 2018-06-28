@@ -20,7 +20,7 @@ const blob2Anim = keyframes`
   }
 `
 
-const Logo = () => {
+const Logo = ({ style }) => {
   return (
     <div
       className={css`
@@ -28,6 +28,7 @@ const Logo = () => {
         width: 100%;
         position: relative;
       `}
+      style={style}
     >
       <div
         className={css`
