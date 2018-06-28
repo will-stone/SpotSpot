@@ -55,24 +55,28 @@ class App extends Component {
   setupInitialState = async () => {
     const isRunning = await getIsRunning()
     if (isRunning) {
-      this.setDetails()
+      const [playerState, track] = await Promise.all([
+        getPlayerState(), // playerState is not sent from main on load.
+        getTrack(),
+      ])
+      this.setState({
+        playerState,
+        track,
+      })
     }
   }
 
   registerEventListeners = () => {
-    electron.ipcRenderer.on('PlaybackStateChanged', () => {
-      this.setDetails()
+    electron.ipcRenderer.on('PlaybackStateChanged', (e, playerState) => {
+      this.setDetails(playerState)
     })
   }
 
-  setDetails = async () => {
-    const [playerState, track] = await Promise.all([
-      getPlayerState(),
-      getTrack(),
-    ])
+  setDetails = async playerState => {
+    const track = await getTrack()
     this.setState({
-      playerState,
       track,
+      playerState,
     })
   }
 
@@ -81,10 +85,12 @@ class App extends Component {
     const { id, name, artist, artwork_url } = track
     const { enter, enterActive, exit, exitActive } = fadeStyles
 
+    const showLogo = !loaded || playerState === 'stopped'
+
     return (
       <TransitionGroup component={null}>
         <CSSTransition
-          key={loaded ? id : 'logo'}
+          key={showLogo ? 'logo' : id}
           timeout={500}
           classNames={{
             enter,
@@ -93,7 +99,9 @@ class App extends Component {
             exitActive,
           }}
         >
-          {loaded ? (
+          {showLogo ? (
+            <Logo />
+          ) : (
             <div
               className={wrapperStyle}
               style={{
@@ -104,8 +112,6 @@ class App extends Component {
               <div>{artist}</div>
               <div>{name}</div>
             </div>
-          ) : (
-            <Logo />
           )}
         </CSSTransition>
       </TransitionGroup>

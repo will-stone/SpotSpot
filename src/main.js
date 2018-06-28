@@ -62,7 +62,7 @@ function createMainWindow() {
   app.dock.hide()
 
   // Move window across desktops when switching
-  mainWindow.setVisibleOnAllWorkspaces(true);
+  mainWindow.setVisibleOnAllWorkspaces(true)
 
   // Maintain square window ratio
   mainWindow.setAspectRatio(1.0)
@@ -85,7 +85,9 @@ function createMainWindow() {
 // System events
 systemPreferences.subscribeNotification(
   'com.spotify.client.PlaybackStateChanged',
-  () => eventEmitter.emit('PlaybackStateChanged')
+  (_, { 'Player State': playerState }) => {
+    eventEmitter.emit('PlaybackStateChanged', playerState.toLowerCase())
+  }
 )
 
 // This method will be called when Electron has finished

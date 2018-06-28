@@ -3,9 +3,6 @@ import spotify from 'spotify-node-applescript'
 export const getTrack = () =>
   new Promise((resolve, reject) =>
     spotify.getTrack((err, { id, artist, name, artwork_url } = {}) => {
-      if (err) {
-        reject(err)
-      }
       resolve({
         id,
         artist,
@@ -18,9 +15,6 @@ export const getTrack = () =>
 export const getPlayerState = () =>
   new Promise((resolve, reject) =>
     spotify.getState((err, { state: playerState } = {}) => {
-      if (err) {
-        reject(err)
-      }
       resolve(playerState)
     })
   )
@@ -28,9 +22,6 @@ export const getPlayerState = () =>
 export const getIsRunning = () =>
   new Promise((resolve, reject) =>
     spotify.isRunning((err, isRunning) => {
-      if (err) {
-        reject(err)
-      }
       resolve(isRunning)
     })
   )
