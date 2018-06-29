@@ -153,15 +153,18 @@ class App extends Component {
   handleSpotifyClick = () => spawn('open', ['-a', 'spotify'])
 
   handleMouseEnter = () => {
+    clearTimeout(this.timeout)
     this.setState({
       mouseEnter: true,
     })
   }
 
   handleMouseLeave = () => {
-    this.setState({
-      mouseEnter: false,
-    })
+    this.timeout = setTimeout(() => {
+      this.setState({
+        mouseEnter: false,
+      })
+    }, 2000)
   }
 
   handleButtonDoubleClick = e => e.stopPropagation()
