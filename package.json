@@ -1,8 +1,10 @@
 {
   "name": "spotspot",
   "productName": "SpotSpot",
-  "version": "2.2.0",
-  "engines": { "node": ">=10.4.1" },
+  "version": "3.0.0",
+  "engines": {
+    "node": ">=10.4.1"
+  },
   "description": "Spotify mini-player for macOS",
   "homepage": "https://will-stone.github.io/SpotSpot/",
   "main": "src/main.js",
@@ -11,44 +13,63 @@
     "start": "SPOTSPOT_ENV=DEV electron-forge start",
     "package": "electron-forge package --platform=darwin --arch=x64",
     "make": "electron-forge make",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "icns": "cd ./src/images/icon && ./png2icns.sh icon.png"
   },
   "repository": "https://github.com/will-stone/SpotSpot",
   "bugs": {
     "url": "https://github.com/will-stone/SpotSpot/issues"
   },
-  "keywords": ["Electron", "Spotify", "mini-player", "macOS"],
+  "keywords": [
+    "Electron",
+    "Spotify",
+    "mini-player",
+    "macOS"
+  ],
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.5.2",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "electron-forge": "^5.2.2",
     "electron-prebuilt-compile": "1.8.2",
-    "eslint": "^4.0.0",
-    "eslint-config-airbnb": "^15.0.1",
+    "eslint": "^4.1.1",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-plugin-flowtype": "^2.34.1",
     "eslint-plugin-import": "^2.6.0",
-    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
     "prettier": "^1.13.5"
   },
   "dependencies": {
     "about-window": "^1.6.3",
     "electron-compile": "^6.4.2",
+    "emotion": "^9.2.3",
     "font-awesome": "^4.7.0",
-    "minireset.css": "^0.0.3",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-emotion": "^9.2.4",
+    "react-spring": "4.2.1",
     "spotify-node-applescript": "^1.1.0"
   },
   "config": {
     "forge": {
       "make_targets": {
-        "darwin": ["dmg"]
+        "darwin": [
+          "dmg"
+        ]
       },
       "electronPackagerConfig": {
         "packageManager": "yarn",
-        "icon": "src/images/icon/icon.png.icns",
-        "ignore": ["docs"]
+        "icon": "src/images/icon/icon.icns",
+        "ignore": [
+          "docs"
+        ]
       }
     }
   }

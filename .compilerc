@@ -1,0 +1,40 @@
+{
+  "env": {
+    "development": {
+      "application/javascript": {
+        "presets": [
+          [
+            "env",
+            {
+              "targets": {
+                "chrome": 58
+              }
+            }
+          ],
+          "react",
+          "stage-0"
+        ],
+        "plugins": ["transform-object-rest-spread"],
+        "sourceMaps": "inline"
+      }
+    },
+    "production": {
+      "application/javascript": {
+        "presets": [
+          [
+            "env",
+            {
+              "targets": {
+                "chrome": 58
+              }
+            }
+          ],
+          "react",
+          "stage-0"
+        ],
+        "plugins": ["transform-object-rest-spread"],
+        "sourceMaps": "none"
+      }
+    }
+  }
+}
