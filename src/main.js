@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Tray, Menu, systemPreferences } from 'electron'
 import openAboutWindow from 'about-window'
 import eventEmitter from './utils/eventEmitter'
+import { BLACK } from './config'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -25,7 +26,7 @@ function createMainWindow() {
     resizable: true,
     show: false, // prevents flash of white
     title: 'SpotSpot',
-    backgroundColor: '#000000',
+    backgroundColor: BLACK,
   })
 
   // and load the index.html of the app.

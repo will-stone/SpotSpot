@@ -2,6 +2,7 @@ import { injectGlobal } from 'emotion'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
+import { BLACK } from './config'
 
 injectGlobal`
 * {
@@ -16,7 +17,7 @@ body {
 
 body {
   -webkit-app-region: drag;
-  background-color: black;
+  background-color: ${BLACK};
   color: white;
   font-family: sans-serif;
   font-size: calc(12px + (5 + 12) * (100vw - 100px) / (400 - 100));
