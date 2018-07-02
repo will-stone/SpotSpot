@@ -13,18 +13,14 @@
     "start": "SPOTSPOT_ENV=DEV electron-forge start",
     "package": "electron-forge package --platform=darwin --arch=x64",
     "make": "electron-forge make",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "icns": "cd ./src/images/icon && ./png2icns.sh icon.png"
   },
   "repository": "https://github.com/will-stone/SpotSpot",
   "bugs": {
     "url": "https://github.com/will-stone/SpotSpot/issues"
   },
-  "keywords": [
-    "Electron",
-    "Spotify",
-    "mini-player",
-    "macOS"
-  ],
+  "keywords": ["Electron", "Spotify", "mini-player", "macOS"],
   "author": "Will Stone",
   "license": "MIT",
   "devDependencies": {
@@ -60,16 +56,12 @@
   "config": {
     "forge": {
       "make_targets": {
-        "darwin": [
-          "dmg"
-        ]
+        "darwin": ["dmg"]
       },
       "electronPackagerConfig": {
         "packageManager": "yarn",
-        "icon": "src/images/icon/icon.png.icns",
-        "ignore": [
-          "docs"
-        ]
+        "icon": "src/images/icon/icon.icns",
+        "ignore": ["docs"]
       }
     }
   }
