@@ -4,6 +4,9 @@ import { GREEN } from '../../config'
 
 const blob1Anim = keyframes`
   0% {
+    transform: scale(calc(1/3)) translate(-150%, 150%);
+  }
+  50% {
     transform: scale(1.5) translate(0, 0);
   }
   100% {
@@ -13,6 +16,9 @@ const blob1Anim = keyframes`
 
 const blob2Anim = keyframes`
   0% {
+    transform: scale(1) translate(50%, -50%);
+  }
+  50% {
     transform: scale(1.5) translate(0, 0);
   }
   100% {
