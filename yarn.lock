@@ -4494,7 +4494,7 @@ react-emotion@^9.2.4:
     babel-plugin-emotion "^9.2.4"
     create-emotion-styled "^9.2.3"
 
-react-spring@4.2.1:
+react-spring@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-4.2.1.tgz#7bcf1eb660c88e322820b88f05355d44768c53be"
   dependencies:
