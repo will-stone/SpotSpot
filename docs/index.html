@@ -29,16 +29,16 @@
 <body>
 
   <main>
-    <div class="wrapper">
-      <div class="logo">
-        <div class="blob1"></div>
-        <div class="blob2"></div>
+    <div class="logo">
+      <div class="blobs">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
       </div>
       <h1 class="title">SpotSpot</h1>
     </div>
 
 
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="logo-filter">
       <defs>
         <filter id="goo">
           <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
@@ -55,9 +55,11 @@
       <img class="screenshot" src="images/controls.png" alt="" />
     </p>
 
-    <p>
-      <a href="https://github.com/will-stone/SpotSpot/releases/download/v3.0.1/SpotSpot-3.0.1.dmg" class="button">Download v2.1.1</a>
+    <p id="js-buttons">
       <a href="https://github.com/will-stone/SpotSpot" class="button">Source</a>
+      <noscript>
+        <a href="https://github.com/will-stone/SpotSpot/releases/latest" class="button">Download</a>
+      </noscript>
     </p>
 
     <p>SpotSpot is an open-source (MIT license), always on-top, mini-player for controlling Spotify in macOS. It is an Electron-based
@@ -70,6 +72,8 @@
   <footer>Created by
     <a href="http://wstone.io/">Will Stone</a>
   </footer>
+
+  <script src="version.js"></script>
 </body>
 
 </html>
