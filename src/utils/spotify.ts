@@ -2,32 +2,37 @@ import * as spotify from 'spotify-node-applescript'
 
 export const getTrack = () =>
   new Promise((resolve, reject) =>
-    spotify.getTrack((err, { id, artist, name, artwork_url } = {}) => {
-      if (err) {
-        reject(err)
+    spotify.getTrack(
+      (
+        err: string,
+        { id = '', artist = '', name = '', artwork_url = '' } = {}
+      ) => {
+        if (err) {
+          reject(err)
+        }
+        resolve({
+          id,
+          artist,
+          name,
+          artwork_url,
+        })
       }
-      resolve({
-        id,
-        artist,
-        name,
-        artwork_url,
-      })
-    })
+    )
   )
 
 export const getPlayerState = () =>
   new Promise((resolve, reject) =>
-    spotify.getState((err, { state: playerState } = {}) => {
+    spotify.getState((err: string, { state = {} }: { state: PlayerState }) => {
       if (err) {
         reject(err)
       }
-      resolve(playerState)
+      resolve(state)
     })
   )
 
 export const getIsRunning = () =>
   new Promise((resolve, reject) => {
-    return spotify.isRunning((err, isRunning: boolean) => {
+    return spotify.isRunning((err: string, isRunning: boolean) => {
       if (err) {
         reject(err)
       }
