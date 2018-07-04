@@ -7,6 +7,8 @@ interface IAlbumArtProps {
 }
 
 const AlbumArt: React.SFC<IAlbumArtProps> = ({ url, style }) => {
+  console.log(url)
+
   return (
     <div
       className={css`

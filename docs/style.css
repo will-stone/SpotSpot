@@ -1,0 +1,188 @@
+body {
+  background-color: #222220;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  color: white;
+  padding: 3rem 1rem;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-size: 19px;
+  text-align: center;
+}
+
+h2,
+p {
+  margin: 0 0 2rem;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 100;
+}
+
+a {
+  text-decoration: none;
+  color: #2fd566;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.button {
+  display: inline-block;
+  min-width: 120px;
+  margin: 0.5rem;
+  padding: 7px 12px;
+  text-decoration: none;
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  background: transparent;
+  font-weight: normal;
+}
+
+.button:hover {
+  border-color: #2fd566;
+  text-decoration: none;
+}
+
+main {
+  text-shadow: 0 7px 10px #000000;
+}
+
+.screenshot {
+  width: 200px;
+  display: inline-block;
+}
+
+footer {
+  border-top: 1px solid #2fd566;
+  margin-top: 2rem;
+  padding-top: 2rem;
+}
+
+@keyframes blob1Anim {
+  0% {
+    transform: scale(calc(1 / 3)) translate(-150%, 150%);
+  }
+  50% {
+    transform: scale(1.5) translate(0, 0);
+  }
+  100% {
+    transform: scale(calc(1 / 3)) translate(-150%, 150%);
+  }
+}
+
+@keyframes blob2Anim {
+  0% {
+    transform: scale(1) translate(50%, -50%);
+  }
+  50% {
+    transform: scale(1.5) translate(0, 0);
+  }
+  100% {
+    transform: scale(1) translate(50%, -50%);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.wrapper {
+  height: 200px;
+  width: 200px;
+  position: relative;
+  background-color: #191917;
+  overflow: hidden;
+  background-size: cover;
+  border-radius: 5px;
+  box-shadow: 0px 0px 30px 0px #191917;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  filter: url('#goo');
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #191917;
+  animation-name: fadeOut;
+  animation-duration: 500ms;
+  animation-delay: 3s;
+  animation-fill-mode: forwards;
+  opacity: 1;
+}
+
+.blob1 {
+  position: absolute;
+  background: #2fd566;
+  left: 50%;
+  top: 50%;
+  width: 30%;
+  height: 30%;
+  border-radius: 100%;
+  margin-top: -15%;
+  margin-left: -15%;
+  animation: blob1Anim cubic-bezier(0.77, 0, 0.175, 1) 3s forwards;
+}
+
+.blob2 {
+  position: absolute;
+  background: #2fd566;
+  left: 50%;
+  top: 50%;
+  width: 30%;
+  height: 30%;
+  border-radius: 100%;
+  margin-top: -15%;
+  margin-left: -15%;
+  animation: blob2Anim cubic-bezier(0.77, 0, 0.175, 1) 3s forwards;
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  color: white;
+  animation-name: fadeIn;
+  animation-duration: 500ms;
+  animation-delay: 3s;
+  animation-fill-mode: forwards;
+  z-index: 2;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 100;
+  font-size: 3rem;
+  font-family: 'Passion One', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  line-height: 1;
+}
+
+.hidden {
+  height: 0;
+}
