@@ -11,77 +11,7 @@
   <meta name="description" content="Spotify mini-player for macOS">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Passion+One">
-
-  <style>
-    body {
-      background-color: #222220;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-      color: white;
-      padding: 3rem 1rem;
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.6;
-      font-size: 19px;
-      text-align: center;
-    }
-
-    h1,
-    h2,
-    p {
-      margin: 0 0 2rem;
-    }
-
-    h1 {
-      font-weight: 100;
-      font-size: 3rem;
-      font-family: 'Passion One', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-      line-height: 1;
-    }
-
-    h2 {
-      font-size: 2rem;
-      font-weight: 100;
-      line-height: 1;
-    }
-
-    a {
-      text-decoration: none;
-      color: #2fd566;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .button {
-      display: inline-block;
-      min-width: 120px;
-      margin: 0 0.5rem;
-      padding: 7px 12px;
-      text-decoration: none;
-      border: 1px solid #ffffff;
-      border-radius: 20px;
-      background: transparent;
-      font-weight: normal;
-    }
-
-    .button:hover {
-      border-color: #2fd566;
-      text-decoration: none;
-    }
-
-    main {
-      text-shadow: 0 7px 10px #000000;
-    }
-
-    footer {
-      border-top: 1px solid #2fd566;
-      margin-top: 2rem;
-      padding-top: 2rem;
-    }
-  </style>
-
-
+  <link rel="stylesheet" href="style.css">
 
   <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=oLdRWaXWqy">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?v=oLdRWaXWqy">
@@ -99,36 +29,57 @@
 <body>
 
   <main>
-    <p>
-      <img src="images/icon.png" alt="" width="200" height="200" />
-    </p>
+    <div class="logo">
+      <div class="blobs">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+      </div>
+      <h1 class="title">SpotSpot</h1>
+    </div>
 
-    <h1>SpotSpot</h1>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="logo-filter">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </defs>
+    </svg>
 
     <h2>Spotify mini-player for macOS</h2>
 
     <p>
-      <img src="images/screenshot.png" alt="" />
+      <img class="screenshot" src="images/album_art.png" alt="" />
+      <img class="screenshot" src="images/controls.png" alt="" />
     </p>
 
-    <p>
-      <a href="https://github.com/will-stone/SpotSpot/releases/download/v2.1.1/SpotSpot-2.1.1.dmg"
-        class="button">Download v2.1.1</a>
+    <p id="js-buttons">
       <a href="https://github.com/will-stone/SpotSpot" class="button">Source</a>
+      <noscript>
+        <a href="https://github.com/will-stone/SpotSpot/releases/latest" class="button">Download</a>
+      </noscript>
     </p>
 
-    <p>SpotSpot is an open-source (MIT license), always on-top, mini-player for controlling
-      Spotify in macOS. It is an Electron-based app, and utilises André Haveman’s
-      excellent
-      <a href="https://github.com/andrehaveman/spotify-node-applescript">Spotify-Node-Applescript</a> package.</p>
+    <p class="justify">
+      SpotSpot is an open-source (MIT license), always on-top, mini-player for controlling Spotify in macOS. It is an Electron-based
+      app, and utilises André Haveman’s excellent
+      <a href="https://github.com/andrehaveman/spotify-node-applescript">Spotify-Node-Applescript</a>
+      package.
+    </p>
 
-    <p>SpotSpot is not affiliated with Apple, Spotify or Muse and these are the trademarks
-      of the respective parties.</p>
+    <p class="justify">
+      <small>
+        SpotSpot is not affiliated with Apple, Spotify or Badflower and these are the trademarks of the respective parties.
+      </small>
+    </p>
   </main>
 
   <footer>Created by
     <a href="http://wstone.io/">Will Stone</a>
   </footer>
+
+  <script src="version.js"></script>
 </body>
 
 </html>
