@@ -1,4 +1,4 @@
-const version = '3.0.1'
+const version = '3.1.0'
 
 const buttonsContainer = document.getElementById('js-buttons')
 
