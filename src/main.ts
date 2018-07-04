@@ -1,14 +1,26 @@
+import openAboutWindow from 'about-window'
 import {
   app,
   BrowserWindow,
-  Tray,
   Menu,
-  systemPreferences,
   nativeImage,
+  systemPreferences,
+  Tray,
 } from 'electron'
-import openAboutWindow from 'about-window'
-import eventEmitter from './utils/eventEmitter'
 import { BLACK } from './config'
+import eventEmitter from './utils/eventEmitter'
+import Store = require('electron-store')
+
+const store = new Store()
+
+const DEFAULT_BOUNDS = {
+  x: null,
+  y: null,
+  width: 100,
+  height: 100,
+}
+
+const bounds = store.get('bounds', DEFAULT_BOUNDS)
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -19,10 +31,12 @@ let tray = null
 function createMainWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 100,
+    x: bounds.x,
+    y: bounds.y,
+    width: bounds.width,
     minWidth: 100,
     maxWidth: 400,
-    height: 100,
+    height: bounds.height,
     minHeight: 100,
     maxHeight: 400,
     acceptFirstMouse: true,
@@ -86,6 +100,18 @@ function createMainWindow() {
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     mainWindow = null
+  })
+
+  mainWindow.on('resize', () => {
+    const mainWindowBounds =
+      (mainWindow && mainWindow.getBounds()) || DEFAULT_BOUNDS
+    store.set('bounds', mainWindowBounds)
+  })
+
+  mainWindow.on('moved', () => {
+    const mainWindowBounds =
+      (mainWindow && mainWindow.getBounds()) || DEFAULT_BOUNDS
+    store.set('bounds', mainWindowBounds)
   })
 
   eventEmitter.on('PlaybackStateChanged', (playerState: PlayerState) => {
