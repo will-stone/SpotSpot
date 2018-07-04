@@ -1,9 +1,12 @@
-import React from 'react'
+import * as React from 'react'
 import { css, keyframes } from 'react-emotion'
 import { GREEN } from '../../config'
 
 const blob1Anim = keyframes`
   0% {
+    transform: scale(calc(1/3)) translate(-150%, 150%);
+  }
+  50% {
     transform: scale(1.5) translate(0, 0);
   }
   100% {
@@ -13,6 +16,9 @@ const blob1Anim = keyframes`
 
 const blob2Anim = keyframes`
   0% {
+    transform: scale(1) translate(50%, -50%);
+  }
+  50% {
     transform: scale(1.5) translate(0, 0);
   }
   100% {
@@ -20,7 +26,11 @@ const blob2Anim = keyframes`
   }
 `
 
-const Logo = ({ style }) => {
+interface ILogoProps {
+  style: React.CSSProperties
+}
+
+const Logo: React.SFC<ILogoProps> = ({ style }) => {
   return (
     <div
       className={css`
@@ -79,11 +89,10 @@ const Logo = ({ style }) => {
             />
             <feColorMatrix
               in="blur"
-              mode="matrix"
               values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
               result="goo"
             />
-            <feBlend in="SourceGraphic" in2="goo" />
+            <feBlend in="SourceGraphic" />
           </filter>
         </defs>
       </svg>

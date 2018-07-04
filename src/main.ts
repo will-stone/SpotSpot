@@ -1,11 +1,18 @@
-import { app, BrowserWindow, Tray, Menu, systemPreferences } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  Tray,
+  Menu,
+  systemPreferences,
+  nativeImage,
+} from 'electron'
 import openAboutWindow from 'about-window'
 import eventEmitter from './utils/eventEmitter'
 import { BLACK } from './config'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow: Electron.BrowserWindow | null = null
 
 let tray = null
 
@@ -34,7 +41,10 @@ function createMainWindow() {
 
   // Menubar icon
   tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
-  tray.setPressedImage(`${__dirname}/images/icon/tray_iconHighlight.png`)
+  const pressedImage = nativeImage.createFromPath(
+    `${__dirname}/images/icon/tray_iconHighlight.png`
+  )
+  tray.setPressedImage(pressedImage)
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'About',
@@ -66,11 +76,11 @@ function createMainWindow() {
   mainWindow.setVisibleOnAllWorkspaces(true)
 
   // Maintain square window ratio
-  mainWindow.setAspectRatio(1.0)
+  mainWindow.setAspectRatio(1.0, { width: 0, height: 0 })
 
   // Only show window when it's ready; prevents flash of white
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
+    mainWindow && mainWindow.show()
   })
 
   // Emitted when the window is closed.
@@ -78,8 +88,9 @@ function createMainWindow() {
     mainWindow = null
   })
 
-  eventEmitter.on('PlaybackStateChanged', playerState => {
-    mainWindow.webContents.send('PlaybackStateChanged', playerState)
+  eventEmitter.on('PlaybackStateChanged', (playerState: PlayerState) => {
+    mainWindow &&
+      mainWindow.webContents.send('PlaybackStateChanged', playerState)
   })
 }
 
