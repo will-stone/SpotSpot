@@ -1,6 +1,4 @@
-import spotify from 'spotify-node-applescript'
-
-// Something is preventing Spotify from closing!
+import * as spotify from 'spotify-node-applescript'
 
 export const getTrack = () =>
   new Promise((resolve, reject) =>
@@ -28,14 +26,14 @@ export const getPlayerState = () =>
   )
 
 export const getIsRunning = () =>
-  new Promise((resolve, reject) =>
-    spotify.isRunning((err, isRunning) => {
+  new Promise((resolve, reject) => {
+    return spotify.isRunning((err, isRunning: boolean) => {
       if (err) {
         reject(err)
       }
       resolve(isRunning)
     })
-  )
+  })
 
 export const previous = () => spotify.previous()
 export const playPause = () => spotify.playPause()

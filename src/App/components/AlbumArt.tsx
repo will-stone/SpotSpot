@@ -1,7 +1,12 @@
 import { css } from 'emotion'
-import React from 'react'
+import * as React from 'react'
 
-const AlbumArt = ({ url, style }) => {
+interface IAlbumArtProps {
+  url: Track['artwork_url']
+  style: React.CSSProperties
+}
+
+const AlbumArt: React.SFC<IAlbumArtProps> = ({ url, style }) => {
   return (
     <div
       className={css`

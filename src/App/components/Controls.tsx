@@ -1,5 +1,5 @@
 import { css } from 'emotion'
-import React from 'react'
+import * as React from 'react'
 import { BLACK } from '../../config'
 
 const controlsStyle = css`
@@ -35,9 +35,18 @@ const controlsStyle = css`
   }
 `
 
-const stopPropagation = e => e.stopPropagation()
+const stopPropagation = (e: React.MouseEvent<HTMLButtonElement>) =>
+  e.stopPropagation()
 
-const Controls = ({
+interface IControlsProps {
+  isPlaying: boolean
+  onPreviousClick: () => void
+  onPlayPauseClick: () => void
+  onNextClick: () => void
+  style: React.CSSProperties
+}
+
+const Controls: React.SFC<IControlsProps> = ({
   isPlaying,
   onPreviousClick,
   onPlayPauseClick,

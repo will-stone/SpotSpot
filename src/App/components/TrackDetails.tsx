@@ -1,5 +1,5 @@
 import { css } from 'emotion'
-import React from 'react'
+import * as React from 'react'
 import { BLACK, GREEN } from '../../config'
 
 const wrapperStyle = css`
@@ -37,7 +37,17 @@ const artistStyle = css`
   padding: 2%;
 `
 
-const TrackDetails = ({ style, name, artist }) => {
+interface ITrackDetailsProps {
+  artist: string
+  name: string
+  style: React.CSSProperties
+}
+
+const TrackDetails: React.SFC<ITrackDetailsProps> = ({
+  artist,
+  name,
+  style,
+}) => {
   return (
     <div style={style} className={wrapperStyle}>
       <div className={trackNameStyle}>{name}</div>

@@ -1,6 +1,6 @@
 import { spawn } from 'child_process'
-import electron from 'electron'
-import React, { Component } from 'react'
+import { ipcRenderer } from 'electron'
+import * as React from 'react'
 import { getIsRunning, getPlayerState, getTrack } from '../utils/spotify'
 import App from './App'
 
@@ -17,8 +17,9 @@ const INITIAL_STATE = {
   },
 }
 
-class AppContainer extends Component {
+class AppContainer extends React.Component<{}, any> {
   state = INITIAL_STATE
+  detailsTimeout: NodeJS.Timer
 
   componentDidMount() {
     this.setupInitialState()
@@ -44,15 +45,18 @@ class AppContainer extends Component {
   }
 
   registerEventListeners = () => {
-    electron.ipcRenderer.on('PlaybackStateChanged', (e, playerState) => {
-      this.setDetails(playerState, () => {
-        this.showControls()
-        this.hideControls()
-      })
-    })
+    ipcRenderer.on(
+      'PlaybackStateChanged',
+      (_: any, playerState: PlayerState) => {
+        this.setDetails(playerState, () => {
+          this.showControls()
+          this.hideControls()
+        })
+      }
+    )
   }
 
-  setDetails = async (playerState, callback = () => {}) => {
+  setDetails = async (playerState: PlayerState, callback = () => {}) => {
     const track =
       playerState === 'stopped' ? INITIAL_STATE.track : await getTrack()
     this.setState(
@@ -72,7 +76,7 @@ class AppContainer extends Component {
   }
 
   hideControls = () => {
-    this.detailsTimeout = setTimeout(() => {
+    this.detailsTimeout = global.setTimeout(() => {
       this.setState({
         isControlsTimingOut: false,
       })

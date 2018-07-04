@@ -1,8 +1,12 @@
 import { css } from 'emotion'
-import React from 'react'
+import * as React from 'react'
 import { BLACK } from '../../config'
 
-const Paused = ({ style }) => {
+interface IPausedProps {
+  style: React.CSSProperties
+}
+
+const Paused: React.SFC<IPausedProps> = ({ style }) => {
   return (
     <div
       style={style}

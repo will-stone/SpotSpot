@@ -1,5 +1,5 @@
 import { css } from 'emotion'
-import React, { Fragment } from 'react'
+import * as React from 'react'
 import { Spring, Transition } from 'react-spring'
 import { next, playPause, previous } from '../utils/spotify'
 import AlbumArt from './components/AlbumArt'
@@ -13,7 +13,18 @@ const appStyle = css`
   width: 100%;
 `
 
-const App = ({
+interface IAppProps {
+  isDisplayingPaused: boolean
+  isLogoShown: boolean
+  isOverlayShown: boolean
+  isPlaying: boolean
+  onDoubleClick: () => void
+  onMouseEnter: () => void
+  onMouseLeave: () => void
+  track: Track
+}
+
+const App: React.SFC<IAppProps> = ({
   isDisplayingPaused,
   isLogoShown,
   isOverlayShown,
@@ -39,26 +50,30 @@ const App = ({
         leave={{ opacity: 0 }}
       >
         {isLogoShown
-          ? styles => <Logo key="logo" style={styles} />
-          : styles => <AlbumArt key={id} url={artwork_url} style={styles} />}
+          ? (styles: React.CSSProperties) => <Logo key="logo" style={styles} />
+          : (styles: React.CSSProperties) => (
+              <AlbumArt key={id} url={artwork_url} style={styles} />
+            )}
       </Transition>
+
       {!isLogoShown && (
-        <Fragment>
+        <>
           <Spring
             to={{
               transform: `translateY(${isOverlayShown ? '0%' : '-100%'})`,
             }}
           >
-            {styles => (
+            {(styles: React.CSSProperties) => (
               <TrackDetails style={styles} name={name} artist={artist} />
             )}
           </Spring>
+
           <Spring
             to={{
               transform: `translateY(${isOverlayShown ? '0%' : '100%'})`,
             }}
           >
-            {styles =>
+            {(styles: React.CSSProperties) =>
               isDisplayingPaused ? (
                 <Paused style={styles} />
               ) : (
@@ -72,7 +87,7 @@ const App = ({
               )
             }
           </Spring>
-        </Fragment>
+        </>
       )}
     </div>
   )
