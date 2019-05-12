@@ -57,16 +57,14 @@
     "jest-dom": "^3.1.4",
     "prettier": "^1.17.0",
     "react-testing-library": "^7.0.0",
-    "typescript": "^3.4.0"
+    "typescript": "~3.3.0"
   },
   "dependencies": {
     "electron-compile": "^6.4.4",
     "electron-store": "^3.2.0",
-    "emotion": "^9.2.3",
     "font-awesome": "^4.7.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-emotion": "^9.2.4",
     "react-spring": "^8.0.20",
     "spotify-node-applescript": "^1.1.1",
     "tslib": "^1.9.3",
@@ -80,7 +78,8 @@
       },
       "make_targets": {
         "darwin": [
-          "dmg", "zip"
+          "dmg",
+          "zip"
         ]
       },
       "electronPackagerConfig": {
@@ -102,7 +101,10 @@
       "react-testing-library/cleanup-after-each",
       "jest-dom/extend-expect"
     ],
-    "modulePathIgnorePatterns": ["<rootDir>/docs/", "<rootDir>/out/"],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/docs/",
+      "<rootDir>/out/"
+    ],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/docs/",

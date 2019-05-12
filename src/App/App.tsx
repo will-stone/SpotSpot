@@ -1,17 +1,9 @@
-import { css } from 'emotion'
 import * as React from 'react'
-import { Spring, Transition } from 'react-spring/renderprops.cjs'
-import { TrackInfo } from 'spotify-node-applescript'
-import AlbumArt from './components/AlbumArt'
-import Controls from './components/Controls'
-import Logo from './components/Logo'
-import Paused from './components/Paused'
-import TrackDetails from './components/TrackDetails'
+import { animated, useSpring, useTransition } from 'react-spring'
+import { next, playPause, previous, TrackInfo } from 'spotify-node-applescript'
 
-const appStyle = css`
-  height: 100%;
-  width: 100%;
-`
+const stopPropagation = (e: React.MouseEvent<HTMLButtonElement>) =>
+  e.stopPropagation()
 
 interface AppProps {
   isLoaded: boolean
@@ -42,61 +34,108 @@ const App: React.FC<AppProps> = ({
   const isOverlayShown = isControlsTimingOut || isPaused || isMouseOver
   const isDisplayingPaused = isPaused && !isMouseOver
 
+  const trackDetailsStyles = useSpring({
+    transform: `translateY(${isOverlayShown ? '0%' : '-100%'})`,
+  })
+
+  const controlsStyles = useSpring({
+    transform: `translateY(${isOverlayShown ? '0%' : '100%'})`,
+  })
+
+  const logoAlbumArtTransitions = useTransition(
+    !!(!track || isLogoShown),
+    null,
+    {
+      from: { opacity: 0 },
+      enter: { opacity: 1 },
+      leave: { opacity: 0 },
+    },
+  )
+
   return (
     <div
-      className={appStyle}
+      className="app"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onDoubleClick={onDoubleClick}
     >
-      <Transition
-        // @ts-ignore
-        items={!!(!track || isLogoShown)}
-        from={{ opacity: 0 }}
-        enter={{ opacity: 1 }}
-        leave={{ opacity: 0 }}
-      >
-        {toggle => {
-          if (toggle) {
-            return function logoWrapper(props) {
-              return <Logo style={props} />
-            }
-          }
-          return function albumArtWrapper(props) {
-            return <AlbumArt url={track && track.artwork_url} style={props} />
-          }
-        }}
-      </Transition>
+      {logoAlbumArtTransitions.map(({ item, key, props }) =>
+        item ? (
+          <animated.div key={key} className="logo" style={props}>
+            <div className="logo__goo">
+              <div className="logo__blob1" />
+              <div className="logo__blob2" />
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+              <defs>
+                <filter id="goo">
+                  <feGaussianBlur
+                    in="SourceGraphic"
+                    stdDeviation="10"
+                    result="blur"
+                  />
+                  <feColorMatrix
+                    in="blur"
+                    values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+                    result="goo"
+                  />
+                  <feBlend in="SourceGraphic" />
+                </filter>
+              </defs>
+            </svg>
+          </animated.div>
+        ) : (
+          <animated.div
+            key={key}
+            className="albumArt"
+            style={{
+              ...props,
+              backgroundImage: track ? `url(${track.artwork_url})` : 'none',
+            }}
+          />
+        ),
+      )}
 
       {track && !isLogoShown && (
         <>
-          <Spring
-            to={{
-              transform: `translateY(${isOverlayShown ? '0%' : '-100%'})`,
-            }}
-          >
-            {(styles: React.CSSProperties) => (
-              <TrackDetails
-                style={styles}
-                name={track.name}
-                artist={track.artist}
-              />
-            )}
-          </Spring>
+          <animated.div style={trackDetailsStyles} className="trackDetails">
+            <div className="trackDetails__name">{track.name}</div>
+            <div className="trackDetails__artist">{track.artist}</div>
+          </animated.div>
 
-          <Spring
-            to={{
-              transform: `translateY(${isOverlayShown ? '0%' : '100%'})`,
-            }}
-          >
-            {(styles: React.CSSProperties) =>
-              isDisplayingPaused ? (
-                <Paused style={styles} />
-              ) : (
-                <Controls style={styles} isPlaying={isPlaying} />
-              )
-            }
-          </Spring>
+          <animated.div style={controlsStyles} className="controls">
+            {isDisplayingPaused ? (
+              'PAUSED'
+            ) : (
+              <>
+                <button
+                  className="controls__button"
+                  onClick={() => previous()}
+                  onDoubleClick={stopPropagation}
+                >
+                  <i className="fa fa-step-backward" />
+                </button>
+                <button
+                  className="controls__button"
+                  onClick={() => playPause()}
+                  onDoubleClick={stopPropagation}
+                >
+                  {isPlaying ? (
+                    <i className="fa fa-pause" />
+                  ) : (
+                    <i className="fa fa-play" />
+                  )}
+                </button>
+                <button
+                  className="controls__button"
+                  onClick={() => next()}
+                  onDoubleClick={stopPropagation}
+                >
+                  <i className="fa fa-step-forward" />
+                </button>
+              </>
+            )}
+          </animated.div>
         </>
       )}
     </div>

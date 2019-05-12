@@ -1,0 +1,181 @@
+:root {
+  --black: #191917;
+  --green: #2fd566;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: transparent; /* prevents white flash */
+  height: 100%;
+}
+
+body {
+  -webkit-app-region: drag;
+  background-color: var(--black);
+  color: white;
+  font-family: sans-serif;
+  font-size: calc(12px + (5 + 12) * (100vw - 100px) / (400 - 100));
+  font-weight: 300;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  user-select: none;
+}
+
+#root {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.app {
+  height: 100%;
+  width: 100%;
+}
+
+@keyframes blob1Anim {
+  0% {
+    transform: scale(calc(1 / 3)) translate(-150%, 150%);
+  }
+  50% {
+    transform: scale(1.5) translate(0, 0);
+  }
+  100% {
+    transform: scale(calc(1 / 3)) translate(-150%, 150%);
+  }
+}
+
+@keyframes blob2Anim {
+  0% {
+    transform: scale(1) translate(50%, -50%);
+  }
+  50% {
+    transform: scale(1.5) translate(0, 0);
+  }
+  100% {
+    transform: scale(1) translate(50%, -50%);
+  }
+}
+
+.logo {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.logo__goo {
+  filter: url('#goo');
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.logo__blob1 {
+  position: absolute;
+  background: var(--green);
+  left: 50%;
+  top: 50%;
+  width: 30%;
+  height: 30%;
+  border-radius: 100%;
+  margin-top: -15%;
+  margin-left: -15%;
+  animation: blob1Anim cubic-bezier(0.77, 0, 0.175, 1) 3s forwards;
+}
+
+.logo__blob2 {
+  position: absolute;
+  background: var(--green);
+  left: 50%;
+  top: 50%;
+  width: 30%;
+  height: 30%;
+  border-radius: 100%;
+  margin-top: -15%;
+  margin-left: -15%;
+  animation: blob2Anim cubic-bezier(0.77, 0, 0.175, 1) 3s forwards;
+}
+
+.albumArt {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-size: cover;
+}
+
+.trackDetails {
+  width: 100%;
+  height: 70%;
+  background-color: var(--black);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5%;
+}
+
+.trackDetails__artist {
+  color: var(--green);
+}
+
+.trackDetails__name,
+.trackDetails__artist {
+  padding: 2%;
+
+  display: -webkit-box;
+  overflow: hidden;
+  cursor: default;
+  text-overflow: ellipsis;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.controls {
+  width: 100%;
+  height: 30%;
+  background-color: var(--black);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0 10%;
+}
+
+.controls__button {
+  width: calc(100% / 3);
+  transition: opacity 100ms linear;
+  opacity: 0.5;
+  color: white;
+  border: 0;
+  outline: none;
+  background-color: transparent;
+  font-size: calc(18px + (24 + 18) * (100vw - 100px) / (400 - 100));
+  cursor: pointer;
+}
+
+.controls__button:hover {
+  opacity: 1;
+}
+
+.controls__button:active {
+  opacity: 0.5;
+}
