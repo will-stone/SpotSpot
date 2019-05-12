@@ -26,11 +26,11 @@ const blob2Anim = keyframes`
   }
 `
 
-interface ILogoProps {
+interface LogoProps {
   style: React.CSSProperties
 }
 
-const Logo: React.SFC<ILogoProps> = ({ style }) => {
+const Logo: React.FC<LogoProps> = ({ style }) => {
   return (
     <div
       className={css`
@@ -99,5 +99,7 @@ const Logo: React.SFC<ILogoProps> = ({ style }) => {
     </div>
   )
 }
+
+Logo.displayName = 'Logo'
 
 export default Logo

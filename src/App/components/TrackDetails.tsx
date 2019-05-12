@@ -37,13 +37,13 @@ const artistStyle = css`
   padding: 2%;
 `
 
-interface ITrackDetailsProps {
+interface TrackDetailsProps {
   artist: string
   name: string
   style: React.CSSProperties
 }
 
-const TrackDetails: React.SFC<ITrackDetailsProps> = ({
+const TrackDetails: React.SFC<TrackDetailsProps> = ({
   artist,
   name,
   style,

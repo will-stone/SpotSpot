@@ -1,4 +1,3 @@
-import openAboutWindow from 'about-window'
 import {
   app,
   BrowserWindow,
@@ -6,21 +5,23 @@ import {
   nativeImage,
   systemPreferences,
   Tray,
+  Rectangle,
 } from 'electron'
+import { SpotifyPlayingState } from 'spotify-node-applescript'
 import { BLACK } from './config'
 import eventEmitter from './utils/eventEmitter'
-import Store = require('electron-store')
+import * as Store from 'electron-store'
 
 const store = new Store()
 
-const DEFAULT_BOUNDS = {
-  x: null,
-  y: null,
+const DEFAULT_BOUNDS: Rectangle = {
+  x: 0,
+  y: 0,
   width: 100,
   height: 100,
 }
 
-const bounds = store.get('bounds', DEFAULT_BOUNDS)
+const bounds = store.get('bounds', DEFAULT_BOUNDS) as Rectangle
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -47,6 +48,9 @@ function createMainWindow() {
     resizable: true,
     show: false, // prevents flash of white
     title: 'SpotSpot',
+    webPreferences: {
+      nodeIntegration: true,
+    },
     backgroundColor: BLACK,
   })
 
@@ -56,17 +60,13 @@ function createMainWindow() {
   // Menubar icon
   tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
   const pressedImage = nativeImage.createFromPath(
-    `${__dirname}/images/icon/tray_iconHighlight.png`
+    `${__dirname}/images/icon/tray_iconHighlight.png`,
   )
   tray.setPressedImage(pressedImage)
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'About',
-      click: function() {
-        openAboutWindow({
-          icon_path: `${__dirname}/images/icon/icon.png`,
-        })
-      },
+      click: app.showAboutPanel,
     },
     {
       label: 'Quit',
@@ -79,7 +79,7 @@ function createMainWindow() {
   tray.setContextMenu(contextMenu)
 
   // Open the DevTools.
-  if (process.env.SPOTSPOT_ENV === 'DEV') {
+  if (process.env.ENV === 'DEV') {
     mainWindow.webContents.openDevTools({ mode: 'detach' })
   }
 
@@ -114,10 +114,13 @@ function createMainWindow() {
     store.set('bounds', mainWindowBounds)
   })
 
-  eventEmitter.on('PlaybackStateChanged', (playerState: PlayerState) => {
-    mainWindow &&
-      mainWindow.webContents.send('PlaybackStateChanged', playerState)
-  })
+  eventEmitter.on(
+    'PlaybackStateChanged',
+    (playerState: SpotifyPlayingState) => {
+      mainWindow &&
+        mainWindow.webContents.send('PlaybackStateChanged', playerState)
+    },
+  )
 }
 
 // System events
@@ -125,7 +128,7 @@ systemPreferences.subscribeNotification(
   'com.spotify.client.PlaybackStateChanged',
   (_, { 'Player State': playerState }) => {
     eventEmitter.emit('PlaybackStateChanged', playerState.toLowerCase())
-  }
+  },
 )
 
 // This method will be called when Electron has finished

@@ -1,23 +1,27 @@
 import { spawn } from 'child_process'
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
-import { getIsRunning, getPlayerState, getTrack } from '../utils/spotify'
+import { SpotifyPlayingState, TrackInfo } from 'spotify-node-applescript'
+import { getIsRunning, getPlayerState, getTrackInfo } from '../utils/spotify'
 import App from './App'
 
-const INITIAL_STATE = {
+interface State {
+  isControlsTimingOut: boolean
+  isLoaded: boolean
+  isMouseOver: boolean
+  playerState: SpotifyPlayingState
+  track?: TrackInfo
+}
+
+const INITIAL_STATE: State = {
   isControlsTimingOut: false,
   isLoaded: false,
   isMouseOver: false,
-  playerState: 'stopped', // stopped || paused || playing
-  track: {
-    id: '',
-    name: '',
-    artist: '',
-    artwork_url: '',
-  },
+  playerState: 'stopped',
+  track: undefined,
 }
 
-class AppContainer extends React.Component<{}, any> {
+class AppContainer extends React.Component<{}, State> {
   state = INITIAL_STATE
   detailsTimeout: NodeJS.Timer
 
@@ -33,12 +37,12 @@ class AppContainer extends React.Component<{}, any> {
   setupInitialState = async () => {
     const isRunning = await getIsRunning()
     if (isRunning) {
-      const [playerState, track] = await Promise.all([
+      const [state, track] = await Promise.all([
         getPlayerState(), // playerState is not sent from main on load.
-        getTrack(),
+        getTrackInfo(),
       ])
       this.setState({
-        playerState,
+        playerState: state.state,
         track,
       })
     }
@@ -47,24 +51,27 @@ class AppContainer extends React.Component<{}, any> {
   registerEventListeners = () => {
     ipcRenderer.on(
       'PlaybackStateChanged',
-      (_: any, playerState: PlayerState) => {
+      (_: unknown, playerState: SpotifyPlayingState) => {
         this.setDetails(playerState, () => {
           this.showControls()
           this.hideControls()
         })
-      }
+      },
     )
   }
 
-  setDetails = async (playerState: PlayerState, callback = () => {}) => {
+  setDetails = async (
+    playerState: SpotifyPlayingState,
+    callback = () => {},
+  ) => {
     const track =
-      playerState === 'stopped' ? INITIAL_STATE.track : await getTrack()
+      playerState === 'stopped' ? INITIAL_STATE.track : await getTrackInfo()
     this.setState(
       {
         track,
         playerState,
       },
-      callback
+      callback,
     )
   }
 
@@ -108,17 +115,13 @@ class AppContainer extends React.Component<{}, any> {
     const isPaused = playerState === 'paused'
     const isStopped = playerState === 'stopped'
 
-    const isLogoShown = !isLoaded || isStopped
-
-    const isOverlayShown = isControlsTimingOut || isPaused || isMouseOver
-
-    const isDisplayingPaused = isPaused && !isMouseOver
-
     return (
       <App
-        isLogoShown={isLogoShown}
-        isOverlayShown={isOverlayShown}
-        isDisplayingPaused={isDisplayingPaused}
+        isLoaded={isLoaded}
+        isControlsTimingOut={isControlsTimingOut}
+        isPaused={isPaused}
+        isMouseOver={isMouseOver}
+        isStopped={isStopped}
         isPlaying={isPlaying}
         onDoubleClick={this.handleDoubleClick}
         onMouseEnter={this.handleMouseEnter}

@@ -1,6 +1,7 @@
 import { css } from 'emotion'
 import * as React from 'react'
 import { BLACK } from '../../config'
+import { next, playPause, previous } from 'spotify-node-applescript'
 
 const controlsStyle = css`
   width: 100%;
@@ -9,13 +10,11 @@ const controlsStyle = css`
   position: absolute;
   bottom: 0;
   left: 0;
-  display: flex;
   flex-shrink: 0;
-  align-items: flex-start;
-  justify-content: space-around;
   padding: 0 10%;
 
   button {
+    width: calc(100% / 3);
     transition: opacity 100ms linear;
     opacity: 0.5;
     color: white;
@@ -38,34 +37,25 @@ const controlsStyle = css`
 const stopPropagation = (e: React.MouseEvent<HTMLButtonElement>) =>
   e.stopPropagation()
 
-interface IControlsProps {
+interface ControlsProps {
   isPlaying: boolean
-  onPreviousClick: () => void
-  onPlayPauseClick: () => void
-  onNextClick: () => void
   style: React.CSSProperties
 }
 
-const Controls: React.SFC<IControlsProps> = ({
-  isPlaying,
-  onPreviousClick,
-  onPlayPauseClick,
-  onNextClick,
-  style,
-}) => {
+const Controls: React.SFC<ControlsProps> = ({ isPlaying, style }) => {
   return (
     <div style={style} className={controlsStyle}>
-      <button onClick={onPreviousClick} onDoubleClick={stopPropagation}>
+      <button onClick={() => previous()} onDoubleClick={stopPropagation}>
         <i className="fa fa-step-backward" />
       </button>
-      <button onClick={onPlayPauseClick} onDoubleClick={stopPropagation}>
+      <button onClick={() => playPause()} onDoubleClick={stopPropagation}>
         {isPlaying ? (
           <i className="fa fa-pause" />
         ) : (
           <i className="fa fa-play" />
         )}
       </button>
-      <button onClick={onNextClick} onDoubleClick={stopPropagation}>
+      <button onClick={() => next()} onDoubleClick={stopPropagation}>
         <i className="fa fa-step-forward" />
       </button>
     </div>
