@@ -1,45 +1,37 @@
-import * as spotify from 'spotify-node-applescript'
+import {
+  getState,
+  getTrack,
+  isRunning,
+  SpotifyPlayingState,
+  TrackInfo,
+} from 'spotify-node-applescript'
 
-export const getTrack = () =>
+export const getTrackInfo = (): Promise<TrackInfo> =>
   new Promise((resolve, reject) =>
-    spotify.getTrack(
-      (
-        err: string,
-        { id = '', artist = '', name = '', artwork_url = '' } = {}
-      ) => {
-        if (err) {
-          reject(err)
-        }
-        resolve({
-          id,
-          artist,
-          name,
-          artwork_url,
-        })
-      }
-    )
-  )
-
-export const getPlayerState = () =>
-  new Promise((resolve, reject) =>
-    spotify.getState((err: string, { state = {} }: { state: PlayerState }) => {
+    getTrack((err, trackInfo) => {
       if (err) {
         reject(err)
       }
-      resolve(state)
-    })
+      resolve(trackInfo)
+    }),
   )
 
-export const getIsRunning = () =>
+export const getPlayerState = (): Promise<SpotifyPlayingState> =>
+  new Promise((resolve, reject) =>
+    getState((err, playerState) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(playerState.state)
+    }),
+  )
+
+export const getIsRunning = (): Promise<boolean> =>
   new Promise((resolve, reject) => {
-    return spotify.isRunning((err: string, isRunning: boolean) => {
+    return isRunning((err, isRunning) => {
       if (err) {
         reject(err)
       }
       resolve(isRunning)
     })
   })
-
-export const previous = () => spotify.previous()
-export const playPause = () => spotify.playPause()
-export const next = () => spotify.next()

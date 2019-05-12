@@ -1,7 +1,7 @@
 {
   "name": "spotspot",
   "productName": "SpotSpot",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "engines": {
     "node": ">=10.4.1"
   },
@@ -10,10 +10,12 @@
   "main": "src/main.ts",
   "scripts": {
     "prettier": "prettier --config .prettierrc --write src/**/*.js",
-    "start": "SPOTSPOT_ENV=DEV electron-forge start",
+    "start": "ENV=DEV electron-forge start",
     "package": "electron-forge package --platform=darwin --arch=x64",
     "make": "electron-forge make",
-    "lint": "tslint --project tsconfig.json --type-check --force",
+    "typecheck": "tsc --noEmit --skipLibCheck",
+    "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
+    "lint:fix": "eslint --fix --ignore-path .gitignore . --ext ts --ext tsx",
     "icns": "cd ./src/images/icon && ./png2icns.sh icon.png",
     "serve": "http-server ./docs"
   },
@@ -21,47 +23,88 @@
   "bugs": {
     "url": "https://github.com/will-stone/SpotSpot/issues"
   },
-  "keywords": ["Electron", "Spotify", "mini-player", "macOS"],
+  "keywords": [
+    "Electron",
+    "Spotify",
+    "mini-player",
+    "macOS"
+  ],
   "author": "Will Stone",
   "license": "MIT",
+  "prettier": "@will-stone/prettier-config",
   "devDependencies": {
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "electron-forge": "^5.2.2",
-    "electron-prebuilt-compile": "2.0.3",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/electron-store": "^1.3.0",
+    "@types/react": "^16.8.16",
+    "@types/react-dom": "^16.8.4",
+    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/parser": "^1.7.0",
+    "@will-stone/prettier-config": "^1.0.0",
+    "electron-forge": "^5.2.4",
+    "electron-prebuilt-compile": "4.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-jest": "^22.5.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.13.0",
+    "eslint-plugin-react-hooks": "^1.6.0",
     "http-server": "^0.11.1",
-    "prettier": "^1.13.5",
-    "tslint": "^5.1.0",
-    "tslint-config-prettier": "^1.13.0",
-    "typescript": "^2.9.0"
+    "jest": "^24.0.0",
+    "jest-dom": "^3.1.4",
+    "prettier": "^1.17.0",
+    "react-testing-library": "^7.0.0",
+    "typescript": "^3.4.0"
   },
   "dependencies": {
-    "@types/electron-store": "^1.3.0",
-    "@types/react": "^16.4.6",
-    "@types/react-dom": "^16.0.6",
-    "about-window": "^1.6.3",
-    "electron-compile": "^6.4.3",
-    "electron-store": "^2.0.0",
+    "electron-compile": "^6.4.4",
+    "electron-store": "^3.2.0",
     "emotion": "^9.2.3",
     "font-awesome": "^4.7.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
     "react-emotion": "^9.2.4",
-    "react-spring": "^4.2.1",
-    "spotify-node-applescript": "^1.1.0",
-    "tslib": "^1.4.0"
+    "react-spring": "^8.0.20",
+    "spotify-node-applescript": "^1.1.1",
+    "tslib": "^1.9.3"
   },
   "config": {
     "forge": {
+      "github_repository": {
+        "owner": "will-stone",
+        "name": "SpotSpot"
+      },
       "make_targets": {
-        "darwin": ["dmg"]
+        "darwin": [
+          "dmg", "zip"
+        ]
       },
       "electronPackagerConfig": {
+        "asar": true,
+        "osxSign": true,
+        "appCategoryType": "public.app-category.music",
         "packageManager": "yarn",
         "icon": "src/images/icon/icon.icns",
-        "ignore": ["docs"]
+        "ignore": [
+          "docs",
+          "node_modules",
+          "@types"
+        ]
       }
     }
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "react-testing-library/cleanup-after-each",
+      "jest-dom/extend-expect"
+    ],
+    "modulePathIgnorePatterns": ["<rootDir>/docs/", "<rootDir>/out/"],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/docs/",
+      "<rootDir>/out/"
+    ]
   }
 }

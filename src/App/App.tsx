@@ -1,7 +1,7 @@
 import { css } from 'emotion'
 import * as React from 'react'
-import { Spring, Transition } from 'react-spring'
-import { next, playPause, previous } from '../utils/spotify'
+import { Spring, Transition } from 'react-spring/renderprops.cjs'
+import { TrackInfo } from 'spotify-node-applescript'
 import AlbumArt from './components/AlbumArt'
 import Controls from './components/Controls'
 import Logo from './components/Logo'
@@ -13,28 +13,34 @@ const appStyle = css`
   width: 100%;
 `
 
-interface IAppProps {
-  isDisplayingPaused: boolean
-  isLogoShown: boolean
-  isOverlayShown: boolean
+interface AppProps {
+  isLoaded: boolean
+  isStopped: boolean
+  isControlsTimingOut: boolean
+  isPaused: boolean
+  isMouseOver: boolean
   isPlaying: boolean
   onDoubleClick: () => void
   onMouseEnter: () => void
   onMouseLeave: () => void
-  track: Track
+  track?: TrackInfo
 }
 
-const App: React.SFC<IAppProps> = ({
-  isDisplayingPaused,
-  isLogoShown,
-  isOverlayShown,
+const App: React.FC<AppProps> = ({
+  isLoaded,
+  isStopped,
+  isControlsTimingOut,
+  isPaused,
+  isMouseOver,
   isPlaying,
   onDoubleClick,
   onMouseEnter,
   onMouseLeave,
   track,
 }) => {
-  const { id, name, artist, artwork_url } = track
+  const isLogoShown = !isLoaded || isStopped
+  const isOverlayShown = isControlsTimingOut || isPaused || isMouseOver
+  const isDisplayingPaused = isPaused && !isMouseOver
 
   return (
     <div
@@ -44,19 +50,25 @@ const App: React.SFC<IAppProps> = ({
       onDoubleClick={onDoubleClick}
     >
       <Transition
-        keys={isLogoShown ? 'logo' : id}
+        // @ts-ignore
+        items={!!(!track || isLogoShown)}
         from={{ opacity: 0 }}
         enter={{ opacity: 1 }}
         leave={{ opacity: 0 }}
       >
-        {isLogoShown
-          ? (styles: React.CSSProperties) => <Logo key="logo" style={styles} />
-          : (styles: React.CSSProperties) => (
-              <AlbumArt key={id} url={artwork_url} style={styles} />
-            )}
+        {toggle => {
+          if (toggle) {
+            return function logoWrapper(props) {
+              return <Logo style={props} />
+            }
+          }
+          return function albumArtWrapper(props) {
+            return <AlbumArt url={track && track.artwork_url} style={props} />
+          }
+        }}
       </Transition>
 
-      {!isLogoShown && (
+      {track && !isLogoShown && (
         <>
           <Spring
             to={{
@@ -64,7 +76,11 @@ const App: React.SFC<IAppProps> = ({
             }}
           >
             {(styles: React.CSSProperties) => (
-              <TrackDetails style={styles} name={name} artist={artist} />
+              <TrackDetails
+                style={styles}
+                name={track.name}
+                artist={track.artist}
+              />
             )}
           </Spring>
 
@@ -77,13 +93,7 @@ const App: React.SFC<IAppProps> = ({
               isDisplayingPaused ? (
                 <Paused style={styles} />
               ) : (
-                <Controls
-                  style={styles}
-                  isPlaying={isPlaying}
-                  onPreviousClick={previous}
-                  onPlayPauseClick={playPause}
-                  onNextClick={next}
-                />
+                <Controls style={styles} isPlaying={isPlaying} />
               )
             }
           </Spring>

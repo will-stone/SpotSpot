@@ -1,13 +1,14 @@
 import { css } from 'emotion'
 import * as React from 'react'
+import { TrackInfo } from 'spotify-node-applescript'
 
-interface IAlbumArtProps {
-  url: Track['artwork_url']
+interface AlbumArtProps {
+  url?: TrackInfo['artwork_url']
   style: React.CSSProperties
 }
 
-const AlbumArt: React.SFC<IAlbumArtProps> = ({ url, style }) => {
-  return (
+const AlbumArt: React.FC<AlbumArtProps> = ({ url, style }) =>
+  url ? (
     <div
       className={css`
         position: absolute;
@@ -22,7 +23,6 @@ const AlbumArt: React.SFC<IAlbumArtProps> = ({ url, style }) => {
         backgroundImage: `url(${url})`,
       }}
     />
-  )
-}
+  ) : null
 
 export default AlbumArt
