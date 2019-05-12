@@ -3,12 +3,12 @@
     "short_name": "SpotSpot",
     "icons": [
         {
-            "src": "android-chrome-192x192.png?v=oLdRWaXWqy",
+            "src": "android-chrome-192x192.png?v=jw7XGzYW6l",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "android-chrome-512x512.png?v=oLdRWaXWqy",
+            "src": "android-chrome-512x512.png?v=jw7XGzYW6l",
             "sizes": "512x512",
             "type": "image/png"
         }

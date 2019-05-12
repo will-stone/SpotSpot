@@ -44,6 +44,7 @@ a:hover {
   transition: all 200ms linear;
 }
 
+.button--kofi,
 .button:hover {
   border-color: #2fd566;
   text-decoration: none;
@@ -53,10 +54,6 @@ a:hover {
 .button:active {
   border-color: #25a550;
   color: #25a550;
-}
-
-main {
-  text-shadow: 0 7px 10px #000000;
 }
 
 .screenshot {
