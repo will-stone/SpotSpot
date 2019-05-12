@@ -12,6 +12,11 @@ import { BLACK } from './config'
 import eventEmitter from './utils/eventEmitter'
 import * as Store from 'electron-store'
 
+// Autp update
+require('update-electron-app')({
+  repo: 'will-stone/SpotSpot',
+})
+
 const store = new Store()
 
 const DEFAULT_BOUNDS: Rectangle = {
