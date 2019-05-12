@@ -37,12 +37,12 @@ class AppContainer extends React.Component<{}, State> {
   setupInitialState = async () => {
     const isRunning = await getIsRunning()
     if (isRunning) {
-      const [playerState, track] = await Promise.all([
+      const [state, track] = await Promise.all([
         getPlayerState(), // playerState is not sent from main on load.
         getTrackInfo(),
       ])
       this.setState({
-        playerState,
+        playerState: state.state,
         track,
       })
     }

@@ -2,7 +2,7 @@ import {
   getState,
   getTrack,
   isRunning,
-  SpotifyPlayingState,
+  SpotifyState,
   TrackInfo,
 } from 'spotify-node-applescript'
 
@@ -16,13 +16,13 @@ export const getTrackInfo = (): Promise<TrackInfo> =>
     }),
   )
 
-export const getPlayerState = (): Promise<SpotifyPlayingState> =>
+export const getPlayerState = (): Promise<SpotifyState> =>
   new Promise((resolve, reject) =>
     getState((err, playerState) => {
       if (err) {
         reject(err)
       }
-      resolve(playerState.state)
+      resolve(playerState)
     }),
   )
 

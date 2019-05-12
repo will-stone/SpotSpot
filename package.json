@@ -82,7 +82,6 @@
         ]
       },
       "electronPackagerConfig": {
-        "asar": true,
         "osxSign": true,
         "appCategoryType": "public.app-category.music",
         "packageManager": "yarn",
