@@ -18,7 +18,7 @@
     "lint:fix": "eslint --fix --ignore-path .gitignore . --ext ts --ext tsx",
     "icns": "cd ./src/images/icon && ./png2icns.sh icon.png",
     "release": "export $(cat .env | xargs) && electron-forge publish",
-    "serve": "http-server ./docs"
+    "docs": "http-server ./docs"
   },
   "repository": "https://github.com/will-stone/SpotSpot",
   "bugs": {
