@@ -1,6 +1,8 @@
 :root {
   --black: #191917;
   --green: #2fd566;
+  --overlayBg:rgba(32,32,32,0.65);
+  --overlayBgHover:rgba(32,32,32,0.85);
 }
 
 * {
@@ -117,7 +119,7 @@ body {
 .trackDetails {
   width: 100%;
   height: 70%;
-  background-color: var(--black);
+  background-color: var(--overlayBg);
   position: absolute;
   top: 0;
   left: 0;
@@ -126,6 +128,9 @@ body {
   justify-content: center;
   align-items: center;
   padding: 5%;
+  text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+  0px 8px 13px rgba(0,0,0,0.1),
+  0px 18px 23px rgba(0,0,0,0.1);
 }
 
 .trackDetails__artist {
@@ -148,7 +153,7 @@ body {
 .controls {
   width: 100%;
   height: 30%;
-  background-color: var(--black);
+  background-color: var(--overlayBg);
   position: absolute;
   bottom: 0;
   left: 0;
@@ -158,6 +163,9 @@ body {
   justify-content: center;
   color: rgba(255, 255, 255, 0.5);
   padding: 0 10%;
+  text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+  0px 8px 13px rgba(0,0,0,0.1),
+  0px 18px 23px rgba(0,0,0,0.1);
 }
 
 .controls__button {

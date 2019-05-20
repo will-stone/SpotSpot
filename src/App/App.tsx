@@ -32,15 +32,18 @@ const App: React.FC<AppProps> = ({
 }) => {
   const isLogoShown = !isLoaded || isStopped
   const isOverlayShown = isControlsTimingOut || isPaused || isMouseOver
+//  const isOverlayShown = true
   const isDisplayingPaused = isPaused && !isMouseOver
 
   const trackDetailsStyles = useSpring({
-    transform: `translateY(${isOverlayShown ? '0%' : '-100%'})`,
+    // transform: `translateY(${isOverlayShown ? '0%' : '-100%'})`,
+    backgroundColor: `${isOverlayShown ? 'var(--overlayBgHover)' : 'var(--overlayBg)'}`,
   })
 
   const controlsStyles = useSpring({
-    transform: `translateY(${isOverlayShown ? '0%' : '100%'})`,
-  })
+//    transform: `translateY(${isOverlayShown ? '0%' : '100%'})`,
+    backgroundColor: `${isOverlayShown ? 'var(--overlayBgHover)' : 'var(--overlayBg)'}`,
+})
 
   const logoAlbumArtTransitions = useTransition(
     !!(!track || isLogoShown),

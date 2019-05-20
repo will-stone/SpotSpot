@@ -87,7 +87,7 @@ class AppContainer extends React.Component<{}, State> {
       this.setState({
         isControlsTimingOut: false,
       })
-    }, 7000)
+    }, 3000)
   }
 
   handleDoubleClick = () => spawn('open', ['-a', 'spotify'])
