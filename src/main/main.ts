@@ -3,19 +3,20 @@ import {
   BrowserWindow,
   Menu,
   nativeImage,
+  Rectangle,
   systemPreferences,
   Tray,
-  Rectangle,
 } from 'electron'
+import Store from 'electron-store'
 import { SpotifyPlayingState } from 'spotify-node-applescript'
-import { BLACK } from './config'
-import eventEmitter from './utils/eventEmitter'
-import * as Store from 'electron-store'
+
+import { BLACK } from '../config'
+import eventEmitter from '../utils/eventEmitter'
 
 // Autp update
-require('update-electron-app')({
-  repo: 'will-stone/SpotSpot',
-})
+// require('update-electron-app')({
+//   repo: 'will-stone/SpotSpot',
+// })
 
 const store = new Store()
 
@@ -47,7 +48,7 @@ function createMainWindow() {
     maxHeight: 400,
     acceptFirstMouse: true,
     alwaysOnTop: true,
-    icon: `file://${__dirname}/images/icon/icon.png`,
+    icon: `${__dirname}/static/icon/icon.png`,
     focusable: false,
     frame: false,
     resizable: true,
@@ -55,17 +56,22 @@ function createMainWindow() {
     title: 'SpotSpot',
     webPreferences: {
       nodeIntegration: true,
+      // @ts-ignore
+      // eslint-disable-next-line no-undef
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
     backgroundColor: BLACK,
   })
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/index.html`)
+  // @ts-ignore
+  // eslint-disable-next-line no-undef
+  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
   // Menubar icon
-  tray = new Tray(`${__dirname}/images/icon/tray_iconTemplate.png`)
+  tray = new Tray(`${__dirname}/static/icon/tray_iconTemplate.png`)
   const pressedImage = nativeImage.createFromPath(
-    `${__dirname}/images/icon/tray_iconHighlight.png`,
+    `${__dirname}/static/icon/tray_iconHighlight.png`,
   )
   tray.setPressedImage(pressedImage)
   const contextMenu = Menu.buildFromTemplate([
@@ -123,7 +129,10 @@ function createMainWindow() {
     'PlaybackStateChanged',
     (playerState: SpotifyPlayingState) => {
       mainWindow &&
-        mainWindow.webContents.send('PlaybackStateChanged', playerState)
+        mainWindow.webContents.send(
+          'PlaybackStateChanged',
+          playerState.toLowerCase(),
+        )
     },
   )
 }
@@ -132,7 +141,7 @@ function createMainWindow() {
 systemPreferences.subscribeNotification(
   'com.spotify.client.PlaybackStateChanged',
   (_, { 'Player State': playerState }) => {
-    eventEmitter.emit('PlaybackStateChanged', playerState.toLowerCase())
+    eventEmitter.emit('PlaybackStateChanged', playerState)
   },
 )
 

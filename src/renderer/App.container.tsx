@@ -2,6 +2,7 @@ import { spawn } from 'child_process'
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
 import { SpotifyPlayingState, TrackInfo } from 'spotify-node-applescript'
+
 import { getIsRunning, getPlayerState, getTrackInfo } from '../utils/spotify'
 import App from './App'
 
