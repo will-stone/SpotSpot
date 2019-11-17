@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { animated, useSpring, useTransition } from 'react-spring'
-import { next, playPause, previous, TrackInfo } from 'spotify-node-applescript'
+import { next, playPause, previous } from 'spotify-node-applescript'
+
+import { TrackInfo } from '../utils/spotify'
 
 const stopPropagation = (e: React.MouseEvent<HTMLButtonElement>) =>
   e.stopPropagation()
@@ -90,7 +92,7 @@ const App: React.FC<AppProps> = ({
             className="albumArt"
             style={{
               ...props,
-              backgroundImage: track ? `url(${track.artwork_url})` : 'none',
+              backgroundImage: track ? `url(${track.artworkUrl})` : 'none',
             }}
           />
         ),

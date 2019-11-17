@@ -1,9 +1,14 @@
 import { spawn } from 'child_process'
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
-import { SpotifyPlayingState, TrackInfo } from 'spotify-node-applescript'
 
-import { getIsRunning, getPlayerState, getTrackInfo } from '../utils/spotify'
+import {
+  getIsRunning,
+  getPlayerState,
+  getTrackInfo,
+  SpotifyPlayingState,
+  TrackInfo,
+} from '../utils/spotify'
 import App from './App'
 
 interface State {
@@ -38,14 +43,11 @@ class AppContainer extends React.Component<{}, State> {
   setupInitialState = async () => {
     const isRunning = await getIsRunning()
     if (isRunning) {
-      const [state, track] = await Promise.all([
+      const [playerState, track] = await Promise.all([
         getPlayerState(), // playerState is not sent from main on load.
         getTrackInfo(),
       ])
-      this.setState({
-        playerState: state.state,
-        track,
-      })
+      this.setState({ playerState, track })
     }
   }
 
