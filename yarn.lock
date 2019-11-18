@@ -1689,11 +1689,6 @@ appdmg@^0.6.0:
     path-exists "^4.0.0"
     repeat-string "^1.5.4"
 
-applescript@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/applescript/-/applescript-1.0.0.tgz#bb87af568cad034a4e48c4bdaf6067a3a2701317"
-  integrity sha1-u4evVoytA0pOSMS9r2Bno6JwExc=
-
 aproba@^1.0.3, aproba@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
@@ -8264,13 +8259,6 @@ split-string@^3.0.1, split-string@^3.0.2:
   integrity sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==
   dependencies:
     extend-shallow "^3.0.0"
-
-spotify-node-applescript@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/spotify-node-applescript/-/spotify-node-applescript-1.1.1.tgz#f64ac713a807cd2b9333452abc38b0ca89287b03"
-  integrity sha512-6sjOczwm2N+yOyZbLSoE/fZsWdyOUI9wOT0/GiTrmq+aGrtPIuxlqeCGeZzrYK0qHUO08vQXpleeId6hQjsgig==
-  dependencies:
-    applescript "1.0.0"
 
 sprintf-js@^1.1.2:
   version "1.1.2"

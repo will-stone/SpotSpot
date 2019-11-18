@@ -30,7 +30,7 @@ async function getArtworkUrl(): Promise<string> {
   return artworkUrl
 }
 
-export const getTrackInfo = async (): Promise<TrackInfo> => {
+export async function getTrackInfo(): Promise<TrackInfo> {
   const [artist, name, artworkUrl] = await Promise.all([
     getArtist(),
     getName(),
@@ -41,8 +41,8 @@ export const getTrackInfo = async (): Promise<TrackInfo> => {
 
 export type SpotifyPlayingState = 'playing' | 'paused' | 'stopped'
 
-export const getPlayerState = async (): Promise<SpotifyPlayingState> => {
-  const { stdout } = execa('osascript', [
+export async function getPlayerState(): Promise<SpotifyPlayingState> {
+  const { stdout } = await execa('osascript', [
     '-e',
     'tell application "Spotify" to return player state',
   ])
@@ -51,10 +51,25 @@ export const getPlayerState = async (): Promise<SpotifyPlayingState> => {
   return 'stopped'
 }
 
-export const getIsRunning = async (): Promise<boolean> => {
-  const { stdout } = execa('osascript', [
+export async function getIsRunning(): Promise<boolean> {
+  const { stdout } = await execa('osascript', [
     '-e',
     'tell application "System Events" to (name of processes) contains "Spotify"',
   ])
-  return String(stdout) === 'true'
+  return stdout === 'true'
+}
+
+export async function playPause(): Promise<void> {
+  await execa('osascript', ['-e', 'tell application "Spotify" to playpause'])
+}
+
+export async function next(): Promise<void> {
+  await execa('osascript', ['-e', 'tell application "Spotify" to next track'])
+}
+
+export async function previous(): Promise<void> {
+  await execa('osascript', [
+    '-e',
+    'tell application "Spotify" to previous track',
+  ])
 }

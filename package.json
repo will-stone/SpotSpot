@@ -41,8 +41,7 @@
     "font-awesome": "^4.7.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-spring": "^8.0.20",
-    "spotify-node-applescript": "^1.1.1"
+    "react-spring": "^8.0.20"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

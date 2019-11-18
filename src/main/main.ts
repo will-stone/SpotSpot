@@ -8,10 +8,10 @@ import {
   Tray,
 } from 'electron'
 import Store from 'electron-store'
-import { SpotifyPlayingState } from 'spotify-node-applescript'
 
 import { BLACK } from '../config'
 import eventEmitter from '../utils/eventEmitter'
+import { SpotifyPlayingState } from '../utils/spotify'
 
 // Autp update
 // require('update-electron-app')({
