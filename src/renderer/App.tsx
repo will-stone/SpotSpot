@@ -1,3 +1,10 @@
+import {
+  faPause,
+  faPlay,
+  faStepBackward,
+  faStepForward,
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as React from 'react'
 import { animated, useSpring, useTransition } from 'react-spring'
 
@@ -112,28 +119,28 @@ const App: React.FC<AppProps> = ({
               <>
                 <button
                   className="controls__button"
-                  onClick={() => previous()}
+                  onClick={previous}
                   onDoubleClick={stopPropagation}
                 >
-                  <i className="fa fa-step-backward" />
+                  <FontAwesomeIcon icon={faStepBackward} fixedWidth />
                 </button>
                 <button
                   className="controls__button"
-                  onClick={() => playPause()}
+                  onClick={playPause}
                   onDoubleClick={stopPropagation}
                 >
                   {isPlaying ? (
-                    <i className="fa fa-pause" />
+                    <FontAwesomeIcon icon={faPause} fixedWidth />
                   ) : (
-                    <i className="fa fa-play" />
+                    <FontAwesomeIcon icon={faPlay} fixedWidth />
                   )}
                 </button>
                 <button
                   className="controls__button"
-                  onClick={() => next()}
+                  onClick={next}
                   onDoubleClick={stopPropagation}
                 >
-                  <i className="fa fa-step-forward" />
+                  <FontAwesomeIcon icon={faStepForward} />
                 </button>
               </>
             )}
