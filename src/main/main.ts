@@ -10,7 +10,6 @@ import Store from 'electron-store'
 import path from 'path'
 
 import { BLACK } from '../config'
-import { SpotifyPlayingState } from '../utils/spotify'
 
 // Autp update
 // require('update-electron-app')({
@@ -122,11 +121,13 @@ function createMainWindow() {
 // System events
 systemPreferences.subscribeNotification(
   'com.spotify.client.PlaybackStateChanged',
-  (
-    _,
-    { 'Player State': playerState }: { 'Player State': SpotifyPlayingState },
-  ) => {
-    bWindow?.webContents.send('PlaybackStateChanged', playerState.toLowerCase())
+  (_, { 'Player State': playerState }) => {
+    if (typeof playerState === 'string') {
+      bWindow?.webContents.send(
+        'PlaybackStateChanged',
+        playerState.toLowerCase(),
+      )
+    }
   },
 )
 
