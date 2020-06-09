@@ -10,7 +10,6 @@ import Store from 'electron-store'
 import path from 'path'
 
 import { BLACK } from '../config'
-import eventEmitter from '../utils/eventEmitter'
 import { SpotifyPlayingState } from '../utils/spotify'
 
 // Autp update
@@ -33,11 +32,11 @@ const DEFAULT_BOUNDS: Rectangle = {
 const bounds = store.get('bounds', DEFAULT_BOUNDS) as Rectangle
 
 // Prevents garbage collection
-let mainWindow: Electron.BrowserWindow | undefined
+let bWindow: Electron.BrowserWindow | undefined
 let tray: Tray | undefined
 
 function createMainWindow() {
-  mainWindow = new BrowserWindow({
+  bWindow = new BrowserWindow({
     x: bounds.x,
     y: bounds.y,
     width: bounds.width,
@@ -63,7 +62,7 @@ function createMainWindow() {
   })
 
   // and load the index.html of the app.
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+  bWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
   // Menubar icon
   tray = new Tray(path.join(__dirname, '/static/icon/tray_iconTemplate.png'))
@@ -87,54 +86,47 @@ function createMainWindow() {
 
   // Open the DevTools.
   if (process.env.ENV === 'DEV') {
-    mainWindow.webContents.openDevTools({ mode: 'detach' })
+    bWindow.webContents.openDevTools({ mode: 'detach' })
   }
 
   // Hide dock icon
   app.dock.hide()
 
   // Move window across desktops when switching
-  mainWindow.setVisibleOnAllWorkspaces(true)
+  bWindow.setVisibleOnAllWorkspaces(true)
 
   // Maintain square window ratio
-  mainWindow.setAspectRatio(1, { width: 0, height: 0 })
+  bWindow.setAspectRatio(1, { width: 0, height: 0 })
 
   // Only show window when it's ready; prevents flash of white
-  mainWindow.on('ready-to-show', () => {
-    mainWindow?.show()
+  bWindow.on('ready-to-show', () => {
+    bWindow?.show()
   })
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', () => {
-    mainWindow = undefined
+  bWindow.on('closed', () => {
+    bWindow = undefined
   })
 
-  mainWindow.on('resize', () => {
-    const mainWindowBounds = mainWindow?.getBounds() || DEFAULT_BOUNDS
+  bWindow.on('resize', () => {
+    const mainWindowBounds = bWindow?.getBounds() || DEFAULT_BOUNDS
     store.set('bounds', mainWindowBounds)
   })
 
-  mainWindow.on('moved', () => {
-    const mainWindowBounds = mainWindow?.getBounds() || DEFAULT_BOUNDS
+  bWindow.on('moved', () => {
+    const mainWindowBounds = bWindow?.getBounds() || DEFAULT_BOUNDS
     store.set('bounds', mainWindowBounds)
   })
-
-  eventEmitter.on(
-    'PlaybackStateChanged',
-    (playerState: SpotifyPlayingState) => {
-      mainWindow?.webContents.send(
-        'PlaybackStateChanged',
-        playerState.toLowerCase(),
-      )
-    },
-  )
 }
 
 // System events
 systemPreferences.subscribeNotification(
   'com.spotify.client.PlaybackStateChanged',
-  (_, { 'Player State': playerState }) => {
-    eventEmitter.emit('PlaybackStateChanged', playerState)
+  (
+    _,
+    { 'Player State': playerState }: { 'Player State': SpotifyPlayingState },
+  ) => {
+    bWindow?.webContents.send('PlaybackStateChanged', playerState.toLowerCase())
   },
 )
 
