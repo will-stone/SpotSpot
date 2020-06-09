@@ -2,12 +2,12 @@ import {
   app,
   BrowserWindow,
   Menu,
-  nativeImage,
   Rectangle,
   systemPreferences,
   Tray,
 } from 'electron'
 import Store from 'electron-store'
+import path from 'path'
 
 import { BLACK } from '../config'
 import eventEmitter from '../utils/eventEmitter'
@@ -17,6 +17,9 @@ import { SpotifyPlayingState } from '../utils/spotify'
 // require('update-electron-app')({
 //   repo: 'will-stone/SpotSpot',
 // })
+
+declare const MAIN_WINDOW_WEBPACK_ENTRY: string
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
 const store = new Store()
 
@@ -29,14 +32,11 @@ const DEFAULT_BOUNDS: Rectangle = {
 
 const bounds = store.get('bounds', DEFAULT_BOUNDS) as Rectangle
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow: Electron.BrowserWindow | null = null
-
-let tray = null
+// Prevents garbage collection
+let mainWindow: Electron.BrowserWindow | undefined
+let tray: Tray | undefined
 
 function createMainWindow() {
-  // Create the browser window.
   mainWindow = new BrowserWindow({
     x: bounds.x,
     y: bounds.y,
@@ -48,32 +48,28 @@ function createMainWindow() {
     maxHeight: 400,
     acceptFirstMouse: true,
     alwaysOnTop: true,
-    icon: `${__dirname}/static/icon/icon.png`,
+    icon: path.join(__dirname, '/static/icon/icon.png'),
     focusable: false,
     frame: false,
     resizable: true,
-    show: false, // prevents flash of white
+    // prevents flash of white
+    show: false,
     title: 'SpotSpot',
     webPreferences: {
       nodeIntegration: true,
-      // @ts-ignore
-      // eslint-disable-next-line no-undef
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
     backgroundColor: BLACK,
   })
 
   // and load the index.html of the app.
-  // @ts-ignore
-  // eslint-disable-next-line no-undef
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
   // Menubar icon
-  tray = new Tray(`${__dirname}/static/icon/tray_iconTemplate.png`)
-  const pressedImage = nativeImage.createFromPath(
-    `${__dirname}/static/icon/tray_iconHighlight.png`,
+  tray = new Tray(path.join(__dirname, '/static/icon/tray_iconTemplate.png'))
+  tray.setPressedImage(
+    path.join(__dirname, '/static/icon/tray_iconHighlight.png'),
   )
-  tray.setPressedImage(pressedImage)
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'About',
@@ -81,7 +77,7 @@ function createMainWindow() {
     },
     {
       label: 'Quit',
-      click: function() {
+      click() {
         app.quit()
       },
     },
@@ -101,38 +97,35 @@ function createMainWindow() {
   mainWindow.setVisibleOnAllWorkspaces(true)
 
   // Maintain square window ratio
-  mainWindow.setAspectRatio(1.0, { width: 0, height: 0 })
+  mainWindow.setAspectRatio(1, { width: 0, height: 0 })
 
   // Only show window when it's ready; prevents flash of white
   mainWindow.on('ready-to-show', () => {
-    mainWindow && mainWindow.show()
+    mainWindow?.show()
   })
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', function() {
-    mainWindow = null
+  mainWindow.on('closed', () => {
+    mainWindow = undefined
   })
 
   mainWindow.on('resize', () => {
-    const mainWindowBounds =
-      (mainWindow && mainWindow.getBounds()) || DEFAULT_BOUNDS
+    const mainWindowBounds = mainWindow?.getBounds() || DEFAULT_BOUNDS
     store.set('bounds', mainWindowBounds)
   })
 
   mainWindow.on('moved', () => {
-    const mainWindowBounds =
-      (mainWindow && mainWindow.getBounds()) || DEFAULT_BOUNDS
+    const mainWindowBounds = mainWindow?.getBounds() || DEFAULT_BOUNDS
     store.set('bounds', mainWindowBounds)
   })
 
   eventEmitter.on(
     'PlaybackStateChanged',
     (playerState: SpotifyPlayingState) => {
-      mainWindow &&
-        mainWindow.webContents.send(
-          'PlaybackStateChanged',
-          playerState.toLowerCase(),
-        )
+      mainWindow?.webContents.send(
+        'PlaybackStateChanged',
+        playerState.toLowerCase(),
+      )
     },
   )
 }

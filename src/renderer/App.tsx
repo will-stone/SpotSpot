@@ -8,19 +8,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as React from 'react'
 import { animated, useSpring, useTransition } from 'react-spring'
 
-import { next, playPause, previous } from '../utils/spotify'
-import { TrackInfo } from '../utils/spotify'
+import {
+  next,
+  playPause,
+  previous,
+  SpotifyPlayingState,
+  TrackInfo,
+} from '../utils/spotify'
 
-const stopPropagation = (e: React.MouseEvent<HTMLButtonElement>) =>
-  e.stopPropagation()
+const stopPropagation = (event: React.MouseEvent<HTMLButtonElement>) =>
+  event.stopPropagation()
 
 interface AppProps {
   isLoaded: boolean
-  isStopped: boolean
   isControlsTimingOut: boolean
-  isPaused: boolean
+  playerState: SpotifyPlayingState
   isMouseOver: boolean
-  isPlaying: boolean
   onDoubleClick: () => void
   onMouseEnter: () => void
   onMouseLeave: () => void
@@ -29,19 +32,18 @@ interface AppProps {
 
 const App: React.FC<AppProps> = ({
   isLoaded,
-  isStopped,
   isControlsTimingOut,
-  isPaused,
   isMouseOver,
-  isPlaying,
+  playerState,
   onDoubleClick,
   onMouseEnter,
   onMouseLeave,
   track,
 }) => {
-  const isLogoShown = !isLoaded || isStopped
-  const isOverlayShown = isControlsTimingOut || isPaused || isMouseOver
-  const isDisplayingPaused = isPaused && !isMouseOver
+  const isLogoShown = !isLoaded || playerState === 'stopped'
+  const isOverlayShown =
+    isControlsTimingOut || playerState === 'paused' || isMouseOver
+  const isDisplayingPaused = playerState === 'paused' && !isMouseOver
 
   const trackDetailsStyles = useSpring({
     transform: `translateY(${isOverlayShown ? '0%' : '-100%'})`,
@@ -52,7 +54,8 @@ const App: React.FC<AppProps> = ({
   })
 
   const logoAlbumArtTransitions = useTransition(
-    !!(!track || isLogoShown),
+    Boolean(!track || isLogoShown),
+    // eslint-disable-next-line unicorn/no-null
     null,
     {
       from: { opacity: 0 },
@@ -64,9 +67,9 @@ const App: React.FC<AppProps> = ({
   return (
     <div
       className="app"
+      onDoubleClick={onDoubleClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      onDoubleClick={onDoubleClick}
     >
       {logoAlbumArtTransitions.map(({ item, key, props }) =>
         item ? (
@@ -75,18 +78,18 @@ const App: React.FC<AppProps> = ({
               <div className="logo__blob1" />
               <div className="logo__blob2" />
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <filter id="goo">
                   <feGaussianBlur
                     in="SourceGraphic"
-                    stdDeviation="10"
                     result="blur"
+                    stdDeviation="10"
                   />
                   <feColorMatrix
                     in="blur"
-                    values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
                     result="goo"
+                    values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
                   />
                   <feBlend in="SourceGraphic" />
                 </filter>
@@ -107,12 +110,12 @@ const App: React.FC<AppProps> = ({
 
       {track && !isLogoShown && (
         <>
-          <animated.div style={trackDetailsStyles} className="trackDetails">
+          <animated.div className="trackDetails" style={trackDetailsStyles}>
             <div className="trackDetails__name">{track.name}</div>
             <div className="trackDetails__artist">{track.artist}</div>
           </animated.div>
 
-          <animated.div style={controlsStyles} className="controls">
+          <animated.div className="controls" style={controlsStyles}>
             {isDisplayingPaused ? (
               'PAUSED'
             ) : (
@@ -121,24 +124,27 @@ const App: React.FC<AppProps> = ({
                   className="controls__button"
                   onClick={previous}
                   onDoubleClick={stopPropagation}
+                  type="button"
                 >
-                  <FontAwesomeIcon icon={faStepBackward} fixedWidth />
+                  <FontAwesomeIcon fixedWidth icon={faStepBackward} />
                 </button>
                 <button
                   className="controls__button"
                   onClick={playPause}
                   onDoubleClick={stopPropagation}
+                  type="button"
                 >
-                  {isPlaying ? (
-                    <FontAwesomeIcon icon={faPause} fixedWidth />
+                  {playerState === 'playing' ? (
+                    <FontAwesomeIcon fixedWidth icon={faPause} />
                   ) : (
-                    <FontAwesomeIcon icon={faPlay} fixedWidth />
+                    <FontAwesomeIcon fixedWidth icon={faPlay} />
                   )}
                 </button>
                 <button
                   className="controls__button"
                   onClick={next}
                   onDoubleClick={stopPropagation}
+                  type="button"
                 >
                   <FontAwesomeIcon icon={faStepForward} />
                 </button>

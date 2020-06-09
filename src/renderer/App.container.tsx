@@ -1,6 +1,6 @@
 import { spawn } from 'child_process'
 import { ipcRenderer } from 'electron'
-import * as React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import {
   getIsRunning,
@@ -11,128 +11,84 @@ import {
 } from '../utils/spotify'
 import App from './App'
 
-interface State {
-  isControlsTimingOut: boolean
-  isLoaded: boolean
-  isMouseOver: boolean
-  playerState: SpotifyPlayingState
-  track?: TrackInfo
-}
+let detailsTimeout: NodeJS.Timer
 
-const INITIAL_STATE: State = {
-  isControlsTimingOut: false,
-  isLoaded: false,
-  isMouseOver: false,
-  playerState: 'stopped',
-  track: undefined,
-}
+const handleDoubleClick = () => spawn('open', ['-a', 'spotify'])
 
-class AppContainer extends React.Component<{}, State> {
-  state = INITIAL_STATE
-  detailsTimeout: NodeJS.Timer
+const AppContainer: React.FC = () => {
+  const [isControlsTimingOut, setIsControlsTimingOut] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [isMouseOver, setIsMouseOver] = useState(false)
+  const [playerState, setPlayerState] = useState<SpotifyPlayingState>('stopped')
+  const [track, setTrack] = useState<TrackInfo>()
 
-  componentDidMount() {
-    this.setupInitialState()
-    this.registerEventListeners()
+  const showControls = useCallback(() => {
+    clearTimeout(detailsTimeout)
+    setIsControlsTimingOut(true)
+  }, [setIsControlsTimingOut])
 
-    setTimeout(() => {
-      this.setState({ isLoaded: true })
-    }, 3500)
-  }
+  const hideControls = useCallback(() => {
+    detailsTimeout = global.setTimeout(() => {
+      setIsControlsTimingOut(false)
+    }, 7000)
+  }, [setIsControlsTimingOut])
 
-  setupInitialState = async () => {
-    const isRunning = await getIsRunning()
-    if (isRunning) {
-      const [playerState, track] = await Promise.all([
-        getPlayerState(), // playerState is not sent from main on load.
-        getTrackInfo(),
-      ])
-      this.setState({ playerState, track })
+  // Init
+  useEffect(() => {
+    const init = async () => {
+      const isRunning = await getIsRunning()
+      if (isRunning) {
+        const [pState, trackInfo] = await Promise.all([
+          getPlayerState(),
+          getTrackInfo(),
+        ])
+        setPlayerState(pState)
+        setTrack(trackInfo)
+      }
+
+      setTimeout(() => {
+        setIsLoaded(true)
+      }, 3500)
     }
-  }
 
-  registerEventListeners = () => {
+    init()
+
     ipcRenderer.on(
       'PlaybackStateChanged',
-      (_: unknown, playerState: SpotifyPlayingState) => {
-        this.setDetails(playerState, () => {
-          this.showControls()
-          this.hideControls()
-        })
+      async (_: unknown, pState: SpotifyPlayingState) => {
+        if (pState !== 'stopped') {
+          setTrack(await getTrackInfo())
+        }
+
+        setPlayerState(pState)
+        showControls()
+        hideControls()
       },
     )
-  }
+  }, [setPlayerState, setTrack, setIsLoaded, showControls, hideControls])
 
-  setDetails = async (
-    playerState: SpotifyPlayingState,
-    callback = () => {},
-  ) => {
-    const track =
-      playerState === 'stopped' ? INITIAL_STATE.track : await getTrackInfo()
-    this.setState(
-      {
-        track,
-        playerState,
-      },
-      callback,
-    )
-  }
+  const handleMouseEnter = useCallback(() => {
+    setIsMouseOver(true)
+    showControls()
+  }, [setIsMouseOver, showControls])
 
-  showControls = () => {
-    clearTimeout(this.detailsTimeout)
-    this.setState({
-      isControlsTimingOut: true,
-    })
-  }
+  const handleMouseLeave = useCallback(() => {
+    setIsMouseOver(false)
+    hideControls()
+  }, [setIsMouseOver, hideControls])
 
-  hideControls = () => {
-    this.detailsTimeout = global.setTimeout(() => {
-      this.setState({
-        isControlsTimingOut: false,
-      })
-    }, 7000)
-  }
-
-  handleDoubleClick = () => spawn('open', ['-a', 'spotify'])
-
-  handleMouseEnter = () => {
-    this.setState({ isMouseOver: true })
-    this.showControls()
-  }
-
-  handleMouseLeave = () => {
-    this.setState({ isMouseOver: false })
-    this.hideControls()
-  }
-
-  render() {
-    const {
-      isControlsTimingOut,
-      isLoaded,
-      isMouseOver,
-      track,
-      playerState,
-    } = this.state
-
-    const isPlaying = playerState === 'playing'
-    const isPaused = playerState === 'paused'
-    const isStopped = playerState === 'stopped'
-
-    return (
-      <App
-        isLoaded={isLoaded}
-        isControlsTimingOut={isControlsTimingOut}
-        isPaused={isPaused}
-        isMouseOver={isMouseOver}
-        isStopped={isStopped}
-        isPlaying={isPlaying}
-        onDoubleClick={this.handleDoubleClick}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        track={track}
-      />
-    )
-  }
+  return (
+    <App
+      isControlsTimingOut={isControlsTimingOut}
+      isLoaded={isLoaded}
+      isMouseOver={isMouseOver}
+      onDoubleClick={handleDoubleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      playerState={playerState}
+      track={track}
+    />
+  )
 }
 
 export default AppContainer
