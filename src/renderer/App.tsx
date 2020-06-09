@@ -5,10 +5,15 @@ import {
   faStepForward,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import * as React from 'react'
+import { spawn } from 'child_process'
+import { ipcRenderer } from 'electron'
+import React, { useCallback, useEffect, useState } from 'react'
 import { animated, useSpring, useTransition } from 'react-spring'
 
 import {
+  getIsRunning,
+  getPlayerState,
+  getTrackInfo,
   next,
   playPause,
   previous,
@@ -16,30 +21,75 @@ import {
   TrackInfo,
 } from '../utils/spotify'
 
+let detailsTimeout: NodeJS.Timer
+
+const handleDoubleClick = () => spawn('open', ['-a', 'spotify'])
+
 const stopPropagation = (event: React.MouseEvent<HTMLButtonElement>) =>
   event.stopPropagation()
 
-interface AppProps {
-  isLoaded: boolean
-  isControlsTimingOut: boolean
-  playerState: SpotifyPlayingState
-  isMouseOver: boolean
-  onDoubleClick: () => void
-  onMouseEnter: () => void
-  onMouseLeave: () => void
-  track?: TrackInfo
-}
+const AppContainer: React.FC = () => {
+  const [isControlsTimingOut, setIsControlsTimingOut] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [isMouseOver, setIsMouseOver] = useState(false)
+  const [playerState, setPlayerState] = useState<SpotifyPlayingState>('stopped')
+  const [track, setTrack] = useState<TrackInfo>()
 
-const App: React.FC<AppProps> = ({
-  isLoaded,
-  isControlsTimingOut,
-  isMouseOver,
-  playerState,
-  onDoubleClick,
-  onMouseEnter,
-  onMouseLeave,
-  track,
-}) => {
+  const showControls = useCallback(() => {
+    clearTimeout(detailsTimeout)
+    setIsControlsTimingOut(true)
+  }, [setIsControlsTimingOut])
+
+  const hideControls = useCallback(() => {
+    detailsTimeout = global.setTimeout(() => {
+      setIsControlsTimingOut(false)
+    }, 7000)
+  }, [setIsControlsTimingOut])
+
+  // Init
+  useEffect(() => {
+    const init = async () => {
+      const isRunning = await getIsRunning()
+      if (isRunning) {
+        const [pState, trackInfo] = await Promise.all([
+          getPlayerState(),
+          getTrackInfo(),
+        ])
+        setPlayerState(pState)
+        setTrack(trackInfo)
+      }
+
+      setTimeout(() => {
+        setIsLoaded(true)
+      }, 3500)
+    }
+
+    init()
+
+    ipcRenderer.on(
+      'PlaybackStateChanged',
+      async (_: unknown, pState: SpotifyPlayingState) => {
+        if (pState !== 'stopped') {
+          setTrack(await getTrackInfo())
+        }
+
+        setPlayerState(pState)
+        showControls()
+        hideControls()
+      },
+    )
+  }, [setPlayerState, setTrack, setIsLoaded, showControls, hideControls])
+
+  const handleMouseEnter = useCallback(() => {
+    setIsMouseOver(true)
+    showControls()
+  }, [setIsMouseOver, showControls])
+
+  const handleMouseLeave = useCallback(() => {
+    setIsMouseOver(false)
+    hideControls()
+  }, [setIsMouseOver, hideControls])
+
   const isLogoShown = !isLoaded || playerState === 'stopped'
   const isOverlayShown =
     isControlsTimingOut || playerState === 'paused' || isMouseOver
@@ -67,9 +117,9 @@ const App: React.FC<AppProps> = ({
   return (
     <div
       className="app"
-      onDoubleClick={onDoubleClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onDoubleClick={handleDoubleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {logoAlbumArtTransitions.map(({ item, key, props }) =>
         item ? (
@@ -157,4 +207,4 @@ const App: React.FC<AppProps> = ({
   )
 }
 
-export default App
+export default AppContainer
