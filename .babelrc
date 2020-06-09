@@ -4,12 +4,11 @@
       "@babel/preset-env",
       {
         "targets": {
-          "chrome": 69
+          "node": "current"
         }
       }
     ],
     "@babel/preset-react",
     "@babel/preset-typescript"
-  ],
-  "plugins": ["@babel/plugin-proposal-class-properties"]
+  ]
 }
