@@ -1,17 +1,18 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+const rules = require('./webpack.rules')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 module.exports = {
-  // Put your normal webpack config below here
   module: {
-    rules: require('./webpack.rules'),
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+    rules,
   },
   plugins: [
+    new ForkTsCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'main_window/style.css',
     }),
   ],
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+  },
 }

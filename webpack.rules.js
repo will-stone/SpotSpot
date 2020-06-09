@@ -1,18 +1,12 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = [
   {
-    test: /\.(js|jsx|ts|tsx)$/,
-    exclude: /node_modules/,
-    use: 'babel-loader',
-  },
-  {
-    test: /\.node$/,
+    test: /\.node$/u,
     use: 'node-loader',
   },
   {
-    test: /\.(m?js|node)$/,
+    test: /\.(m?js|node)$/u,
     parser: { amd: false },
     use: {
       loader: '@marshallofsound/webpack-asset-relocator-loader',
@@ -22,11 +16,21 @@ module.exports = [
     },
   },
   {
-    test: /\.(png|jpg|gif|svg)$/i,
+    test: /\.(png|jpg|gif|svg)$/iu,
     use: 'url-loader',
   },
   {
-    test: /\.css$/,
+    test: /\.tsx?$/u,
+    exclude: /(node_modules|\.webpack)/u,
+    use: {
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+      },
+    },
+  },
+  {
+    test: /\.css$/u,
     use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader'],
   },
 ]
