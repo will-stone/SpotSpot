@@ -15,7 +15,7 @@ notarize({
   appleIdPassword: '@keychain:AC_PASSWORD',
   // Team ID
   ascProvider: 'Z89KPMLTFR',
-}).catch(error => {
+}).catch((error) => {
   // eslint-disable-next-line no-console
   console.error("Notarization didn't work :(", error.message)
   // eslint-disable-next-line unicorn/no-process-exit
