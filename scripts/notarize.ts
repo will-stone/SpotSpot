@@ -1,13 +1,23 @@
+import { config } from 'dotenv'
 import { notarize } from 'electron-notarize'
+import path from 'path'
 
-const projectRoot = require('path').resolve(__dirname, '..')
+config()
 
 notarize({
   appBundleId: 'io.wstone.spotspot',
-  appPath: projectRoot + '/out/SpotSpot-darwin-x64/SpotSpot.app',
+  appPath: path.resolve(
+    __dirname,
+    '..',
+    `out/SpotSpot-darwin-x64/SpotSpot.app`,
+  ),
   appleId: String(process.env.APPLE_ID),
-  appleIdPassword: `@keychain:AC_PASSWORD`,
+  appleIdPassword: '@keychain:AC_PASSWORD',
+  // Team ID
   ascProvider: 'Z89KPMLTFR',
-}).catch(e => {
-  console.error("Didn't work :( " + e.message) // eslint-disable-line no-console
+}).catch(error => {
+  // eslint-disable-next-line no-console
+  console.error("Notarization didn't work :(", error.message)
+  // eslint-disable-next-line unicorn/no-process-exit
+  process.exit(1)
 })
