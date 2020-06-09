@@ -14,17 +14,16 @@
     "node": ">=10.4.1"
   },
   "scripts": {
-    "docs": "http-server ./docs",
-    "icns": "cd ./src/images/icon && ./png2icns.sh icon.png",
-    "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
-    "lint:fix": "eslint --fix --ignore-path .gitignore . --ext ts --ext tsx",
+    "docs": "npx http-server ./docs",
+    "icns": "cd ./src/main/static/icon && ./png2icns.sh icon.png",
+    "lint": "eslint . --ignore-path .gitignore",
     "make": "electron-forge make --skip-package",
-    "notarize": "export $(cat .env | xargs) && ts-node ./scripts/notarize.ts",
+    "notarize": "ts-node ./scripts/notarize.ts",
+    "prepackage": "rimraf ./out/",
     "package": "electron-forge package --platform=darwin --arch=x64",
-    "pretty-package": "prettier --write package.json",
-    "start": "ENV=DEV electron-forge start",
+    "release": "yarn version && yarn package && yarn notarize && yarn make",
+    "start": "ENV=DEV ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-forge start",
     "test": "jest",
-    "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "keywords": [
@@ -39,33 +38,32 @@
     "@fortawesome/react-fontawesome": "^0.1.7",
     "electron-is-dev": "^1.1.0",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^3.2.0",
-    "execa": "^3.3.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "electron-store": "^5.1.1",
+    "execa": "^4.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-spring": "^8.0.20"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/plugin-proposal-class-properties": "^7.7.0",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/preset-typescript": "^7.3.3",
-    "@electron-forge/cli": "6.0.0-beta.45",
-    "@electron-forge/maker-deb": "6.0.0-beta.45",
-    "@electron-forge/maker-dmg": "^6.0.0-beta.45",
-    "@electron-forge/maker-rpm": "6.0.0-beta.45",
-    "@electron-forge/maker-squirrel": "6.0.0-beta.45",
-    "@electron-forge/maker-zip": "6.0.0-beta.45",
-    "@electron-forge/plugin-webpack": "6.0.0-beta.45",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/preset-typescript": "^7.9.0",
+    "@electron-forge/cli": "6.0.0-beta.51",
+    "@electron-forge/maker-deb": "6.0.0-beta.51",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.51",
+    "@electron-forge/maker-rpm": "6.0.0-beta.51",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.51",
+    "@electron-forge/maker-zip": "6.0.0-beta.51",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.51",
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
-    "@testing-library/react": "^8.0.1",
-    "@types/jest": "^24.0.13",
+    "@testing-library/jest-dom": "^5.9.0",
+    "@testing-library/react": "^10.2.0",
+    "@types/jest": "^24.0.25",
     "@types/node": "^12.0.4",
-    "@types/react": "^16.8.19",
-    "@types/react-dom": "^16.8.4",
-    "@typescript-eslint/eslint-plugin": "^1.10.2",
-    "@typescript-eslint/parser": "^1.10.2",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@will-stone/eslint-config": "^1.13.0",
     "@will-stone/prettier-config": "^1.0.0",
     "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^5.0.3",
@@ -73,24 +71,17 @@
     "dotenv": "^8.2.0",
     "electron": "7.1.0",
     "electron-notarize": "^0.2.0",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.3.0",
-    "eslint-plugin-jest": "^22.6.4",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react": "^7.13.0",
-    "eslint-plugin-react-hooks": "^1.6.0",
-    "eslint-plugin-simple-import-sort": "^4.0.0",
-    "http-server": "^0.11.1",
-    "husky": "^3.0.9",
-    "jest": "^24.8.0",
-    "jest-dom": "^3.4.0",
+    "eslint": "^7.2.0",
+    "husky": "^4.2.5",
+    "jest": "^25.1.0",
+    "lint-staged": "^10.2.2",
     "mini-css-extract-plugin": "^0.8.0",
     "node-loader": "^0.6.0",
-    "prettier": "^1.19.1",
-    "prettier-plugin-package": "^0.3.1",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
     "style-loader": "^1.0.0",
     "ts-node": "^8.3.0",
-    "typescript": "^3.5.1",
+    "typescript": "^3.9.5",
     "url-loader": "^2.0.0",
     "webpack": "^4.40.2"
   },
@@ -145,13 +136,20 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn pretty-package && git add package.json"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{css,json,md}": [
+      "prettier --write"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
   },
   "jest": {
     "setupFilesAfterEnv": [
-      "react-testing-library/cleanup-after-each",
-      "jest-dom/extend-expect"
+      "@testing-library/jest-dom/extend-expect"
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
