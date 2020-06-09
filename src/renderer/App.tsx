@@ -54,7 +54,7 @@ const App: React.FC<AppProps> = ({
   })
 
   const logoAlbumArtTransitions = useTransition(
-    Boolean(!track || isLogoShown),
+    !track || isLogoShown,
     // eslint-disable-next-line unicorn/no-null
     null,
     {
