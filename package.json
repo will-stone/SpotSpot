@@ -134,6 +134,15 @@
       ]
     }
   },
+  "eslintConfig": {
+    "extends": [
+      "@will-stone/eslint-config",
+      "@will-stone/eslint-config/node",
+      "@will-stone/eslint-config/react",
+      "@will-stone/eslint-config/jest",
+      "@will-stone/eslint-config/typescript"
+    ]
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
