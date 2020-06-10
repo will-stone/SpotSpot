@@ -1,114 +1,180 @@
 {
   "name": "spotspot",
-  "productName": "SpotSpot",
-  "version": "3.3.0",
-  "engines": {
-    "node": ">=10.4.1"
-  },
+  "version": "4.0.0-alpha.1",
   "description": "Spotify mini-player for macOS",
-  "homepage": "https://will-stone.github.io/SpotSpot/",
-  "main": "src/main.ts",
-  "scripts": {
-    "prettier": "prettier --config .prettierrc --write src/**/*.js",
-    "start": "ENV=DEV electron-forge start",
-    "package": "electron-forge package --platform=darwin --arch=x64",
-    "make": "electron-forge make",
-    "typecheck": "tsc --noEmit --skipLibCheck",
-    "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
-    "lint:fix": "eslint --fix --ignore-path .gitignore . --ext ts --ext tsx",
-    "icns": "cd ./src/images/icon && ./png2icns.sh icon.png",
-    "release": "export $(cat .env | xargs) && electron-forge publish",
-    "docs": "http-server ./docs"
-  },
-  "repository": "https://github.com/will-stone/SpotSpot",
-  "bugs": {
-    "url": "https://github.com/will-stone/SpotSpot/issues"
-  },
   "keywords": [
     "Electron",
     "Spotify",
     "mini-player",
     "macOS"
   ],
-  "author": "Will Stone",
-  "license": "MIT",
-  "prettier": "@will-stone/prettier-config",
-  "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/preset-typescript": "^7.3.3",
-    "@types/electron-store": "^1.3.0",
-    "@types/react": "^16.8.16",
-    "@types/react-dom": "^16.8.4",
-    "@typescript-eslint/eslint-plugin": "^1.7.0",
-    "@typescript-eslint/parser": "^1.7.0",
-    "@will-stone/prettier-config": "^1.0.0",
-    "electron-forge": "^5.2.4",
-    "electron-prebuilt-compile": "4.0.0",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.2.0",
-    "eslint-plugin-jest": "^22.5.1",
-    "eslint-plugin-prettier": "^3.0.1",
-    "eslint-plugin-react": "^7.13.0",
-    "eslint-plugin-react-hooks": "^1.6.0",
-    "http-server": "^0.11.1",
-    "jest": "^24.0.0",
-    "jest-dom": "^3.1.4",
-    "prettier": "^1.17.0",
-    "react-testing-library": "^7.0.0",
-    "typescript": "~3.3.0"
+  "homepage": "https://will-stone.github.io/SpotSpot/",
+  "bugs": {
+    "url": "https://github.com/will-stone/SpotSpot/issues"
   },
-  "dependencies": {
-    "electron-compile": "^6.4.4",
-    "electron-store": "^3.2.0",
-    "font-awesome": "^4.7.0",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-spring": "^8.0.20",
-    "spotify-node-applescript": "^1.1.1",
-    "tslib": "^1.9.3",
-    "update-electron-app": "^1.3.0"
+  "repository": "https://github.com/will-stone/SpotSpot",
+  "license": "MIT",
+  "author": "Will Stone",
+  "main": ".webpack/main",
+  "scripts": {
+    "docs": "npx http-server ./docs",
+    "icns": "cd ./src/main/static/icon && ./png2icns.sh icon.png",
+    "lint": "eslint . --ignore-path .gitignore",
+    "make": "electron-forge make --skip-package",
+    "notarize": "ts-node ./scripts/notarize.ts",
+    "prepackage": "rimraf ./out/",
+    "package": "electron-forge package --platform=darwin --arch=x64",
+    "release": "yarn version && yarn package && yarn notarize && yarn make",
+    "start": "ENV=DEV ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-forge start",
+    "test": "jest",
+    "typecheck": "tsc --noEmit --skipLibCheck"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{css,json,md}": [
+      "prettier --write"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
   },
   "config": {
     "forge": {
-      "github_repository": {
-        "owner": "will-stone",
-        "name": "SpotSpot"
-      },
-      "make_targets": {
-        "darwin": [
-          "dmg",
-          "zip"
-        ]
-      },
-      "electronPackagerConfig": {
-        "osxSign": true,
+      "packagerConfig": {
+        "appBundleId": "io.wstone.spotspot",
+        "asar": true,
         "appCategoryType": "public.app-category.music",
         "packageManager": "yarn",
-        "icon": "src/images/icon/icon.icns",
-        "ignore": [
-          "docs",
-          "node_modules",
-          "@types",
-          "designs"
+        "osxSign": {
+          "gatekeeper-assess": false,
+          "hardened-runtime": true,
+          "entitlements": "config/entitlements.mac.plist",
+          "entitlements-inherit": "config/entitlements.mac.plist"
+        },
+        "icon": "src/main/static/icon/icon.icns"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "format": "ULFO"
+          }
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./src/renderer/index.html",
+                  "js": "./src/renderer/index.tsx",
+                  "name": "main_window"
+                }
+              ]
+            }
+          }
         ]
-      }
+      ]
     }
   },
+  "prettier": "@will-stone/prettier-config",
+  "eslintConfig": {
+    "extends": [
+      "@will-stone/eslint-config",
+      "@will-stone/eslint-config/node",
+      "@will-stone/eslint-config/react",
+      "@will-stone/eslint-config/jest",
+      "@will-stone/eslint-config/typescript"
+    ]
+  },
   "jest": {
-    "setupFilesAfterEnv": [
-      "react-testing-library/cleanup-after-each",
-      "jest-dom/extend-expect"
-    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
     "modulePathIgnorePatterns": [
       "<rootDir>/docs/",
       "<rootDir>/out/"
+    ],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
     ],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/docs/",
       "<rootDir>/out/"
     ]
-  }
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/react-fontawesome": "^0.1.7",
+    "electron-is-dev": "^1.1.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^5.1.1",
+    "execa": "^4.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-spring": "^8.0.27"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/preset-typescript": "^7.9.0",
+    "@electron-forge/cli": "6.0.0-beta.51",
+    "@electron-forge/maker-deb": "6.0.0-beta.51",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.51",
+    "@electron-forge/maker-rpm": "6.0.0-beta.51",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.51",
+    "@electron-forge/maker-zip": "6.0.0-beta.51",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.51",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "@testing-library/jest-dom": "^5.9.0",
+    "@testing-library/react": "^10.2.0",
+    "@types/jest": "^24.0.25",
+    "@types/node": "^12.0.4",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@will-stone/eslint-config": "^1.13.1",
+    "@will-stone/prettier-config": "^3.1.0",
+    "copy-webpack-plugin": "^5.0.3",
+    "css-loader": "^3.2.0",
+    "dotenv": "^8.2.0",
+    "electron": "^8.0.0",
+    "electron-notarize": "^0.2.0",
+    "eslint": "^7.2.0",
+    "fork-ts-checker-webpack-plugin": "^4.1.6",
+    "husky": "^4.2.5",
+    "jest": "^25.1.0",
+    "lint-staged": "^10.2.2",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-loader": "^0.6.0",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "style-loader": "^1.0.0",
+    "ts-loader": "^7.0.5",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.9.5",
+    "url-loader": "^2.0.0",
+    "webpack": "^4.40.2"
+  },
+  "engines": {
+    "node": ">=10.4.1"
+  },
+  "productName": "SpotSpot"
 }

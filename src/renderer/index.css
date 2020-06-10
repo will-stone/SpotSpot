@@ -161,6 +161,7 @@ body {
 }
 
 .controls__button {
+  flex-grow: 1;
   width: calc(100% / 3);
   transition: opacity 100ms linear;
   opacity: 0.5;
@@ -168,7 +169,7 @@ body {
   border: 0;
   outline: none;
   background-color: transparent;
-  font-size: calc(18px + (24 + 18) * (100vw - 100px) / (400 - 100));
+  font-size: calc(14px + (24 + 14) * (100vw - 100px) / (400 - 100));
   cursor: pointer;
 }
 

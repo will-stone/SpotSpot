@@ -1,4 +1,6 @@
+.DS_Store
 node_modules
-.DS_STORE
-out/
+out
+.webpack
+yarn-error.log
 .env
