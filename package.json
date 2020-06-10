@@ -52,8 +52,8 @@
         "osxSign": {
           "gatekeeper-assess": false,
           "hardened-runtime": true,
-          "entitlements": "build/entitlements.mac.plist",
-          "entitlements-inherit": "build/entitlements.mac.plist"
+          "entitlements": "config/entitlements.mac.plist",
+          "entitlements-inherit": "config/entitlements.mac.plist"
         },
         "icon": "src/main/static/icon/icon.icns"
       },
