@@ -129,7 +129,8 @@
     "execa": "^4.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-spring": "^8.0.27"
+    "react-spring": "^8.0.27",
+    "update-electron-app": "^1.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
