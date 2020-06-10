@@ -2295,16 +2295,16 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@will-stone/eslint-config@^1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@will-stone/eslint-config/-/eslint-config-1.13.0.tgz#8334c5b520f4a1834c33bb2bdcb1f81bf6a04e95"
-  integrity sha512-o/5BYXA31mk8oSKoxrPgKY791cQH61A/0ZmKeIgyMhI56WASyhy+Nx9QMnMibs72Ax5DkUTuMFNu0wPdN1AKKw==
+"@will-stone/eslint-config@^1.13.1":
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/@will-stone/eslint-config/-/eslint-config-1.13.1.tgz#99e457e19f1bf6f008375e8f7ee3155802f9fc5d"
+  integrity sha512-bs7Q0qf0RDwrBIBmqyuNDOqgnMXHp3lwLT4eXwkZMO0TKT5cUxXAW7OtWQ0YszhGQ/WJzOsYxp21EsI3vQiUUQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^3.2.0"
     "@typescript-eslint/parser" "^3.2.0"
     confusing-browser-globals "^1.0.9"
     eslint-config-prettier "^6.11.0"
-    eslint-plugin-import "^2.21.1"
+    eslint-plugin-import "^2.21.2"
     eslint-plugin-jest "^23.13.2"
     eslint-plugin-jsx-a11y "^6.2.3"
     eslint-plugin-node "^11.1.0"
@@ -4510,10 +4510,10 @@ eslint-plugin-es@^3.0.0:
     eslint-utils "^2.0.0"
     regexpp "^3.0.0"
 
-eslint-plugin-import@^2.21.1:
-  version "2.21.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.21.1.tgz#3398318e5e4abbd23395c4964ce61538705154c8"
-  integrity sha512-qYOOsgUv63vHof7BqbzuD+Ud34bXHxFJxntuAC1ZappFZXYbRIek3aJ7jc9i2dHDGDyZ/0zlO0cpioES265Lsw==
+eslint-plugin-import@^2.21.2:
+  version "2.21.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.21.2.tgz#8fef77475cc5510801bedc95f84b932f7f334a7c"
+  integrity sha512-FEmxeGI6yaz+SnEB6YgNHlQK1Bs2DKLM+YF+vuTk5H8J9CLbJLtlPvRFgZZ2+sXiKAlN5dpdlrWOjK8ZoZJpQA==
   dependencies:
     array-includes "^3.1.1"
     array.prototype.flat "^1.2.3"
