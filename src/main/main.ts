@@ -12,9 +12,10 @@ import path from 'path'
 import { BLACK } from '../config'
 
 // Autp update
-// require('update-electron-app')({
-//   repo: 'will-stone/SpotSpot',
-// })
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('update-electron-app')({
+  repo: 'will-stone/SpotSpot',
+})
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
