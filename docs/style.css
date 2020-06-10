@@ -209,3 +209,40 @@ footer {
   /* hide the space taken up by the filter svg; display none causes the blobs not to show */
   height: 0;
 }
+
+.screenshots {
+  position: relative;
+  max-width: 576px;
+  width: 100%;
+  margin: 0 auto 2rem auto;
+}
+
+.screenshots img {
+  width: 100%;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.screenshots img:last-child {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  animation-name: fade;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: 5s;
+  animation-direction: alternate;
+}
