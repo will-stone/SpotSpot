@@ -1,14 +1,12 @@
 body {
-  background-color: #f8f9fa;
+  background-color: white;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   color: #363636;
-  padding: 3rem 1rem;
-  max-width: 700px;
-  margin: 0 auto;
   line-height: 1.6;
   font-size: 19px;
   text-align: center;
+  margin: 0;
 }
 
 h2,
@@ -28,6 +26,25 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+header {
+  background: linear-gradient(to bottom, #191917 80%, white 0%);
+  padding: 3rem 1rem 0;
+  color: white;
+}
+
+main {
+  padding: 0 1rem 3rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+footer {
+  border-top: 1px solid #2fd566;
+  padding: 2rem 1rem 3rem;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .button {
@@ -64,17 +81,6 @@ a:hover {
 
 .button > svg {
   margin-right: 8px;
-}
-
-.screenshot {
-  width: 200px;
-  display: inline-block;
-}
-
-footer {
-  border-top: 1px solid #2fd566;
-  margin-top: 2rem;
-  padding-top: 2rem;
 }
 
 .justify {
@@ -133,14 +139,10 @@ footer {
   height: 200px;
   width: 200px;
   position: relative;
-  background-color: #191917;
-  overflow: hidden;
   background-size: cover;
   border-radius: 5px;
-  box-shadow: 0px 0px 30px 0px #191917;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 2rem;
 }
 
 .blobs {
@@ -198,7 +200,7 @@ footer {
   justify-content: center;
   align-items: center;
   font-weight: 100;
-  font-size: 2.5rem;
+  font-size: 5rem;
   font-family: 'Passion One', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
@@ -208,6 +210,10 @@ footer {
 #logo-filter {
   /* hide the space taken up by the filter svg; display none causes the blobs not to show */
   height: 0;
+}
+
+.tagline {
+  margin-bottom: 4rem;
 }
 
 .screenshots {
