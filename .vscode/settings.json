@@ -2,7 +2,6 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "workbench.colorCustomizations": {
     "statusBar.background": "#2fd566",
-    "statusBar.border": "#2fd566",
     "statusBar.foreground": "#15202b",
     "statusBarItem.hoverBackground": "#23ae51"
   },
