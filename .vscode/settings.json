@@ -1,9 +1,11 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "workbench.colorCustomizations": {
-    "statusBar.background": "#2fd566",
-    "statusBar.foreground": "#15202b",
-    "statusBarItem.hoverBackground": "#23ae51"
+    "titleBar.activeBackground": "#2fd566",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#2fd56699",
+    "titleBar.inactiveForeground": "#15202b99",
+    "sash.hoverBorder": "#59de85"
   },
   "peacock.color": "#2fd566"
 }
